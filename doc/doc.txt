@@ -1,0 +1,27 @@
+ 
+ 
+ Määrittely
+ ----------
+ 
+ Aihe: Kirjakortisto
+ 
+ Toteutettavan ohjelman tarkoitus on toimia kirjakortistona, jolla hallitaan
+ kokoelmaa joukosta niteitä, jotka voivat olla joko kirjoja tai lehtiä mahdol-
+ lisuudella sekä lisätä että poistaa kirjoja.
+ 
+ Käyttäjät: Kirjaston henkilökunta ja asiakkaat
+ 
+ Henkilökunnan toiminno
+ * Kirjojen lisäys ja poisto
+ * Niteiden lisäys ja poisto
+ * Tietueiden muuttaminen
+ * Niteiden lainaus ja palautus
+ 
+ Asiakkaan toiminnot
+ 
+ Yhteiset toiminnot
+ * Tietokannasta haku
+ * Tietokannan selaus
+ * Järjestelmään kirjautuminen
+ 
+ 
