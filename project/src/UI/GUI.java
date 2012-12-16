@@ -1,11 +1,7 @@
 package UI;
 
-import Catalogue.Catalogue;
+import Kortisto.Kortisto;
 
 public class GUI {
-
-    public static void main(String[] args) {
-        Catalogue catalogue = new Catalogue();
-    }
 
 }
