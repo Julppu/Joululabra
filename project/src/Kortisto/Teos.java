@@ -4,29 +4,48 @@ import java.util.ArrayList;
 
 public class Teos {
     
-    private ArrayList<Nidos> niteet;
+    private ArrayList<Nide> niteet;
+    private ArrayList<String> hakusanat;
     private int ID;
+    private String ISBN;
     private String nimi;
     private String tekija;
     private int vuosi;
     private String kustantaja;
-    private ArrayList<Nidos> hakusanat;
     
-    private Teos(int ID, String nimi, String tekija, int vuosi, String kustantaja) {
+    private Teos(int ID, String ISBN, String nimi, String tekija, int vuosi, String kustantaja) {
         this.ID = ID;
+        this.ISBN = ISBN;
         this.nimi = nimi;
         this.tekija = tekija;
         this.vuosi = vuosi;
         this.kustantaja = kustantaja;
-        this.niteet = new ArrayList<Nidos>();
+        this.niteet = new ArrayList<Nide>();
+        this.hakusanat = new ArrayList<String>();
+    }
+    
+    public void lisaaNide(String viivakoodi, int lainaAika, String kokoelma) {
+        for (Nide nide: niteet) {
+            if (!nide.getViivakoodi().equals(viivakoodi))
+                niteet.add(new Nide(viivakoodi, this.ID, lainaAika, kokoelma));
+        }
+    }
+    
+    public void lisaaHakusana(String hakusana) {
+        if (!hakusanat.contains(hakusana))
+            hakusanat.add(hakusana);
     }
 
-    private ArrayList<Nidos> getNiteet() {
+    public ArrayList<Nide> getNiteet() {
         return niteet;
     }
 
     public int getID() {
         return ID;
+    }
+    
+    public String getISBN() {
+        return ISBN;
     }
 
     public void setID(int ID) {
@@ -65,7 +84,7 @@ public class Teos {
         this.kustantaja = kustantaja;
     }
 
-    public ArrayList<Nidos> getHakusanat() {
+    public ArrayList<String> getHakusanat() {
         return hakusanat;
     }
 }
