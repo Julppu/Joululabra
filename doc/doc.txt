@@ -1,27 +1,26 @@
  
- 
- M√§√§rittely
- ----------
+ Määrittely
+ ==========
  
  Aihe: Kirjakortisto
  
- Toteutettavan ohjelman tarkoitus on toimia kirjakortistona, jolla hallitaan
- kokoelmaa joukosta niteit√§, jotka voivat olla joko kirjoja tai lehti√§ mahdol-
- lisuudella sek√§ lis√§t√§ ett√§ poistaa kirjoja.
+ Toteutettavan ohjelman tarkoitus on toimia kirjakortistona, jolla hallitaan kokoelmaa joukosta niteitä, jotka voivat olla joko kirjoja tai lehtiä, mahdollisuudella sekä lisätä että poistaa kirjoja. Kortisto tallennetaan joko oletus- tai käyttäjän valitsemaan tiedostoon. Graafiseen käyttöliittymään tulee sisältymään ruutu, joka näyttää kaikki tiedot valitusta teoksesta sekä listan sen yksittäisistä niteistä sekä mahdollisuus selata joko koko aineistoa tai kokoelmittain. Hakutoiminnolla voi hakea teoksia kokoelman, nimen tai tekijän mukaan.
+
+ Köyttäjät: Kirjaston henkilökunta ja asiakkaat
  
- K√§ytt√§j√§t: Kirjaston henkil√∂kunta ja asiakkaat
- 
- Henkil√∂kunnan toiminno
- * Kirjojen lis√§ys ja poisto
- * Niteiden lis√§ys ja poisto
+ Henkilökunnan toiminnot
+ * Kirjojen lisäys ja poisto
+ * Niteiden lisäys ja poisto
  * Tietueiden muuttaminen
  * Niteiden lainaus ja palautus
- 
+ * Kortiston kirjoittaminen valinnaiseen tiedostoon
+ * Kortiston lukeminen valinnaisesta tiedostosta
+
  Asiakkaan toiminnot
- 
+ * Kortiston lukeminen tiedostosta
+
  Yhteiset toiminnot
  * Tietokannasta haku
  * Tietokannan selaus
- * J√§rjestelm√§√§n kirjautuminen
- 
- 
+ * Järjestelmään kirjautuminen
+

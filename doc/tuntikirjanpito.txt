@@ -6,6 +6,7 @@ Pvm        Tunnit
 ----------------------
 08.12      2
 10.12      2
+17.12      2
 ----------------------
 
 Tammikuu 2013
@@ -16,4 +17,17 @@ Pvm        Tunnit
 -----------------------
 
            Kokonaisaika
-           2
+           6
+
+
+ Muutokset
+ =========
+ 17.12.2012
+  Koodin kirjoittaminen aloitettu, luokkakaavion ensimmäinen versio luotu. Määrittelydokumenttiin lisätty muutososio.
+
+ 10.12.2012
+  Luokkien muokkausta, määrittelydokumentin muokkausta.
+
+ 08.12.2012
+  Määrittelyn luonti aloitettu, ensimmäiset luokat luotu, Github-repositorion luonti.
+
