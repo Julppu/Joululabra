@@ -20,14 +20,14 @@ Pvm        Tunnit
            6
 
 
- Muutokset
+ Ajankäyttö
  =========
  17.12.2012
-  Koodin kirjoittaminen aloitettu, luokkakaavion ensimm√§inen versio luotu. M√§√§rittelydokumenttiin lis√§tty muutososio.
+  Koodin kirjoittaminen aloitettu, luokkakaavion ensimmäinen versio luotu. Tuntikirjanpitoon lisätty osio ajankäytön jakautumisesta.
 
  10.12.2012
-  Luokkien muokkausta, m√§√§rittelydokumentin muokkausta.
+  Luokkien ja määrittelydokumentin muokkausta.
 
  08.12.2012
-  M√§√§rittelyn luonti aloitettu, ensimm√§iset luokat luotu, Github-repositorion luonti.
+  Märittelyn luonti aloitettu, ensimmäiset luokat luotu, Github-repositorion luonti.
 
