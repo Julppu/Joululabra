@@ -3,7 +3,6 @@ package UI;
 import Kortisto.Kortisto;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -23,43 +22,60 @@ public class TiedostonKasittelija {
             sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
             ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto));
         } catch (Exception ex) {
-            throw new Exception(ex);
+            
         }
     }
     
-    private Kortisto lueKortisto() {
+    public Kortisto lueTiedosto() {
         try {
-            if (!tiedosto.exists())
+            if (!tiedosto.exists()){
                 tiedosto.createNewFile();
+                return new Kortisto();
+            }
             this.kortisto = (Kortisto) sisaan.readObject();
-        } catch (IOException io) {
-            throw io;
-        } catch (ClassNotFoundException cnfe) {
-            throw cnfe;
+        } catch (Exception ex) {
+            
         } finally {
-            sisaan.close();
+            
         }
         return kortisto;
     }
     
-    public Kortisto lueTiedosto() {
-         return lueKortisto();
-    }
-    
     public Kortisto lueUusiTiedosto(String tiedosto) {
         this.tiedosto = new File(tiedosto);
-        return lueKortisto();
+        try {
+            sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
+        } catch (Exception ex) {
+            
+        }
+        return lueTiedosto();
     }
     
     public void kirjoitaTiedosto(Kortisto kortisto) {
+        setKortisto(kortisto);
         try {
             if (!this.tiedosto.exists())
                 tiedosto.createNewFile();
             ulos.writeObject(kortisto);
         } catch (IOException io) {
-            throw io;
+            
         } finally {
-            ulos.close();
+            
         }
+    }
+    
+    public void kirjoitaUusiTiedosto(Kortisto kortisto, String tiedosto) {
+        setKortisto(kortisto);
+        this.tiedosto = new File(tiedosto);
+        try {
+            ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto));
+        } catch (Exception ex) {
+            
+        }
+        kirjoitaTiedosto(this.kortisto);
+    }
+    
+    public void setKortisto(Kortisto kortisto) {
+        this.kortisto = kortisto;
     }
 }

@@ -13,7 +13,7 @@ public class Teos {
     private int vuosi;
     private String kustantaja;
     
-    private Teos(int ID, String ISBN, String nimi, String tekija, int vuosi, String kustantaja) {
+    public Teos(int ID, String ISBN, String nimi, String tekija, int vuosi, String kustantaja) {
         this.ID = ID;
         this.ISBN = ISBN;
         this.nimi = nimi;
@@ -25,9 +25,13 @@ public class Teos {
     }
     
     public void lisaaNide(String viivakoodi, int lainaAika, String kokoelma) {
+        niteet.add(new Nide(viivakoodi, this.ID, lainaAika, kokoelma));
+    }
+    
+    public void poistaNide(String viivakoodi) {
         for (Nide nide: niteet) {
-            if (!nide.getViivakoodi().equals(viivakoodi))
-                niteet.add(new Nide(viivakoodi, this.ID, lainaAika, kokoelma));
+            if (nide.getViivakoodi().equals(viivakoodi))
+                niteet.remove(nide);
         }
     }
     
@@ -35,7 +39,15 @@ public class Teos {
         if (!hakusanat.contains(hakusana))
             hakusanat.add(hakusana);
     }
-
+    
+    public void poistaHakusana(String hakusana) {
+        hakusanat.remove(hakusana);
+    }
+    
+    public ArrayList<String> getHakusanat() {
+        return hakusanat;
+    }
+    
     public ArrayList<Nide> getNiteet() {
         return niteet;
     }
@@ -84,7 +96,5 @@ public class Teos {
         this.kustantaja = kustantaja;
     }
 
-    public ArrayList<String> getHakusanat() {
-        return hakusanat;
-    }
+
 }

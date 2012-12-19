@@ -2,11 +2,12 @@ Tuntikirjanpito ohjelmoinnin harjoitusty√∂t√§ varten
 
 Joulukuu 2012
 
-Pvm        Tunnit
+Pvm         Tunnit
 ----------------------
-08.12      2
-10.12      2
-17.12      2
+08.12.      2
+10.12.      2
+17.12.      2
+19.12.      3
 ----------------------
 
 Tammikuu 2013
@@ -17,11 +18,14 @@ Pvm        Tunnit
 -----------------------
 
            Kokonaisaika
-           6
+           9
 
 
  Ajankäyttö
  =========
+ 19.12.2012
+  Testien kirjoittaminen aloitettu, luokkia sekä luokkakaaviota muokattu.
+
  17.12.2012
   Koodin kirjoittaminen aloitettu, luokkakaavion ensimmäinen versio luotu. Tuntikirjanpitoon lisätty osio ajankäytön jakautumisesta.
 

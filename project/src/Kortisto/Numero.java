@@ -6,7 +6,6 @@ public class Numero {
     private int ID;
     private int numero;
     private int vuosi;
-    private String viivakoodi;
     
     public Numero(int ID, int numero, int vuosi) {
         this.ID = ID;
@@ -14,8 +13,16 @@ public class Numero {
         this.vuosi = vuosi;
     }
     
+    public void setNumero(int uusiNumero) {
+        this.numero = uusiNumero;
+    }
+    
     public int getNumero() {
         return numero;
+    }
+    
+    public void setVuosi(int uusiVuosi) {
+        this.vuosi = uusiVuosi;
     }
     
     public int getVuosi() {
