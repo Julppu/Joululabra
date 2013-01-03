@@ -12,26 +12,31 @@ Pvm         Tunnit
 
 Tammikuu 2013
 
-Pvm        Tunnit
+Pvm         Tunnit
+------------------------
+03.01.      6
+
 ------------------------
 
------------------------
-
-           Kokonaisaika
-           9
+            Kokonaisaika
+            15
 
 
- Ajankäyttö
+ Ajank‰yttˆ
  =========
+
+ 03.01.2013
+  Luokkien ja testien kirjoittamista, graafisen ja tekstik‰yttˆliittym‰n luonti aloitettu.
+
  19.12.2012
-  Testien kirjoittaminen aloitettu, luokkia sekä luokkakaaviota muokattu.
+  Testien kirjoittaminen aloitettu, luokkia sek‰ luokkakaaviota muokattu.
 
  17.12.2012
-  Koodin kirjoittaminen aloitettu, luokkakaavion ensimmäinen versio luotu. Tuntikirjanpitoon lisätty osio ajankäytön jakautumisesta.
+  Koodin kirjoittaminen aloitettu, luokkakaavion ensimm‰inen versio luotu. Tuntikirjanpitoon lis‰tty osio ajank‰ytˆn jakautumisesta.
 
  10.12.2012
-  Luokkien ja määrittelydokumentin muokkausta.
+  Luokkien ja m‰‰rittelydokumentin muokkausta.
 
  08.12.2012
-  Märittelyn luonti aloitettu, ensimmäiset luokat luotu, Github-repositorion luonti.
+  M‰‰rittelyn luonti aloitettu, ensimm‰iset luokat luotu, Github-repositorion luonti.
 

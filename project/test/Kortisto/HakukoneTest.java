@@ -32,8 +32,18 @@ public class HakukoneTest {
     }
 
     @Test
+    public void testHaeTeosOlemattomallaTunuksella() {
+
+    }
+
+    @Test
     public void testHaeTeosISBN() {
 
+    }
+
+    @Test
+    public void testHaeTeosOlemattomallaISBN() {
+        
     }
 
     @Test
@@ -42,13 +52,28 @@ public class HakukoneTest {
     }
 
     @Test
+    public void testHaeTeoksiaOlemattomallaNimella() {
+        
+    }
+
+    @Test
     public void testHaeTeoksiaTekijalla() {
 
     }
 
     @Test
-    public void testHaeLehtiTunnuksella() {
+    public void testHaeTeoksiaOlemattomallaTekijalla() {
+        
+    }
 
+    @Test
+    public void testHaeLehtiTunnuksella() {
+        
+    }
+
+    @Test
+    public void testHaeLehtiOlemattomallaTunnuksella() {
+        
     }
 
     @Test
@@ -57,7 +82,17 @@ public class HakukoneTest {
     }
 
     @Test
+    public void testHaeLehtiOlemattomallaISSN() {
+
+    }
+
+    @Test
     public void testHaeLehtiaNimella() {
+
+    }
+
+    @Test
+    public void testHaeLehtiaOlemattomallaNimella() {
 
     }
 }

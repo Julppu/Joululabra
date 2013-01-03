@@ -1,16 +1,16 @@
  
- Määrittely
+ M‰‰rittely
  ==========
  
  Aihe: Kirjakortisto
  
- Toteutettavan ohjelman tarkoitus on toimia kirjakortistona, jolla hallitaan kokoelmaa joukosta niteitä, jotka voivat olla joko kirjoja tai lehtiä, mahdollisuudella sekä lisätä että poistaa kirjoja. Kortisto tallennetaan joko oletus- tai käyttäjän valitsemaan tiedostoon. Graafiseen käyttöliittymään tulee sisältymään ruutu, joka näyttää kaikki tiedot valitusta teoksesta sekä listan sen yksittäisistä niteistä sekä mahdollisuus selata joko koko aineistoa tai kokoelmittain. Hakutoiminnolla voi hakea teoksia kokoelman, nimen, viivakoodin tai tekijän mukaan.
+ Toteutettavan ohjelman tarkoitus on toimia kirjakortistona, jolla hallitaan kokoelmaa joukosta niteit‰, jotka voivat olla joko kirjoja tai lehti‰, mahdollisuudella sek‰ lis‰t‰ ett‰ poistaa kirjoja. Kortisto tallennetaan joko oletus- tai k‰ytt‰j‰n valitsemaan tiedostoon. Graafiseen k‰ytt‰liittym‰‰n tulee sis‰ltym‰‰n ruutu, joka n‰ytt‰‰ kaikki tiedot valitusta teoksesta sek‰ listan sen yksitt‰isist‰ niteist‰ sek‰ mahdollisuus selata joko koko aineistoa tai kokoelmittain. Hakutoiminnolla voi hakea teoksia kokoelman, nimen, viivakoodin tai tekij‰n mukaan.
 
- Köyttäjät: Kirjaston henkilökunta ja asiakkaat
+ K‰ytt‰j‰t: Kirjaston henkilˆkunta ja asiakkaat
  
- Henkilökunnan toiminnot
- * Kirjojen lisäys ja poisto
- * Niteiden lisäys ja poisto
+ Henkil‰kunnan toiminnot
+ * Kirjojen ja lehtien lis‰ys ja poisto
+ * Niteiden ja numeroiden lis‰ys ja poisto
  * Tietueiden muuttaminen
  * Niteiden lainaus ja palautus
  * Kortiston kirjoittaminen valinnaiseen tiedostoon
@@ -22,5 +22,5 @@
  Yhteiset toiminnot
  * Kortistosta haku
  * Kortiston selaus
- * Järjestelmään kirjautuminen
+ * J‰rjestelm‰‰n kirjautuminen
 

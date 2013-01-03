@@ -46,7 +46,7 @@ public class Kortisto {
     }
     
     public void lisaaLehti(String ISSN, String nimi, String kustantaja) throws Exception {
-        if (hakukone.haeLehtiISSN(this, null) == null)
+        if (hakukone.haeLehtiISSN(this, ISSN) == null)
             lehdet.add(new Lehti(kirjaID++, ISSN, nimi, kustantaja));
         else
             throw new Exception("Lehti on jo kortistossa, ei lisätty.");
@@ -59,7 +59,7 @@ public class Kortisto {
     public void lisaaNumero(int ID, int vuosi, int numero) {
         Lehti lisattava = hakukone.haeLehtiTunnuksella(this, ID);
         lisattava.lisaaNumero(numero, vuosi);
-    }
+    }   
     
     public void poistaNumero(int ID, int vuosi, int numero) {
         Lehti poistettava = hakukone.haeLehtiTunnuksella(this, ID);

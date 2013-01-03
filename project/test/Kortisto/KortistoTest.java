@@ -17,6 +17,7 @@ public class KortistoTest {
     @Before
     public void setUp() {
         kortisto = new Kortisto();
+        kortisto.lisaaTeos("0001", );
     }
     
     @After
@@ -37,32 +38,62 @@ public class KortistoTest {
     public void testLisaaNide() {
 
     }
+    
+    @Test
+    public void testLisaaOlemassaOlevaNide() {
+        
+    }
 
     @Test
     public void testPoistaNide() {
 
     }
-
+    
+    @Test
+    public void testPoistaOlematonNide() {
+        
+    }
+    
     @Test
     public void testLisaaLehti() {
 
     }
 
     @Test
+    public void testLisaaOlemassaOlevaNide() {
+        
+    }
+
+    @Test
     public void testPoistaLehti() {
 
     }
-
+    
+    @Test
+    public void testPoistaOlematonLehti() {
+        
+    }
+    
     @Test
     public void testLisaaNumero() {
 
     }
 
     @Test
+    public void testLisaaOlemassaOlevaNumero() {
+        
+    }
+
+    @Test
     public void testPoistaNumero() {
 
     }
-
+    
+    @Test
+    public void testPoistaOlematonNumero() {
+        
+    }
+    
     @Test
     public void testGetTeokset() {
 
@@ -75,16 +106,16 @@ public class KortistoTest {
 
     @Test
     public void testLisaaKokoelma() {
-
+        
     }
 
     @Test
     public void testPoistaKokoelma() {
-
+        
     }
 
     @Test
     public void testGetKokoelmat() {
-
+        
     }
 }
