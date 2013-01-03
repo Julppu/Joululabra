@@ -15,7 +15,7 @@ public class NideTest {
     
     @Before
     public void setUp() {
-        nide = new Nide("001", 1, 0, "testikokoelma");
+        nide = new Nide(1, "001", 0, "testikokoelma");
     }
     
     @After

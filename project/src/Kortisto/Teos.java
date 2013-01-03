@@ -25,7 +25,7 @@ public class Teos {
     }
     
     public void lisaaNide(String viivakoodi, int lainaAika, String kokoelma) {
-        niteet.add(new Nide(viivakoodi, this.ID, lainaAika, kokoelma));
+        niteet.add(new Nide(this.ID, viivakoodi, lainaAika, kokoelma));
     }
     
     public void poistaNide(String viivakoodi) {
@@ -95,6 +95,4 @@ public class Teos {
     public void setKustantaja(String kustantaja) {
         this.kustantaja = kustantaja;
     }
-
-
 }

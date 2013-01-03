@@ -7,7 +7,7 @@ public class Nide {
     private int lainaAika;
     private String kokoelma;
     
-    public Nide(String viivakoodi, int ID, int lainaAika, String kokoelma) {
+    public Nide(int ID, String viivakoodi, int lainaAika, String kokoelma) {
         this.viivakoodi = viivakoodi;
         this.ID = ID;
         this.lainaAika = lainaAika;
