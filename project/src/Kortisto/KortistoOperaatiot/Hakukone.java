@@ -2,6 +2,7 @@ package Kortisto.KortistoOperaatiot;
 
 import Kortisto.Kortisto;
 import Kortisto.Lehti;
+import Kortisto.Nide;
 import Kortisto.Teos;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +26,7 @@ public class Hakukone {
     public ArrayList<Teos> haeTeoksiaNimella(Kortisto kortisto, String nimi) {
         ArrayList<Teos> teokset = new ArrayList();
         for (Teos teos: kortisto.getTeokset())
-            if (teos.getNimi().contains(nimi.trim()))
+            if (teos.getNimi().contains(nimi))
                 teokset.add(teos);
         return teokset;
     }
@@ -33,7 +34,7 @@ public class Hakukone {
     public ArrayList<Teos> haeTeoksiaTekijalla(Kortisto kortisto, String tekija) {
         ArrayList<Teos> teokset = new ArrayList();
         for (Teos teos: kortisto.getTeokset())
-            if (teos.getTekija().contains(tekija.trim()))
+            if (teos.getTekija().contains(tekija))
                 teokset.add(teos);
         return teokset;
     }
@@ -55,8 +56,17 @@ public class Hakukone {
     public ArrayList<Lehti> haeLehtiaNimella(Kortisto kortisto, String nimi) {
         ArrayList<Lehti> lehdet = new ArrayList();
         for (Lehti lehti: kortisto.getLehdet())
-            if (lehti.getNimi().contains(nimi.trim()))
+            if (lehti.getNimi().contains(nimi))
                 lehdet.add(lehti);
         return null;
+    }
+    
+    public ArrayList<Nide> haeKokoelmanNiteet(Kortisto kortisto, String kokoelma) {
+        ArrayList<Nide> niteet = new ArrayList();
+        for (Teos teos: kortisto.getTeokset())
+            for (Nide nide: teos.getNiteet())
+                if (nide.getKokoelma().equals(kokoelma))
+                    niteet.add(nide);
+        return niteet;
     }
 }

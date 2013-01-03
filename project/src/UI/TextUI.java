@@ -21,10 +21,10 @@ public class TextUI {
         }
         System.out.println(" Tervetuloa kirjakortistoon. Valikoissa navigoidaan valitsemalla \n" +
                            " numero halutun operaation mukaan. \n\n");
-        valikko();
+        paaValikko();
     }
 
-    public void valikko() {
+    public void paaValikko() {
         System.out.println("***********************************");
         System.out.println("* Päävalikko:                     *");
         System.out.println("*                                 *");

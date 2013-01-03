@@ -17,7 +17,6 @@ public class Kortisto {
         teokset = new ArrayList();
         lehdet = new ArrayList();
         kokoelmat = new ArrayList();
-        kokoelmat.add("Lehdet");
         hakukone = new Hakukone();
     }
     
@@ -45,7 +44,8 @@ public class Kortisto {
         poistettava.poistaNide(viivakoodi);
     }
     
-    public void lisaaLehti(String ISSN, String nimi, String kustantaja) throws Exception {
+    public void lisaaLehti(String ISSN, String nimi, String kustantaja)
+      throws Exception {
         if (hakukone.haeLehtiISSN(this, ISSN) == null)
             lehdet.add(new Lehti(kirjaID++, ISSN, nimi, kustantaja));
         else

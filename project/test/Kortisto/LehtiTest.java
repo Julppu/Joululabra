@@ -21,9 +21,7 @@ public class LehtiTest {
     }
     
     @After
-    public void tearDown() {
-        
-    }
+    public void tearDown() { }
 
     @Test
     public void testLisaaNumero() {

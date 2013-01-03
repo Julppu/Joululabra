@@ -8,8 +8,8 @@ public class Nide {
     private String kokoelma;
     
     public Nide(int ID, String viivakoodi, int lainaAika, String kokoelma) {
-        this.viivakoodi = viivakoodi;
         this.ID = ID;
+        this.viivakoodi = viivakoodi;
         this.lainaAika = lainaAika;
         this.kokoelma = kokoelma;
     }
