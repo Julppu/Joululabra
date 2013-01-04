@@ -33,15 +33,23 @@ public class Kortisto {
     }
     
     public void lisaaNide(int ID, int lainaAika, String kokoelma) {
-        Teos teos = hakukone.haeTeosTunnuksella(this, ID);
-        teos.lisaaNide(Integer.toString(viivakoodi++), lainaAika, kokoelma);
+        for (Teos teos: teokset) {
+            if (teos.getID() == ID) {
+                teos.lisaaNide(Integer.toString(viivakoodi++), lainaAika, kokoelma);
+                break;
+            }
+        }
         if (!kokoelmat.contains(kokoelma))
             kokoelmat.add(kokoelma);
     }
     
     public void poistaNide(int ID, String viivakoodi) {
-        Teos poistettava = hakukone.haeTeosTunnuksella(this, ID);
-        poistettava.poistaNide(viivakoodi);
+        for (Teos teos: teokset) {
+            if (teos.getID() == ID) {
+                teos.poistaNide(viivakoodi);
+                break;
+            }
+        }
     }
     
     public void lisaaLehti(String ISSN, String nimi, String kustantaja)
@@ -57,13 +65,18 @@ public class Kortisto {
     }
     
     public void lisaaNumero(int ID, int vuosi, int numero) {
-        Lehti lisattava = hakukone.haeLehtiTunnuksella(this, ID);
-        lisattava.lisaaNumero(numero, vuosi);
+        for (Lehti lehti: lehdet) {
+            if (lehti.getID() == ID) {
+                lehti.lisaaNumero(numero, vuosi);
+                break;
+            }
+        }
     }   
     
     public void poistaNumero(int ID, int vuosi, int numero) {
-        Lehti poistettava = hakukone.haeLehtiTunnuksella(this, ID);
-        poistettava.poistaNumero(numero, vuosi);
+        for (Lehti lehti: lehdet)
+            if (lehti.getID() == ID)
+                lehti.poistaNumero(vuosi, numero);
     }
     
     public ArrayList<Teos> getTeokset() {
@@ -85,4 +98,11 @@ public class Kortisto {
     public ArrayList<String> getKokoelmat() {
         return kokoelmat;
     }
+
+    public Hakukone getHakukone() {
+        return hakukone;
+    }
+
+    public void setHakukone(Hakukone hakukone) {
+        this.hakukone = hakukone;
 }
