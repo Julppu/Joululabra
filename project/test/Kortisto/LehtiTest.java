@@ -16,7 +16,7 @@ public class LehtiTest {
     @Before
     public void setUp() {
         lehti = new Lehti(1, "11223344", "Aku ankka", "Sanoma");
-        lehti.lisaaNumero(22, 2011);
+        lehti.lisaaNumero(2011, 22);
         lehti.lisaaHakusana("sarjakuva");
     }
     
@@ -25,7 +25,7 @@ public class LehtiTest {
 
     @Test
     public void testLisaaNumero() {
-        lehti.lisaaNumero(1, 2012);
+        lehti.lisaaNumero(2012, 1);
         ArrayList<Numero> testi = lehti.getNumerot();
         boolean loytyi = false;
         for (Numero numero: testi) {
@@ -37,14 +37,14 @@ public class LehtiTest {
     
     @Test
     public void testLisaaOlemassaOlevaNumero() {
-        lehti.lisaaNumero(22, 2011);
+        boolean loytyi = true;
+        lehti.lisaaNumero(2011, 22);
         ArrayList<Numero> testi = lehti.getNumerot();
-        boolean loytyi = false;
         for (Numero numero: testi) {
-            if (numero.getVuosi() == 2012 && numero.getNumero() == 1)
-                loytyi = true;
+            if (numero.getVuosi() == 2011 && numero.getNumero() == 22)
+                loytyi = false;
         }
-        assertTrue(loytyi);
+        assertFalse(loytyi);
     }
 
     @Test

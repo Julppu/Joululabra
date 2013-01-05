@@ -20,6 +20,25 @@ public class HakukoneTest {
     public void setUp() {
         hakukone = new Hakukone();
         kortisto = new Kortisto();
+        try {
+            kortisto.lisaaTeos("0001", "Aapinen", "Aapiskukko", 2010, "WSOY");
+            kortisto.lisaaTeos("0002", "Aapinen", "Aapiskukko", 2010, "WSOY");
+            kortisto.lisaaTeos("0002", "Raamattu", "Jeesus", 0, "Jessen kirjuritoimisto");
+            kortisto.lisaaLehti("0003", "Helsingin Sanomat", "Sanoma");
+            kortisto.lisaaLehti("0004", "Iltasanomat", "Sanoma");
+            kortisto.lisaaNide(1, 14, "testikokoelma");
+            kortisto.lisaaNide(1, 14, "testikokoelma");
+            kortisto.lisaaNide(2, 2, "lyhytlainat");
+            kortisto.lisaaNide(2, 2, "lyhytlainat");
+            kortisto.lisaaNumero(1, 2012, 52);
+            kortisto.lisaaNumero(1, 2013, 1);
+            kortisto.lisaaNumero(2, 2010, 12);
+            kortisto.lisaaNumero(2, 2010, 11);
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+        
     }
     
     @After

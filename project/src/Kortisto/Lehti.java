@@ -17,21 +17,24 @@ public class Lehti {
         this.nimi = nimi;
         this.kustantaja = kustantaja;
         this.numerot = new ArrayList();
+        this.hakusanat = new ArrayList();
     } 
     
-    public void lisaaNumero(int numero, int vuosi) {
-        for (Numero lehdenNumero: numerot) {
+    public void lisaaNumero(int vuosi, int numero) {
+        for (Numero lehdenNumero: numerot)
             if (lehdenNumero.getVuosi() == vuosi && lehdenNumero.getNumero() == numero)
                 return;
-        }
-        numerot.add(new Numero(ID, numero, vuosi));
+        numerot.add(new Numero(ID, vuosi, numero));
     }
     
-    public void poistaNumero(int lehdenNumero, int vuosi) {
-        for (Numero numero: numerot) {
-            if (numero.getNumero() == lehdenNumero && numero.getVuosi() == vuosi)
+    public void poistaNumero(int vuosi, int numero) throws Exception {
+        for (Numero lehdenNumero: numerot) {
+            if (lehdenNumero.getNumero() == numero && lehdenNumero.getVuosi() == vuosi) {
                 numerot.remove(numero);
+                return;
+            }
         }
+        throw new Exception("Numeroa ei löytynyt, ei poistettu.");
     }
     
     public ArrayList<Numero> getNumerot() {

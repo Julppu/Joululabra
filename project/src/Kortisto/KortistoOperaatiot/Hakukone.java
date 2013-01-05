@@ -39,6 +39,14 @@ public class Hakukone {
         return teokset;
     }
     
+    public Nide haeNideViivakoodilla(Kortisto kortisto, String viivakoodi) {
+        for (Teos teos: kortisto.getTeokset())
+            for (Nide nide: teos.getNiteet())
+                if (nide.getViivakoodi().equals(viivakoodi))
+                    return nide;
+        return null;
+    }
+    
     public Lehti haeLehtiTunnuksella(Kortisto kortisto, int ID) {
         for (Lehti lehti: kortisto.getLehdet())
             if (lehti.getID() == ID)

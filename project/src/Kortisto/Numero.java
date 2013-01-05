@@ -7,7 +7,7 @@ public class Numero {
     private int numero;
     private int vuosi;
     
-    public Numero(int ID, int numero, int vuosi) {
+    public Numero(int ID, int vuosi, int numero) {
         this.ID = ID;
         this.numero = numero;
         this.vuosi = vuosi;

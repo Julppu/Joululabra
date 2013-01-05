@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class Kortisto {
     
-    private static int kirjaID = 1;
-    private static int lehtiID = 1;
-    private static int viivakoodi = 100000;
+    private static int kirjaID;
+    private static int lehtiID;
+    private static int viivakoodi;
     private ArrayList<Teos> teokset;
     private ArrayList<Lehti> lehdet;
     private ArrayList<String> kokoelmat;
@@ -18,6 +18,9 @@ public class Kortisto {
         lehdet = new ArrayList();
         kokoelmat = new ArrayList();
         hakukone = new Hakukone();
+        kirjaID = 1;
+        lehtiID = 1;
+        viivakoodi = 100000;
     }
     
     public void lisaaTeos(String ISBN, String nimi, String tekija, int vuosi, String kustantaja) 
@@ -43,19 +46,27 @@ public class Kortisto {
             kokoelmat.add(kokoelma);
     }
     
-    public void poistaNide(int ID, String viivakoodi) {
+    public void poistaNide(int ID, String viivakoodi) throws Exception {
         for (Teos teos: teokset) {
             if (teos.getID() == ID) {
                 teos.poistaNide(viivakoodi);
-                break;
+                return;
             }
         }
+        throw new Exception("Nidettä ei löytynyt, ei poistettu."); 
+    }
+    
+    public ArrayList<Nide> getTeoksenNiteet(int ID) {
+        for (Teos teos: teokset)
+            if (teos.getID() == ID)
+                return teos.getNiteet();
+        return null;
     }
     
     public void lisaaLehti(String ISSN, String nimi, String kustantaja)
       throws Exception {
         if (hakukone.haeLehtiISSN(this, ISSN) == null)
-            lehdet.add(new Lehti(kirjaID++, ISSN, nimi, kustantaja));
+            lehdet.add(new Lehti(lehtiID++, ISSN, nimi, kustantaja));
         else
             throw new Exception("Lehti on jo kortistossa, ei lisätty.");
     }
@@ -67,16 +78,27 @@ public class Kortisto {
     public void lisaaNumero(int ID, int vuosi, int numero) {
         for (Lehti lehti: lehdet) {
             if (lehti.getID() == ID) {
-                lehti.lisaaNumero(numero, vuosi);
+                lehti.lisaaNumero(vuosi, numero);
                 break;
             }
         }
-    }   
+    }
     
-    public void poistaNumero(int ID, int vuosi, int numero) {
+    public void poistaNumero(int ID, int vuosi, int numero) throws Exception {
+        for (Lehti lehti: lehdet) {
+            if (lehti.getID() == ID) {
+                lehti.poistaNumero(vuosi, numero);
+                return;
+            }
+        }
+        throw new Exception("Lehteä ei löytynyt, ei poistettu.");
+    }
+    
+    public ArrayList<Numero> getLehdenNumerot(int ID) {
         for (Lehti lehti: lehdet)
             if (lehti.getID() == ID)
-                lehti.poistaNumero(vuosi, numero);
+                return lehti.getNumerot();
+        return null;
     }
     
     public ArrayList<Teos> getTeokset() {
@@ -105,4 +127,5 @@ public class Kortisto {
 
     public void setHakukone(Hakukone hakukone) {
         this.hakukone = hakukone;
+    }
 }

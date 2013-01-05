@@ -28,11 +28,14 @@ public class Teos {
         niteet.add(new Nide(this.ID, viivakoodi, lainaAika, kokoelma));
     }
     
-    public void poistaNide(String viivakoodi) {
+    public void poistaNide(String viivakoodi) throws Exception {
         for (Nide nide: niteet) {
-            if (nide.getViivakoodi().equals(viivakoodi))
+            if (nide.getViivakoodi().equals(viivakoodi)) {
                 niteet.remove(nide);
+                return;
+            }
         }
+        throw new Exception("Nidettä ei löytynyt, ei poistettu.");
     }
     
     public void lisaaHakusana(String hakusana) {

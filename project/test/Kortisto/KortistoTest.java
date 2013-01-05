@@ -24,9 +24,10 @@ public class KortistoTest {
         try {
             kortisto.lisaaTeos("0001", "Aapinen", "Aapiskukko", 2000, "WSOY");
             kortisto.lisaaTeos("0002", "Satukirja", "Satusetä", 1999, "Abloy");
-            kortisto.lisaaLehti("0003", "Helsingin sanomat", "Sanoma");
+            kortisto.lisaaLehti("0003", "Helsingin Sanomat", "Sanoma");
             kortisto.lisaaNide(1, 0, "testikokoelma");
             kortisto.lisaaNide(2, 0, "testikokoelma");
+            kortisto.lisaaNumero(1, 2002, 1);
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -68,37 +69,44 @@ public class KortistoTest {
     public void testLisaaNide() {
         test = false;
         kortisto.lisaaNide(1, 0, "testikokoelma");
-        for (Teos teos: kortisto.getTeokset())
-            for (Nide nide: teos.getNiteet())
-                if (nide.getViivakoodi().equals("100001"))
-                    test = true;
+        for (Teos teos: kortisto.getTeokset()) {
+            if (teos.getID() == 1) {
+                for (Nide nide: teos.getNiteet()) {
+                    if (nide.getViivakoodi().equals("100002"))
+                        test = true;
+                }
+                break;
+            }
+        }
         assertTrue(test);
     }
 
     @Test
     public void testPoistaNide() {
-        kortisto.poistaNide(1, "100003");
+        try {
+            kortisto.poistaNide(1, "100000");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            fail("Poikkeus napattu.");
+        }
         assertTrue(hakukone.haeTeosTunnuksella(kortisto, 1).getNiteet().isEmpty());
     }
     
-    @Test
-    public void testPoistaOlematonNide() {
-        int pituusAlku, pituusLoppu;
-        ArrayList<Nide> niteet;
-        for (Teos teos: kortisto.getTeokset())
-            if (teos.getID() == 1)
-                niteet = teos.getNiteet();
-        pituusAlku = niteet.length();
+    @Test (expected=Exception.class)
+    public void testPoistaOlematonNide() throws Exception {
         kortisto.poistaNide(1, "0100");
-        pituusLoppu = niteet.length();
-        assertFalse(pituusLoppu == pituusAlku);
     }
     
     @Test
     public void testLisaaLehti() {
-        int pituus = kortisto.getLehdet().length();
-        kortisto.lisaaLehti("0005", "Aku ankka", "Sanoma");
-        assertEquals(kortisto.getLehdet().length(), pituus + 1);
+        int pituus = kortisto.getLehdet().size();
+        try {
+            kortisto.lisaaLehti("0005", "Aku ankka", "Sanoma");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            fail("Poikkeus napattu.");
+        }
+        assertEquals(kortisto.getLehdet().size(), pituus + 1);
     }
     
     @Test  (expected=Exception.class)
@@ -108,18 +116,15 @@ public class KortistoTest {
 
     @Test
     public void testPoistaLehti() {
-        test = false;
-        kortisto.poistaLehti(3);
-        if (kortisto.getLehdet().length() == 0)
-            test = true;
-        assertTrue(test);
+        kortisto.poistaLehti(1);
+        assertTrue(kortisto.getLehdet().isEmpty());
     }
     
     @Test
     public void testPoistaOlematonLehti() {
         test = false;
         kortisto.poistaLehti(20);
-        if (kortisto.getLehdet().length() == 1)
+        if (kortisto.getLehdet().size() == 1)
             test = true;
         assertTrue(test);
     }
@@ -133,6 +138,7 @@ public class KortistoTest {
                 for (Numero numero: lehti.getNumerot())
                     if (numero.getNumero() == 21 && numero.getVuosi() == 2000)
                         test = true;
+        }
         assertTrue(test);
     }
 
@@ -142,21 +148,24 @@ public class KortistoTest {
         kortisto.lisaaNumero(1, 2000, 21);
         kortisto.lisaaNumero(1, 2000, 22);
         kortisto.lisaaNumero(1, 2000, 21);
-        for (Lehti lehti: kortisto.getLehdet())
-            if (lehti.getID() == 1)
-                numeroita = lehti.getNumerot().length();
-        assertEquals(numeroita, 2);
+        assertEquals(3, kortisto.getLehdenNumerot(1).size());
     }
 
     @Test
     public void testPoistaNumero() {
-        for (Lehti lehti: kortisto.getLehdet())
-            
+        try {
+            kortisto.lisaaNumero(1, 2002, 2);
+            kortisto.poistaNumero(1, 2002, 2);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            fail("Poikkeus napattu.");
+        }
+        assertTrue(kortisto.getLehdenNumerot(1).size() == 1);
     }
     
-    @Test
-    public void testPoistaOlematonNumero() {
-        
+    @Test (expected=Exception.class)
+    public void testPoistaOlematonNumero() throws Exception {
+        kortisto.poistaNumero(1, 2002, 1);
     }
     
     @Test
@@ -166,18 +175,16 @@ public class KortistoTest {
        for (Teos teos: teokset)
            if (teos.getISBN() == "0001" || teos.getISBN() == "0002");
                testi++;
-       assertEquals(testi, 2); 
+       assertEquals(testi, 1);
     }
 
     @Test
     public void testGetLehdet() {
-        kortisto.lisaaLehti("0004", "Iltasanomat", "Sanoma");
-        ArrayList<Lehti> lehdet = kortisto.getLehdet();
         int testi = 0;
-        for (Lehti lehti: lehdet)
-            if (lehti.getNimi().equals("Helsingin Sanomat") || lehti.getNimi().equals("Iltasanomat"))
+        for (Lehti lehti: kortisto.getLehdet())
+            if (lehti.getNimi().equals("Helsingin Sanomat"))
                 testi++;
-        assertEquals(testi, 2);
+        assertEquals(1, testi);
     }
 
     @Test
