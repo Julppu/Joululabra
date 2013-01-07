@@ -16,7 +16,7 @@ public class NumeroTest {
     
     @Before
     public void setUp() {
-        numero = new Numero(1, 1, 2012);
+        numero = new Numero(1, 2012, 1);
     }
     
     @After

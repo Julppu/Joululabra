@@ -7,6 +7,7 @@
 package Kortisto;
 
 import Kortisto.KortistoOperaatiot.*;
+import Kortisto.Poikkeukset.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -15,10 +16,10 @@ public class Kortisto {
     private static int kirjaID;
     private static int lehtiID;
     private static int viivakoodi;
+    private Hakukone hakukone;
     private ArrayList<Teos> teokset;
     private ArrayList<Lehti> lehdet;
     private ArrayList<String> kokoelmat;
-    private Hakukone hakukone;
     
     public Kortisto() {
         teokset = new ArrayList();
@@ -40,16 +41,15 @@ public class Kortisto {
      * @param vuosi       teoksen julkaisuvuosi
      * @param kustantaja  teoksen kustantaja
      * 
-     * @throws Exception  heittää poikkeuksen jos teos löytyy jo kortistosta
-     *                    ja jättää sen lisäämättä.
+     * @throws TeosFoundException  jos teos on jo kortistossa
      */
     public void lisaaTeos(String ISBN, String nimi, String tekija, int vuosi, String kustantaja) 
-      throws Exception {
+      throws TeosFoundException {
         if (hakukone.haeTeosISBN(this, ISBN) == null) {
             teokset.add(new Teos(kirjaID++, ISBN, nimi, tekija, vuosi, kustantaja));
             Collections.sort(teokset, new TeoksetNimiJarjestykseenComparator());
         } else
-            throw new Exception("Teos on jo kortistossa, ei lisätty.");
+            throw new TeosFoundException("Teos on jo kortistossa, ei lisätty.");
     }
     
     /**
@@ -66,9 +66,9 @@ public class Kortisto {
      * Lisää kortiston teokseen niteen. Hakee teoksen tunnuksella, jonka
      * jälkeen lisää sen käyttäen niteen omaa metodia.
      * 
-     * @param ID         teoksen tunnusluku
-     * @param lainaAika  niteen laina-aika
-     * @param kokoelma   niteen kokoelma
+     * @param ID teoksen tunnusluku
+     * @param lainaAika niteen laina-aika
+     * @param kokoelma niteen kokoelma
      * 
      * @see   Kortisto.Teos#lisaaNide(java.lang.String, int, java.lang.String) 
      */
@@ -94,14 +94,14 @@ public class Kortisto {
      * 
      * @see    Kortisto.Teos#poistaNide(java.lang.String)
      */
-    public void poistaNide(int ID, String viivakoodi) throws Exception {
+    public void poistaNide(int ID, String viivakoodi) throws TeosNotFoundException, NideNotFoundException {
         for (Teos teos: teokset) {
             if (teos.getID() == ID) {
                 teos.poistaNide(viivakoodi);
                 return;
             }
         }
-        throw new Exception("Nidettä ei löytynyt, ei poistettu."); 
+        throw new TeosNotFoundException("Nidettä ei löytynyt, ei poistettu."); 
     }
     
     /**
@@ -128,13 +128,13 @@ public class Kortisto {
      * @see   Kortisto.Lehti
      */
     public void lisaaLehti(String ISSN, String nimi, String kustantaja)
-      throws Exception {
+            throws LehtiNotFoundException {
         if (hakukone.haeLehtiISSN(this, ISSN) == null) {
             lehdet.add(new Lehti(lehtiID++, ISSN, nimi, kustantaja));
             Collections.sort(lehdet, new LehdetNimiJarjestykseenComparator());
         }
         else
-            throw new Exception("Lehti on jo kortistossa, ei lisätty.");
+            throw new LehtiNotFoundException("Lehti on jo kortistossa, ei lisätty.");
     }
     
     /**
@@ -170,28 +170,28 @@ public class Kortisto {
      * Poistaa kortiston lehden yhden numeron lehden omalla metodilla 
      * jos numero löytyy.
      * 
-     * @param  ID          lehden tunnus
-     * @param  vuosi       lehden julkaisuvuosi
-     * @param  numero      julkaisun numero
-     * @throws Exception   poikkeus, jos lehteä ei löydy
+     * @param  ID lehden tunnus
+     * @param  vuosi lehden julkaisuvuosi
+     * @param  numero julkaisun numero
+     * @throws LehtiNotFoundException jos lehteä ei löydy
+     * @throws NumeroNotFoundException jos numeroa ei löydy
      * 
      * @see    Kortisto.Lehti#poistaNumero(int, int)
      */
-    public void poistaNumero(int ID, int vuosi, int numero) throws Exception {
-        for (Lehti lehti: lehdet) {
-            if (lehti.getID() == ID) {
-                lehti.poistaNumero(vuosi, numero);
-                return;
-            }
-        }
-        throw new Exception("Lehteä ei löytynyt, ei poistettu.");
+    public void poistaNumero(int ID, int vuosi, int numero) 
+            throws LehtiNotFoundException, NumeroNotFoundException {
+        Lehti lehti = hakukone.haeLehtiTunnuksella(this, ID);
+        if (lehti == null)
+            throw new LehtiNotFoundException("Lehteä ei löytynyt, ei poistettu");
+        else
+            lehti.poistaNumero(vuosi, numero);
     }
     
     /**
      * Getteri lehden kaikille numeroille.
      * 
      * @param ID lehden tunnus
-     * @return   listan lehden kaikista numeroista
+     * @return listan lehden kaikista numeroista
      */
     public ArrayList<Numero> getLehdenNumerot(int ID) {
         for (Lehti lehti: lehdet)

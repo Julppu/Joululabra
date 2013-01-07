@@ -6,6 +6,7 @@
 
 package Kortisto;
 
+import Kortisto.Poikkeukset.NideNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -48,14 +49,14 @@ public class Teos {
      * @param  viivakoodi niteen viivakoodi
      * @throws Exception  poikkeus, jos nidettä ei löydy listasta
      */
-    public void poistaNide(String viivakoodi) throws Exception {
+    public void poistaNide(String viivakoodi) throws NideNotFoundException {
         for (Nide nide: niteet) {
             if (nide.getViivakoodi().equals(viivakoodi)) {
                 niteet.remove(nide);
                 return;
             }
         }
-        throw new Exception("Nidettä ei löytynyt, ei poistettu.");
+        throw new NideNotFoundException("Nidettä ei löytynyt, ei poistettu.");
     }
     
     /**

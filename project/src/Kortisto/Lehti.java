@@ -7,6 +7,7 @@
 package Kortisto;
 
 import Kortisto.KortistoOperaatiot.NumerotJarjestykseenComparator;
+import Kortisto.Poikkeukset.NumeroNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -45,19 +46,22 @@ public class Lehti {
     /**
      * Poistaa numeron lehden listasta, antaa poikkeuksen jos numeroa ei löydy.
      * 
-     * @param vuosi      julkaisuvuosi
-     * @param numero     numero
-     * @throws Exception poikkeus, jos numeroa ei löydy
+     * @param vuosi  julkaisuvuosi
+     * @param numero numero
+     * @throws NumeroNotFoundException jos numeroa ei löydy
      */
-    public void poistaNumero(int vuosi, int numero) throws Exception {
-        for (Numero lehdenNumero: numerot) {
-            if (lehdenNumero.getNumero() == numero && lehdenNumero.getVuosi() == vuosi) {
-                numerot.remove(numero);
-                Collections.sort(numerot, new NumerotJarjestykseenComparator());
-                return;
-            }
+    public void poistaNumero(int vuosi, int numero) 
+            throws NumeroNotFoundException {
+        Numero lehdenNumero = null;
+        for (Numero haettavaNumero: numerot)
+            if (haettavaNumero.getNumero() == numero && haettavaNumero.getVuosi() == vuosi)
+                lehdenNumero = haettavaNumero;
+        if (lehdenNumero == null)
+            throw new NumeroNotFoundException("Numeroa ei löytynyt, ei poistettu.");
+        else {
+            numerot.remove(lehdenNumero);
+            Collections.sort(numerot, new NumerotJarjestykseenComparator());
         }
-        throw new Exception("Numeroa ei löytynyt, ei poistettu.");
     }
     
     /**
