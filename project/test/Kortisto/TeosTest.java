@@ -40,7 +40,12 @@ public class TeosTest {
     @Test
     public void testPoistaNide() {
         teos.lisaaNide("002", 0, "testikokoelma");
-        teos.poistaNide("001");
+        try {
+            teos.poistaNide("001");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            fail("Poikkeus napattu.");
+        }
         ArrayList<Nide> testi = teos.getNiteet();
         boolean onnistui = true;
         for (Nide nide: testi) {

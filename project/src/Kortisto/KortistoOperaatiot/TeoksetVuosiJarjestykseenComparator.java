@@ -1,3 +1,9 @@
+
+/**
+ * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
+ * @since  06012013
+ */
+
 package Kortisto.KortistoOperaatiot;
 
 import Kortisto.Teos;

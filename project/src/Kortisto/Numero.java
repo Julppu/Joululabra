@@ -1,4 +1,9 @@
 
+/**
+ * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
+ * @since  06012013
+ */
+
 package Kortisto;
 
 public class Numero {
@@ -13,18 +18,38 @@ public class Numero {
         this.vuosi = vuosi;
     }
     
+    /**
+     * Setteri lehden numeron uudelle julkaisunumerolle.
+     * 
+     * @param uusiNumero uusi julkaisunumero
+     */
     public void setNumero(int uusiNumero) {
         this.numero = uusiNumero;
     }
     
+    /**
+     * Getteri numeron julkaisunumerolle.
+     * 
+     * @return julkaisunumero
+     */
     public int getNumero() {
         return numero;
     }
     
+    /**
+     * Setteri numeron uudelle julkaisuvuodelle.
+     * 
+     * @param uusiVuosi uusi julkaisuvuosi
+     */
     public void setVuosi(int uusiVuosi) {
         this.vuosi = uusiVuosi;
     }
     
+    /**
+     * Getteri numeron julkaisuvuodelle.
+     * 
+     * @return julkaisuvuosi
+     */
     public int getVuosi() {
         return vuosi;
     }

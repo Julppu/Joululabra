@@ -43,7 +43,10 @@ public class KortistoTest {
         try {
             kortisto.lisaaTeos("0004", "Miksi pitää tehdä JUnitia?", "Keijo Käpistelijä", 
                 2012, "omakustanne");
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+            System.out.println(ex);
+            fail("Poikkeus napattu.");
+        }
         for (Teos teos: kortisto.getTeokset())
             if (teos.getISBN().equals("0004"))
                 test = true;
@@ -83,13 +86,15 @@ public class KortistoTest {
 
     @Test
     public void testPoistaNide() {
+        ArrayList<Nide> niteet = null;
         try {
             kortisto.poistaNide(1, "100000");
+            niteet = hakukone.haeTeosTunnuksella(kortisto, 1).getNiteet();
         } catch (Exception ex) {
             System.out.println(ex);
             fail("Poikkeus napattu.");
         }
-        assertTrue(hakukone.haeTeosTunnuksella(kortisto, 1).getNiteet().isEmpty());
+        assertTrue(niteet.isEmpty());
     }
     
     @Test (expected=Exception.class)
@@ -124,9 +129,7 @@ public class KortistoTest {
     public void testPoistaOlematonLehti() {
         test = false;
         kortisto.poistaLehti(20);
-        if (kortisto.getLehdet().size() == 1)
-            test = true;
-        assertTrue(test);
+        assertEquals(1, kortisto.getLehdet().size());
     }
     
     @Test
