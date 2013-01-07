@@ -6,21 +6,14 @@
  
  Toteutettavan ohjelman tarkoitus on toimia kirjakortistona, jolla hallitaan kokoelmaa joukosta niteitä, jotka voivat olla joko kirjoja tai lehtiä, mahdollisuudella sekä lisätä että poistaa kirjoja. Kortisto tallennetaan joko oletus- tai käyttäjän valitsemaan tiedostoon. Graafiseen käyttäliittymään tulee sisältymään ruutu, joka näyttää kaikki tiedot valitusta teoksesta sekä listan sen yksittäisistä niteistä sekä mahdollisuus selata joko koko aineistoa tai kokoelmittain. Hakutoiminnolla voi hakea teoksia kokoelman, nimen, viivakoodin tai tekijän mukaan.
 
- Käyttäjät: Kirjaston henkilökunta ja asiakkaat
+ Käyttäjät: Kirjaston henkilökunta
  
- Henkiläkunnan toiminnot
+ Toiminnot
  * Kirjojen ja lehtien lisäys ja poisto
  * Niteiden ja numeroiden lisäys ja poisto
  * Tietueiden muuttaminen
  * Niteiden lainaus ja palautus
  * Kortiston kirjoittaminen valinnaiseen tiedostoon
  * Kortiston lukeminen valinnaisesta tiedostosta
-
- Asiakkaan toiminnot
- * Kortiston lukeminen tiedostosta
-
- Yhteiset toiminnot
  * Kortistosta haku
  * Kortiston selaus
- * Järjestelmään kirjautuminen
-
