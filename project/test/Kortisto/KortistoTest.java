@@ -2,6 +2,7 @@
 package Kortisto;
 
 import Kortisto.KortistoOperaatiot.Hakukone;
+import Kortisto.Poikkeukset.*;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
@@ -53,8 +54,8 @@ public class KortistoTest {
         assertTrue(test);
     }
     
-    @Test (expected=Exception.class)
-    public void testLisaaOlemassaolevaTeos() throws Exception {
+    @Test (expected=TeosFoundException.class)
+    public void testLisaaOlemassaolevaTeos() throws TeosFoundException {
         kortisto.lisaaTeos("0001", "Aapinen", "Aapiskukko", 2000, "WSOY");
     }
 
@@ -97,7 +98,7 @@ public class KortistoTest {
         assertTrue(niteet.isEmpty());
     }
     
-    @Test (expected=Exception.class)
+    @Test (expected=NideNotFoundException.class)
     public void testPoistaOlematonNide() throws Exception {
         kortisto.poistaNide(1, "0100");
     }
@@ -114,8 +115,8 @@ public class KortistoTest {
         assertEquals(kortisto.getLehdet().size(), pituus + 1);
     }
     
-    @Test  (expected=Exception.class)
-    public void testLisaaOlemassaolevaLehti() throws Exception {
+    @Test  (expected=LehtiNotFoundException.class)
+    public void testLisaaOlemassaolevaLehti() throws LehtiNotFoundException {
         kortisto.lisaaLehti("0003", "Helsingin sanomat", "Sanoma");
     }
 
@@ -136,11 +137,15 @@ public class KortistoTest {
     public void testLisaaNumero() {
         kortisto.lisaaNumero(1, 2000, 21);
         test = false;
-        for (Lehti lehti: kortisto.getLehdet())
+        for (Lehti lehti: kortisto.getLehdet()) {
             if (lehti.getID() == 1) {
-                for (Numero numero: lehti.getNumerot())
-                    if (numero.getNumero() == 21 && numero.getVuosi() == 2000)
+                for (Numero numero: lehti.getNumerot()) {
+                    if (numero.getNumero() == 21 && numero.getVuosi() == 2000) {
                         test = true;
+                        break;
+                    }
+                }
+            }
         }
         assertTrue(test);
     }
@@ -157,28 +162,29 @@ public class KortistoTest {
     @Test
     public void testPoistaNumero() {
         try {
-            kortisto.lisaaNumero(1, 2002, 2);
-            kortisto.poistaNumero(1, 2002, 2);
+            kortisto.poistaNumero(1, 2002, 1);
         } catch (Exception ex) {
             System.out.println(ex);
             fail("Poikkeus napattu.");
         }
-        assertTrue(kortisto.getLehdenNumerot(1).size() == 1);
+        assertEquals(0, kortisto.getLehdenNumerot(1).size());
     }
     
-    @Test (expected=Exception.class)
-    public void testPoistaOlematonNumero() throws Exception {
-        kortisto.poistaNumero(1, 2002, 1);
+    @Test (expected=NumeroNotFoundException.class)
+    public void testPoistaOlematonNumero() throws NumeroNotFoundException {
+        try {
+            kortisto.poistaNumero(1, 2002, 10);
+        } catch(LehtiNotFoundException ex) {
+            System.out.println(ex);
+            fail("Poikkeus napattu.");
+        }
     }
     
     @Test
     public void testGetTeokset() {
        ArrayList<Teos> teokset = kortisto.getTeokset();
-       int testi = 0;
-       for (Teos teos: teokset)
-           if (teos.getISBN() == "0001" || teos.getISBN() == "0002");
-               testi++;
-       assertEquals(testi, 1);
+       int testi = teokset.size();
+       assertEquals(2, testi);
     }
 
     @Test

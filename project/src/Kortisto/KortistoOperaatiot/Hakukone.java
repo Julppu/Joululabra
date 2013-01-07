@@ -9,6 +9,7 @@ package Kortisto.KortistoOperaatiot;
 import Kortisto.Kortisto;
 import Kortisto.Lehti;
 import Kortisto.Nide;
+import Kortisto.Numero;
 import Kortisto.Teos;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -137,6 +138,14 @@ public class Hakukone {
             if (lehti.getNimi().toLowerCase().contains(nimi.toLowerCase()))
                 lehdet.add(lehti);
         return lehdet;
+    }
+    
+    public Numero haeNumero(Kortisto kortisto, int ID, int vuosi, int numero) {
+        for (Numero lehdenNumero: haeLehtiTunnuksella(kortisto, ID).getNumerot()) {
+            if (lehdenNumero.getNumero() == numero && lehdenNumero.getVuosi() == vuosi)
+                return lehdenNumero;
+        }
+        return null;
     }
     
     /**

@@ -31,7 +31,7 @@ public class TiedostonKasittelija {
      * Lukee oliomuotoisen kortiston luokan instanssina olevasta tiedostosta ja
      * palauttaa sen.
      * 
-     * @return uusi kortiston instanssi 
+     * @return uusi kortiston instanssi
      * @throws ClassNotFoundException
      * @throws FileNotFoundException
      * @throws IOException
