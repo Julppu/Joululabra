@@ -21,10 +21,16 @@ public class TiedostonKasittelija {
     private ObjectInputStream sisaan;
     private ObjectOutputStream ulos;
     
-    public TiedostonKasittelija(String tiedosto) throws FileNotFoundException, IOException {
-        this.tiedosto = new File(tiedosto);
-        sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
-        ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto));
+    public TiedostonKasittelija(String tiedosto) 
+            throws IOException {
+        try {
+            this.tiedosto = new File(tiedosto);
+            sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
+            ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto));
+            kortisto = lueTiedosto();
+        } catch (FileNotFoundException ex) {
+            tiedosto.createNewFile();
+        }
     }
     
     /**
@@ -33,16 +39,16 @@ public class TiedostonKasittelija {
      * 
      * @return uusi kortiston instanssi
      * @throws ClassNotFoundException
-     * @throws FileNotFoundException
      * @throws IOException
      */
-    public Kortisto lueTiedosto() throws ClassNotFoundException, FileNotFoundException, IOException {
+    public Kortisto lueTiedosto()
+            throws ClassNotFoundException, IOException {
         Kortisto kortisto = new Kortisto();
-        if (!tiedosto.exists()) {
-            tiedosto.createNewFile();
-            return new Kortisto();
-        } else
+        try {
             kortisto = (Kortisto) sisaan.readObject();
+        } catch (FileNotFoundException ex) {
+            tiedosto.createNewFile();
+        }
         return kortisto;
     }
     
@@ -54,7 +60,8 @@ public class TiedostonKasittelija {
      * @throws IOException
      * @throws ClassNotFoundException 
      */
-    public Kortisto lueUusiTiedosto(String tiedosto) throws IOException, ClassNotFoundException {
+    public Kortisto lueUusiTiedosto(String tiedosto)
+            throws IOException, ClassNotFoundException {
         this.tiedosto = new File(tiedosto);
         sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
         return lueTiedosto();
@@ -66,7 +73,8 @@ public class TiedostonKasittelija {
      * @param kortisto tallennettava kortisto
      * @throws IOException 
      */
-    public void kirjoitaTiedosto(Kortisto kortisto) throws IOException {
+    public void kirjoitaTiedosto(Kortisto kortisto) 
+            throws IOException {
         if (!this.tiedosto.exists())
             tiedosto.createNewFile();
         ulos.writeObject(kortisto);
@@ -80,7 +88,8 @@ public class TiedostonKasittelija {
      * @param tiedosto kohdetiedosto
      * @throws IOException 
      */
-    public void kirjoitaUusiTiedosto(Kortisto kortisto, String tiedosto) throws IOException {
+    public void kirjoitaUusiTiedosto(Kortisto kortisto, String tiedosto) 
+            throws IOException {
         this.tiedosto = new File(tiedosto);
         ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto));
         kirjoitaTiedosto(kortisto);
