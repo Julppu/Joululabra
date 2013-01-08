@@ -11,12 +11,14 @@ public class Main {
     public static void main(String[] args) {              
         GUI gui;
         TextUI tui;
-        if (args[0].equalsIgnoreCase("-gui")) {
+        if (args.length == 0) {
+            tui = new TextUI();
+            tui.start();
+        } else if (args[0].equalsIgnoreCase("-gui")) {
             gui = new GUI();
             gui.run();
         } else {
-            tui = new TextUI();
-            tui.start();
+            System.out.println("Huono argumentti, kokeile \"-GUI\" tai \"-gui\".");
         }
     }
 }

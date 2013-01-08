@@ -82,4 +82,9 @@ public class Nide {
     public void setKokoelma(String uusiKokoelma) {
         this.kokoelma = uusiKokoelma;
     }
+    
+    @Override
+    public String toString() {
+        return viivakoodi + ", kokoelma " + kokoelma + ", laina-aika " + " vrk. ";
+    }
 }

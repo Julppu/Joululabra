@@ -196,4 +196,13 @@ public class Teos {
     public void setKustantaja(String kustantaja) {
         this.kustantaja = kustantaja;
     }
+    
+    /**
+     * Palauttaa teoksen kuvauksen String-muodossa
+     * @return teoksen kuvaus
+     */
+    @Override
+    public String toString() {
+        return nimi + ", " + tekija + ", " + vuosi + ". Tunnus " + ID + ", niteitä " + niteet.size();
+    }
 }
