@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Kortisto implements Serializable {
+public class Kortisto {
     
     /** laskuri kirjan tunnistenumeroille, jota teoksen lisäys kasvattaa.  */
     private static int kirjaID;

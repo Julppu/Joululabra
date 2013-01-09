@@ -9,7 +9,7 @@ package Kortisto;
 
 import java.io.Serializable;
 
-public class Numero implements Serializable {
+public class Numero {
     
     /** tunnus lehteen, johon numero kuuluu */
     private int ID;

@@ -49,9 +49,9 @@ public class TiedostonKasittelija {
      */
     public Kortisto lueTiedosto()
             throws ClassNotFoundException, IOException {
-        Kortisto kortisto = null;
+        Kortisto kortisto = new Kortisto();
         try {
-            if (this.tiedosto.length() == null)
+            if (this.tiedosto.length() == 0)
                 return new Kortisto();
             kortisto = (Kortisto) sisaan.readObject();
         } catch (FileNotFoundException ex) {

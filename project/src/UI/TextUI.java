@@ -40,7 +40,7 @@ public class TextUI {
      */
     public void start() {
         System.out.println("Tervetuloa kirjakortistoon. Valikoissa navigoidaan valitsemalla \n"
-                + "numero halutun operaation mukaan. \n\n");
+                + "numero halutun operaation mukaan.\n");
         paaValikko();
         aloitusValinta();
         System.out.println("\nKiitos kortiston käytöstä!");
@@ -51,7 +51,7 @@ public class TextUI {
      * kaikki sen niteet.
      */
     public void haeKirjojaNimella() {
-        System.out.print("Anna kirjan nimi: ");
+        System.out.print("\nAnna kirjan nimi: ");
         String nimi = scanner.nextLine();
         while (nimi.isEmpty()) {
             System.out.print("Tyhjä syöte, anna uudestaan: ");
@@ -78,7 +78,7 @@ public class TextUI {
      * Metodi kirjojen hakemiseen tekijällä. Mahdollisuus myös tulostaa kaikki sen niteet.
      */
     public void haeKirjojaTekijalla() {
-        System.out.print("Anna kirjan nimi: ");
+        System.out.print("\nAnna kirjan nimi: ");
         String tekija = scanner.nextLine();
         while (tekija.isEmpty()) {
             System.out.print("Tyhjä syöte, anna uudestaan: ");
@@ -110,7 +110,7 @@ public class TextUI {
         System.out.println(teos);
         for (Nide nide : teos.getNiteet())
             System.out.println("  " + nide);
-        System.out.print("\n\n Jos haluat tarkastella jonkin lehden numeroita, anna sen tunnus,\n"
+        System.out.print("\n Jos haluat tarkastella jonkin lehden numeroita, anna sen tunnus,\n"
                 + "tyhjällä palataan alkuun: ");
         String id = scanner.nextLine();
         if (id.isEmpty())
@@ -139,7 +139,7 @@ public class TextUI {
                     System.out.println("  " + nide);
                 }
             }
-            System.out.println("\n\nAnna seuraava teoksen tunnus tai tyhjä lopettaaksesi:");
+            System.out.println("\nAnna seuraava teoksen tunnus tai tyhjä lopettaaksesi:");
             tunnus = Integer.parseInt(scanner.nextLine());
         }
     }
@@ -149,7 +149,7 @@ public class TextUI {
      * sekä niteen tiedot.
      */
     public void haeNideViivakoodilla() {
-        System.out.print("Anna viivakoodi: ");
+        System.out.print("\nAnna viivakoodi: ");
         String viivakoodi = scanner.nextLine();
         Nide nide = kortisto.getHakukone().haeNideViivakoodilla(kortisto, viivakoodi);
         if (nide == null)
@@ -169,7 +169,7 @@ public class TextUI {
      * @return lehti muokattava lehti 
      */
     public void haeLehtiaNimella() {
-        System.out.print("Anna lehden nimi: ");
+        System.out.print("\nAnna lehden nimi: ");
         String nimi = scanner.nextLine();
         while (nimi.isEmpty()) {
             System.out.print("Tyhjä syöte, anna uudestaan: ");
@@ -180,7 +180,7 @@ public class TextUI {
         
         for (Lehti lehti : lehdet)
             System.out.println("  " + lehti);
-        System.out.print("\n\n Jos haluat tarkastella jonkin lehden numeroita, anna sen tunnus\n,"
+        System.out.print("\n Jos haluat tarkastella jonkin lehden numeroita, anna sen tunnus\n,"
                 + "muussa tapauksessa palataan alkuun: ");
         String id = scanner.nextLine();
         if (id == null)
@@ -194,7 +194,7 @@ public class TextUI {
      * @param tunnus haettavan lehden tunnus
      */
     public void haeNumeroita(int tunnus) {
-        System.out.println("Anna numeron koko vuosi ja julkaisunumero välilyönnillä erotettuna.");
+        System.out.println("\nAnna numeron koko vuosi ja julkaisunumero välilyönnillä erotettuna.");
         String tiedot = scanner.nextLine();
         while (!tiedot.isEmpty()) {
             Numero haettuNumero;
@@ -216,7 +216,7 @@ public class TextUI {
      * takaisin jos saadaan poikkeus TeosFoundException.
      */
     public void lisaaKirja() {
-        System.out.println("Anna tarvittavat kentät");
+        System.out.println("\nAnna tarvittavat kentät");
         System.out.print("ISBN: ");
         String isbn = scanner.nextLine();
         System.out.print("Nimi: ");
@@ -243,7 +243,7 @@ public class TextUI {
      */
     public void lisaaNide() {
         Teos teos = haeKirja();
-        System.out.print("Anna niteen kokoelma: ");
+        System.out.print("\nAnna niteen kokoelma: ");
         String kokoelma = scanner.nextLine();
         System.out.println("Laina-aika: ");
         int lainaAika = Integer.parseInt(scanner.nextLine());
@@ -255,6 +255,14 @@ public class TextUI {
     }
 
     public void poistaNide() {
+        
+    }
+    
+    public void muokkaaKirjaa() {
+        
+    }
+    
+    public void vaihdaNiteenViivakoodi() {
         
     }
 
@@ -279,7 +287,7 @@ public class TextUI {
     }
     
     public Teos haeKirja() {
-        System.out.print("Anna haettavan kirjan ISBN: ");
+        System.out.print("\nAnna haettavan kirjan ISBN: ");
         String isbn = scanner.nextLine();
         Teos teos = kortisto.getHakukone().haeTeosISBN(kortisto, isbn);
         if (teos == null) {
@@ -404,10 +412,9 @@ public class TextUI {
                     break;
                 case 3:
                     muokkaaKirjaa();
-¨                   break;
-                case 4:
-                    muokkaaNidetta();
                     break;
+                case 4:
+                    vaihdaNiteenViivakoodi();
                 case 5:
                     kirjoitaKortisto();
                     break;
@@ -439,9 +446,6 @@ public class TextUI {
                     break;
                 case 3:
                     muokkaaLehtea();
-                    break;
-                case 4:
-                    muokkaaNumeroa();
                     break;
                 case 5:
                     kirjoitaKortisto();

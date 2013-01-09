@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Lehti implements Serializable {
+public class Lehti {
     
     /** lehden uniikki tunniste */
     private int ID;

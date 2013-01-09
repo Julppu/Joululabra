@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Teos implements Serializable {
+public class Teos {
     
     /** lista teokseen kuuluvista niteistä */
     private ArrayList<Nide> niteet;

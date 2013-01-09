@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Hakukone implements Serializable {
+public class Hakukone {
     
     /**
      * Hakee kortistosta yhden teoksen sen tunnuksen perusteella ja palauttaa
