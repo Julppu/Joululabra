@@ -106,17 +106,7 @@ public class TextUI {
      * sen niteet.
      */
     public void haeKirjaISBN() {
-        System.out.print("Anna kirjan ISBN: ");
-        String isbn = scanner.nextLine();
-        while (isbn.isEmpty()) {
-            System.out.print("Tyhjä syöte, anna uudestaan: ");
-            isbn = scanner.nextLine();
-        }
-        Teos teos = kortisto.getHakukone().haeTeosISBN(kortisto, isbn);
-        if (teos == null) {
-            System.out.println("Mitään ei löytynyt, palataan.");
-            return;
-        }
+        Teos teos = haeKirja();
         System.out.println(teos);
         for (Nide nide : teos.getNiteet())
             System.out.println("  " + nide);
@@ -252,48 +242,51 @@ public class TextUI {
      * Lisää kortistoon uuden niteen joko kirjan tunnuksen tai ISBN-numeron kautta. 
      */
     public void lisaaNide() {
-        System.out.println("Anna teoksen tunnus tai ISBN: ");
-        String hakuperuste = scanner.nextLine();
-        int id;
-        if (hakuperuste.matches("[0-9]"))
-            id = Integer.parseInt(hakuperuste);
-        else {
-            Teos teos = kortisto.getHakukone().haeTeosISBN(kortisto, hakuperuste);
-            if (teos == null) {
-                System.out.println("Kirjaa ei löytynyt, palataan takaisin.");
-                return;
-            } else
-                id = teos.getID();
-            }
+        Teos teos = haeKirja();
         System.out.print("Anna niteen kokoelma: ");
         String kokoelma = scanner.nextLine();
         System.out.println("Laina-aika: ");
         int lainaAika = Integer.parseInt(scanner.nextLine());
-        kortisto.lisaaNide(id, lainaAika, kokoelma);
+        kortisto.lisaaNide(teos.getID(), lainaAika, kokoelma);
+    }
+
+    public void poistaKirja() {
+        Teos teos = haeKirja();
+    }
+
+    public void poistaNide() {
+        
     }
 
     public void lisaaLehti() {
-        
+        System.out.println("");
     }
 
     public void lisaaNumero() {
-        
+        System.out.println("");
     }
 
     public void muokkaaTeosta() {
-        
+        System.out.println("");
     }
 
     public void muokkaaLehtea() {
-        
-    }
-    
-    public void muokkaaNumeroa() {
-        
+        System.out.println("");
     }
 
     public void lueKortisto() {
-        
+        System.out.println("");
+    }
+    
+    public Teos haeKirja() {
+        System.out.print("Anna haettavan kirjan ISBN: ");
+        String isbn = scanner.nextLine();
+        Teos teos = kortisto.getHakukone().haeTeosISBN(kortisto, isbn);
+        if (teos == null) {
+            System.out.println("Teosta ei löytynyt, palataan.");
+            return teos;
+        }
+        return teos;
     }
     
     /**
@@ -302,7 +295,7 @@ public class TextUI {
     public void kirjoitaKortisto() {
         try {
             tiedKas.kirjoitaTiedosto(kortisto);
-            System.out.println("Kortisto kirjoitettu tiedostoon!");
+            System.out.println("Kortisto tallennettu tiedostoon!");
         } catch (IOException ioe) {
             if (ioe.getClass() != EOFException.class)
                 System.out.println("Tiedoston kirjoittaminen epäonnistui!");
@@ -314,7 +307,7 @@ public class TextUI {
      * ja kirjoittaa kortiston siihen.
      */
     public void vaihdaTiedosto() {
-        System.out.print("Anna luettavan tiedoston nimi:");
+        System.out.print("\nAnna luettavan tiedoston nimi:");
         String uusiTiedosto = scanner.nextLine();
         try {
             kortisto = tiedKas.lueUusiTiedosto(uusiTiedosto);
@@ -409,6 +402,12 @@ public class TextUI {
                 case 2:
                     lisaaNide();
                     break;
+                case 3:
+                    muokkaaKirjaa();
+¨                   break;
+                case 4:
+                    muokkaaNidetta();
+                    break;
                 case 5:
                     kirjoitaKortisto();
                     break;
@@ -498,7 +497,7 @@ public class TextUI {
         System.out.println("* 2. Lisää nide");
         System.out.println("* 3. Muokkaa kirjaa");
         System.out.println("* 4. Muokkaa nidettä");
-        System.out.println("* 5. Poista teos");
+        System.out.println("* 5. Poista kirja");
         System.out.println("* 6. Poista nide");
         System.out.println("* 0. Paluu");
     }

@@ -51,12 +51,12 @@ public class TiedostonKasittelija {
             throws ClassNotFoundException, IOException {
         Kortisto kortisto = null;
         try {
+            if (this.tiedosto.length() == null)
+                return new Kortisto();
             kortisto = (Kortisto) sisaan.readObject();
         } catch (FileNotFoundException ex) {
             tiedosto.createNewFile();
         }
-        if (kortisto == null)
-            return new Kortisto();
         return kortisto;
     }
     
