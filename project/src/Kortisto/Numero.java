@@ -6,7 +6,9 @@
 
 package Kortisto;
 
-public class Numero {
+import java.io.Serializable;
+
+public class Numero implements Serializable {
     
     private int ID;
     private int numero;

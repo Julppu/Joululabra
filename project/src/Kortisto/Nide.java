@@ -6,7 +6,9 @@
 
 package Kortisto;
 
-public class Nide {
+import java.io.Serializable;
+
+public class Nide implements Serializable {
     
     private int ID;
     private String viivakoodi;

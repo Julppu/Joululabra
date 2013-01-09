@@ -7,10 +7,11 @@
 package Kortisto;
 
 import Kortisto.Poikkeukset.NideNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Teos {
+public class Teos implements Serializable {
     
     private ArrayList<Nide> niteet;
     private ArrayList<String> hakusanat;

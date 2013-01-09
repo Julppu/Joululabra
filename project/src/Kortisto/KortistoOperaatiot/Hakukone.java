@@ -11,10 +11,11 @@ import Kortisto.Lehti;
 import Kortisto.Nide;
 import Kortisto.Numero;
 import Kortisto.Teos;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Hakukone {
+public class Hakukone implements Serializable {
     
     /**
      * Hakee kortistosta yhden teoksen sen tunnuksen perusteella ja palauttaa

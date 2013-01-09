@@ -8,10 +8,11 @@ package Kortisto;
 
 import Kortisto.KortistoOperaatiot.*;
 import Kortisto.Poikkeukset.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Kortisto {
+public class Kortisto implements Serializable {
     
     private static int kirjaID;
     private static int lehtiID;
@@ -35,11 +36,11 @@ public class Kortisto {
      * Metodi lisää kortistoon uuden teoksen ja lajittelee listan lisäyksen
      * jälkeen.
      * 
-     * @param ISBN        teoksen ISBN-numero
-     * @param nimi        teoksen nimi
-     * @param tekija      teoksen tekijä(t)
-     * @param vuosi       teoksen julkaisuvuosi
-     * @param kustantaja  teoksen kustantaja
+     * @param ISBN teoksen ISBN-numero
+     * @param nimi teoksen nimi
+     * @param tekija teoksen tekijä(t)
+     * @param vuosi teoksen julkaisuvuosi
+     * @param kustantaja teoksen kustantaja
      * 
      * @throws TeosFoundException  jos teos on jo kortistossa
      */
@@ -88,9 +89,9 @@ public class Kortisto {
      * Poistaa niteen kortistosta hakemalla sen teoksen tunnuksen perusteella.
      * Käyttää niteen omaa metodia.
      * 
-     * @param  ID         teoksen tunnus
+     * @param  ID teoksen tunnus
      * @param  viivakoodi niteen viivakoodi
-     * @throws Exception  poikkeus niteen puuttuessa tiedoista
+     * @throws Exception poikkeus niteen puuttuessa tiedoista
      * 
      * @see    Kortisto.Teos#poistaNide(java.lang.String)
      */
@@ -107,8 +108,8 @@ public class Kortisto {
     /**
      * Hakee kortistosta teoksen ja palauttaa listan sen niteistä.
      * 
-     * @param ID    teoksen tunnus
-     * @return      teoksen niteet tai null jos teosta ei löydy.
+     * @param ID teoksen tunnus
+     * @return teoksen niteet tai null jos teosta ei löydy.
      */
     public ArrayList<Nide> getTeoksenNiteet(int ID) {
         for (Teos teos: teokset)
@@ -120,10 +121,10 @@ public class Kortisto {
     /**
      * Lisää kortistoon uuden lehden jonka jälkeen lajittelee listan lehdistä.
      * 
-     * @param  ISSN        lehden ISSN-numero
-     * @param  nimi        lehden nimi
-     * @param  kustantaja  lehden kustantaja
-     * @throws Exception   poikkeus, jos lehti on jo kortistossa
+     * @param  ISSN lehden ISSN-numero
+     * @param  nimi lehden nimi
+     * @param  kustantaja lehden kustantaja
+     * @throws Exception poikkeus, jos lehti on jo kortistossa
      * 
      * @see   Kortisto.Lehti
      */
@@ -151,8 +152,8 @@ public class Kortisto {
      * Lisää numeron kortiston lehteen hakemalla lehden sen tunnuksella ja
      * käyttämällä lehden omaa metodia.
      * 
-     * @param ID     lehden tunnus
-     * @param vuosi  numeron julkaisuvuosi
+     * @param ID lehden tunnus
+     * @param vuosi numeron julkaisuvuosi
      * @param numero lehden numero
      * 
      * @see   Kortisto.Lehti#lisaaNumero(int, int)

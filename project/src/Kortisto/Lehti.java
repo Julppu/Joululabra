@@ -8,10 +8,11 @@ package Kortisto;
 
 import Kortisto.KortistoOperaatiot.NumerotJarjestykseenComparator;
 import Kortisto.Poikkeukset.NumeroNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Lehti {
+public class Lehti implements Serializable {
     
     private int ID;
     private String ISSN;

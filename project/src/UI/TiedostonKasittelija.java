@@ -22,14 +22,15 @@ public class TiedostonKasittelija {
     private ObjectOutputStream ulos;
     
     public TiedostonKasittelija(String tiedosto) 
-            throws IOException {
+            throws IOException, ClassNotFoundException {
         try {
             this.tiedosto = new File(tiedosto);
+            if (!this.tiedosto.exists())
+                this.tiedosto.createNewFile();
             sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
             ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto));
-            kortisto = lueTiedosto();
         } catch (FileNotFoundException ex) {
-            tiedosto.createNewFile();
+            this.tiedosto.createNewFile();
         }
     }
     
@@ -43,17 +44,20 @@ public class TiedostonKasittelija {
      */
     public Kortisto lueTiedosto()
             throws ClassNotFoundException, IOException {
-        Kortisto kortisto = new Kortisto();
+        Kortisto kortisto = null;
         try {
             kortisto = (Kortisto) sisaan.readObject();
         } catch (FileNotFoundException ex) {
             tiedosto.createNewFile();
         }
+        if (kortisto == null)
+            return new Kortisto();
         return kortisto;
     }
     
     /**
-     * Lukee uuden kortiston parametrina saatavasta tiedostosta ja palauttaa sen.
+     * Lukee uuden kortiston parametrina saatavasta tiedostosta, asettaa molemmat
+     * olion instansseiksi ja palauttaa sen.
      * 
      * @param tiedosto uusi luettava tiedosto
      * @return uusi kortistoinstanssi
@@ -63,7 +67,10 @@ public class TiedostonKasittelija {
     public Kortisto lueUusiTiedosto(String tiedosto)
             throws IOException, ClassNotFoundException {
         this.tiedosto = new File(tiedosto);
+        if (!this.tiedosto.exists())
+            this.tiedosto.createNewFile();
         sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
+        ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto, false));
         return lueTiedosto();
     }
     

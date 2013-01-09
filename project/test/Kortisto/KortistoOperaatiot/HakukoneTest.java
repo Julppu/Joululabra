@@ -3,9 +3,13 @@
  * @since  06012013
  */
 
-package Kortisto;
+package Kortisto.KortistoOperaatiot;
 
+import Kortisto.Kortisto;
 import Kortisto.KortistoOperaatiot.Hakukone;
+import Kortisto.Lehti;
+import Kortisto.Nide;
+import Kortisto.Teos;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
