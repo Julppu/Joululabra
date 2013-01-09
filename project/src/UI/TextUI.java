@@ -1,4 +1,6 @@
 /**
+ * Kortisto-ohjelmiston tekstipohjaisen käyttöliittymän luokka.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since 06012013
  */
@@ -12,9 +14,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TextUI {
-
+    
+    /** kirjojen ja lehtien tiedot sisältävä kortistoinstanssi */
     private Kortisto kortisto;
+    /** instanssi tiedostojen kirjoittamista ja lukemista varten */
     private TiedostonKasittelija tiedKas;
+    /** käyttäjän antaman syötteen lukija */
     private Scanner scanner;
 
     public TextUI() {

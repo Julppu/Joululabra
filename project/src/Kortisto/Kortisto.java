@@ -1,5 +1,8 @@
 
 /**
+ * Kortistoluokka, joka pitää sisällään tiedot teoksista ja lehdistä sekä
+ * niiden kautta niteistä ja numeroista.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
@@ -14,12 +17,19 @@ import java.util.Collections;
 
 public class Kortisto implements Serializable {
     
+    /** laskuri kirjan tunnistenumeroille, jota teoksen lisäys kasvattaa.  */
     private static int kirjaID;
+    /** laskuri lehden tunnistenumeroille, jota lehden lisäys kasvattaa. */
     private static int lehtiID;
+    /** laskuri niteiden viivakoodeille. muunnetaan niteen lisäyksessä String-muotoon */
     private static int viivakoodi;
+    /** aineiston hakemiseen käytettävän hakukoneen instanssi */
     private Hakukone hakukone;
+    /** lista kortiston teoksista */
     private ArrayList<Teos> teokset;
+    /** lista kortiston lehdistä */
     private ArrayList<Lehti> lehdet;
+    /** lista kortiston kokoelmista */
     private ArrayList<String> kokoelmat;
     
     public Kortisto() {

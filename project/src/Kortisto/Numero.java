@@ -1,5 +1,6 @@
 
 /**
+ * Luokka yksittäiselle numerolle, joka sisältyy Lehden instanssina olevaan listaan.
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
@@ -10,8 +11,11 @@ import java.io.Serializable;
 
 public class Numero implements Serializable {
     
+    /** tunnus lehteen, johon numero kuuluu */
     private int ID;
+    /** lehden julkaisunumero */
     private int numero;
+    /** lehden julkaisuvuosi */
     private int vuosi;
     
     public Numero(int ID, int vuosi, int numero) {

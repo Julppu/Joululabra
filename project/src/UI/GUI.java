@@ -1,5 +1,7 @@
 
 /**
+ * Kortisto-ohjelmiston graafisen käyttöliittymän toteutusluokka. 
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
@@ -17,7 +19,9 @@ import javax.swing.JPanel;
 
 public class GUI implements Runnable {
     
+    /** Kortisto-luokan instanssi, jota käytetään tietojen säilyttämiseen */
     private Kortisto kortisto;
+    /** instanssi tiedostojen käsittelyä varten */
     private TiedostonKasittelija tiedKas;
     private JFrame mainFrame;
     private JPanel panel;

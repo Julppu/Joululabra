@@ -1,5 +1,6 @@
 
 /**
+ * Luokka lehdille, joka sisältää kaikki kyseisen instanssin numerot.
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
@@ -14,11 +15,17 @@ import java.util.Collections;
 
 public class Lehti implements Serializable {
     
+    /** lehden uniikki tunniste */
     private int ID;
+    /** lehden ISSN-tunnistenumero */
     private String ISSN;
+    /** lehden nimi */
     private String nimi;
+    /** lehden julkaisija */
     private String kustantaja;
+    /** lista lehden hakusanoista */
     private ArrayList<String> hakusanat;
+    /** lista lehden numeroista */
     private ArrayList<Numero> numerot;
     
     public Lehti(int ID, String ISSN, String nimi, String kustantaja) {

@@ -1,5 +1,7 @@
 
 /**
+ * Comparator-luokan toteuttava luokka teosten järjestämiseen niiden julkaisuvuoden mukaan. 
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */

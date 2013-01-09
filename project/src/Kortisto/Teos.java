@@ -1,5 +1,7 @@
 
 /**
+ * Luokka teoksille, joka sisältää teoksen tiedot ja siihen kuuluvat niteet.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
@@ -13,13 +15,21 @@ import java.util.Collections;
 
 public class Teos implements Serializable {
     
+    /** lista teokseen kuuluvista niteistä */
     private ArrayList<Nide> niteet;
+    /** lista teoksen hakusanoista */
     private ArrayList<String> hakusanat;
+    /** teoksen uniikki tunnisteluku */
     private int ID;
+    /** teoksen ISBN-tunnistenumero */
     private String ISBN;
+    /** teoksen nimi */
     private String nimi;
+    /** teoksen tekijä, jos toimitettu asetetaan "(toim)." */
     private String tekija;
+    /** teoksen painovuosi */
     private int vuosi;
+    /** teoksen kustantaja */
     private String kustantaja;
     
     public Teos(int ID, String ISBN, String nimi, String tekija, int vuosi, String kustantaja) {

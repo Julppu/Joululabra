@@ -1,5 +1,7 @@
 
 /**
+ * Luokka yksittäiselle niteelle, joka kuuluu yhden teoksen listaan.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
@@ -10,9 +12,13 @@ import java.io.Serializable;
 
 public class Nide implements Serializable {
     
+    /** teoksen tunnus, johon nide kuuluu */
     private int ID;
+    /** niteen uniikki viivakoodi */
     private String viivakoodi;
+    /** niteen laina-aika */
     private int lainaAika;
+    /** kokoelma, johon nide kuuluu */
     private String kokoelma;
     
     public Nide(int ID, String viivakoodi, int lainaAika, String kokoelma) {

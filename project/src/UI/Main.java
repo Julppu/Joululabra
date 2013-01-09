@@ -1,5 +1,7 @@
 
 /**
+ * Kirjakortiston ohjelmiston main-metodin luokka, joka ajetaan ohjelmiston käynnistyessä. Ohjelman argumentilla "-gui" käynnistetään graafinen käyttöliittymä, muussa tapauksessa tekstipohjainen käyttöliittymä.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */

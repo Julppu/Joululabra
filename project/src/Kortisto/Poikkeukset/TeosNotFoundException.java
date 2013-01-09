@@ -1,5 +1,7 @@
 
 /**
+ * Exception-luokan toteuttava poikkeus, joka annetaan kun teosta ei löydy kortistosta, esimerkiksi haun yhteydessä.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since 07012013
  */

@@ -1,5 +1,7 @@
 
 /**
+ * Luokka, jolla haetaan niteitä ja lehtiä metodien parametrinä saamasta kortistosta ja palautetaan haun mukainen tulos.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */

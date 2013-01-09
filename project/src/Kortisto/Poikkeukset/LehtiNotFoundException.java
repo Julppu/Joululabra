@@ -1,5 +1,7 @@
 
 /**
+ * Exception-luokan toteuttava poikkeusluokka, joka annetaan, jos lehteä ei löyty kortistosta esimerkiksi numeron lisäyksen tai etsimisen yhteydessä.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since 07012013
  */

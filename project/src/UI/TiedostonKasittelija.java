@@ -1,5 +1,7 @@
 
 /**
+ * Luokka kortiston tallentamista ja lukemista varten.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
@@ -17,8 +19,11 @@ import java.io.ObjectOutputStream;
 
 public class TiedostonKasittelija {
     
+    /** tiedosto, johon kortisto tallennetaan. oletuksena "kirjasto.dat".*/
     private File tiedosto;
+    /** kirjasto-olion lukemiseen käytetty syötevirran lukija */
     private ObjectInputStream sisaan;
+    /** olioiden kirjoittamiseen käytetty syötevirta */
     private ObjectOutputStream ulos;
     
     public TiedostonKasittelija(String tiedosto) 

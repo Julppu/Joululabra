@@ -1,5 +1,7 @@
 
 /**
+ * Comparator-luokan toteuttava luokka lehden numeroiden järjestämiseen, ensin vuoden ja sitten julkaisunumeron mukaan.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
