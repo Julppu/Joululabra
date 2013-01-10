@@ -28,6 +28,7 @@ public class TextUI {
     public TextUI() {
         scanner = new Scanner(System.in);
         kortisto = new Kortisto();
+        valikot = new TextUIValikot();
         try {
             tiedKas = new TiedostonKasittelija("kortisto.dat");
             kortisto = tiedKas.lueTiedosto();
@@ -106,28 +107,23 @@ public class TextUI {
     }
 
     /**
-     * Metodi kirjojen hakemiseen ISBN-numerolla. Mahdollisuus myös tulostaa kaikki
-     * sen niteet.
+     * Hakee yhden teoksen ISBN-numeron avulla ja tulostaa sen sekä sen niteet.
+     * 
+     * @see #haeKirja()
      */
     public void haeKirjaISBN() {
         Teos teos = haeKirja();
         if (teos == null)
             return;
-        System.out.println(teos);
+        System.out.println(" " + teos);
         for (Nide nide : teos.getNiteet())
             System.out.println("  " + nide);
-        System.out.print("\n Jos haluat tarkastella jonkin lehden numeroita, anna sen tunnus,\n"
-                + "tyhjällä palataan alkuun: ");
-        String id = scanner.nextLine();
-        if (id.isEmpty())
-            return;
-        else
-            haeNiteita(Integer.parseInt(id));
     }
 
     /**
      * Metodi niteiden hakemiseen teoksen perusteella. Hakee hakukoneen avulla
      * listan teoksen niteistä ja tulostaa ne.
+     * 
      * @param tunnus haettavan teoksen tunnus
      */
     public void haeNiteita(int tunnus) {
@@ -172,6 +168,7 @@ public class TextUI {
 
     /**
      * Hakee lehtiä nimen perusteella. Mahdollisuuten tulostaa lehtien numrot.
+     * 
      * @return lehti muokattava lehti 
      */
     public void haeLehtiaNimella() {
@@ -197,6 +194,7 @@ public class TextUI {
 
     /**
      * Hakee tiettyä numeroa lehden numeroiden listasta ja tulostaa sen.
+     * 
      * @param tunnus haettavan lehden tunnus
      */
     public void haeNumeroita(int tunnus) {
@@ -214,6 +212,8 @@ public class TextUI {
             System.out.println("Haluttu numero löytyi.");
             System.out.println("\nSyötä uuden numeron tiedot tai tyhjä, jos haluta lopettaa.");
             tiedot = scanner.nextLine();
+            if (tiedot.isEmpty())
+                return;
         }
     }
 
@@ -245,7 +245,9 @@ public class TextUI {
     }
 
     /**
-     * Lisää kortistoon uuden niteen joko kirjan tunnuksen tai ISBN-numeron kautta. 
+     * Lisää kortistoon uuden niteen hakemalla teoksen ISBN-numerolla.
+     * 
+     * @see #haeKirja()
      */
     public void lisaaNide() {
         Teos teos = haeKirja();
@@ -257,12 +259,26 @@ public class TextUI {
         System.out.println("\nNide lisätty.");
     }
 
+    /**
+     * Hakee kortistosta teoksen ISBN-numerolla ja poistaa sen.
+     * 
+     * @see #haeKirja( )
+     */
     public void poistaKirja() {
         Teos teos = haeKirja();
+        if (teos == null)
+            return;
         kortisto.poistaTeos(teos.getID());
         System.out.println("\nKirja poistettu.");
     }
 
+    /**
+     * Poistaa niteen kortistosta hakemalla ensin teoksen ISBN-numerolla, tulostaa ne ja antaa
+     * käyttäjän valita poistettava nide.
+     * 
+     * @see #haeKirja( )
+     * @see Kortisto.Kortisto#poistaNide(int, String)
+     */
     public void poistaNide() {
         Teos teos = haeKirja();
         if (teos == null)
@@ -283,27 +299,51 @@ public class TextUI {
         System.out.println("\nNide poistettu.");
     }
     
+    /**
+     * Muokkaa teoksen muutettavia kenttiä switch-case rakenteella kunnes käyttäjä antaa
+     * toistorakenteen katkaisevan syötteen.
+     */
     public void muokkaaKirjaa() {
         Teos teos = haeKirja();
         valikot.yhdenKirjanMuokkausValikko();
+        String muutos;
         System.out.print("Anna valintasi: ");
         int valinta = Integer.parseInt(scanner.nextLine());
         while (valinta != 0) {
             switch (valinta) {
                 case 1:
-                    
+                    System.out.print("\nAnna uusi nimi: ");
+                    muutos = scanner.nextLine();
+                    kortisto.getTeosTunnuksella(teos.getID()).setNimi(muutos);
+                    break;
                 case 2:
-                    
+                    System.out.print("\nAnna uusi tekijä: ");
+                    muutos = scanner.nextLine();
+                    kortisto.getTeosTunnuksella(teos.getID()).setTekija(muutos);
+                    break;
                 case 3:
-                    
+                    System.out.print("\nAnna uusi kustantaja: ");
+                    muutos = scanner.nextLine();
+                    kortisto.getTeosTunnuksella(teos.getID()).setKustantaja(muutos);
+                    break;
                 case 4:
-                    
+                    System.out.print("\nAnna uusi julkaisuvuosi: ");
+                    muutos = scanner.nextLine();
+                    kortisto.getTeosTunnuksella(teos.getID()).setVuosi(Integer.parseInt(muutos));
+                    break;
                 case 5:
-                    
+                    System.out.print("\nAnna uusi hakusana: ");
+                    muutos = scanner.nextLine();
+                    kortisto.getTeosTunnuksella(teos.getID()).lisaaHakusana(muutos);
+                    break;
+                case 6:
+                    System.out.print("\nAnna poistettava hakusana: ");
+                    muutos = scanner.nextLine();
+                    kortisto.getTeosTunnuksella(teos.getID()).poistaHakusana(muutos;
                 case 0:
                     return;
                 default:
-                    System.out.println("Väärä valinta, kokeile uudestaan.");
+                    System.out.println("\nVäärä valinta, kokeile uudestaan.");
                     break;
             }
             valikot.yhdenKirjanMuokkausValikko();
@@ -313,30 +353,102 @@ public class TextUI {
         System.out.println("\nPalataan valikkoon.");
     }
     
-    public void vaihdaNiteenViivakoodi() {
-        System.out.print("\nAnna muokattavan niteen viivakoodi: ");
-        String viivakoodi = scanner.nextLine();
-        System.out.print("Anna uusi viivakoodi: ");
-        String uusiViivakoodi = scanner.nextLine();
-        kortisto.getHakukone().haeNideViivakoodilla(kortisto, viivakoodi).setViivakoodi(uusiViivakoodi);
-        System.out.println("\nViivakoodi vaihdettu.");
-    }
-
+    /**
+     * Luo uuden lehden käyttäjän antamista syötteistä ja lisää sen kortistoon.
+     */
     public void lisaaLehti() {
-        System.out.println("");
-    }
-
-    public void lisaaNumero() {
-        System.out.println("");
-    }
-
-    public void muokkaaLehtea() {
-        System.out.println("");
+        System.out.print("\nLehden ISSN: ");
+        String issn = scanner.nextLine();
+        System.out.print("Nimi: ");
+        String nimi = scanner.nextLine();
+        System.out.print("Kustantaja: ");
+        String kustantaja = scanner.nextLine();
+        kortisto.lisaaLehti(issn, nimi, kustantaja);
+        System.out.println("\nLehti lisätty.");
     }
     
     /**
-     * Hakee kirjan sen ISBN-numeron perusteella ja palauttaa sen tai null,
-     * jos ei löydy.
+     * Lisää uuden numeron ISBN-numerolla haettavaan lehteen.
+     */
+    public void lisaaNumero() {
+        Lehti lehti = haeLehti();
+        if (lehti == null)
+            return;
+        System.out.print("Anna lisättävän numeron julkaisuvuosi ja -numero välilyönnillä\nerotettuna: ");
+        String tiedot = scanner.nextLine();
+        String[] tietotaulu = tiedot.split(tiedot);
+        kortisto.lisaaNumero(lehti.getID(), Integer.parseInt(tietotaulu[0]), Integer.parseInt(tietotaulu[1]));
+        System.out.println("\nNumero lisätty.");
+    }
+
+    public void poistaNumero() {
+        Lehti lehti = haeLehti();
+        if (lehti == null)
+            return;
+        System.out.print("\nAnna poistettavan numeron julkaisuvuosi ja -numero välilyönnillä\nerotettuna:");
+        String tiedot = scanner.nextLine();
+        String[] tietotaulu = tiedot.split(tiedot);
+        kortisto.poistaNumero(lehti.getID(), Integer.parseInt(tietotaulu[0]), Integer.parseInt(tietotaulu[1]));
+        System.out.println("\nNumero poistettu.");
+    }
+
+    /**
+     * Muokkaa kortistossa olevaa lehteä kunnes käyttäjä antaa toistorakenteen päättävän syötteen.
+     */
+    public void muokkaaLehtea() {
+        Lehti lehti = haeLehti();
+        if (lehti == null)
+            return;
+        valikot.lehdenMuokkausValikko();
+        String muutos;
+        System.out.println(lehti);
+        System.out.print("\nValitse muokkauskohde: ");
+        int valinta = Integer.parseInt(scanner.nextLine());
+        while (valinta != 0) {
+            switch (valinta) {
+                case 1:
+                    System.out.print("Anna uusi ISSN: ");
+                    muutos = scanner.nextLine();
+                    kortisto.haeLehtiTunnuksella(lehti.getID()).setISSN();
+                    break;
+                case 2:
+                    System.out.print("Anna uusi nimi: ");
+                    muutos = scanner.nextLine();
+                    kortisto.haeLehtiTunnuksella(lehti.getID()).setNimi(muutos);
+                    break;
+                case 3:
+                    System.out.print("Anna uusi kustantaja: ");
+                    muutos = scanner.nextLine();
+                    kortisto.haeLehtiTunnuksella(lehti.getID()).setKustantaja(muutos);
+                    break;
+                case 4:
+                    System.out.print("Anna lisättävä hakusana: ");
+                    muutos = scanner.nextLine();
+                    kortisto.haeLehtiTunnuksella(lehti.getID()).lisaaHakusana(muutos);
+                    break;
+                case 5:
+                    System.out.print("Anna poistettava hakusana: ");
+                    muutos = scanner.nextLine();
+                    kortisto.haeLehtiTunnuksella(lehti.getID()).poistaHakusana(muutos);
+                    break;
+                case 6:
+                    tallennaKortisto();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.print("Huono syöte, anna uudestaan.");
+            }
+            valikot.lehdenMuokkausValikko();
+            System.out.print("Anna seuraava valinta: ");
+            valinta = Integer.parseInt(scanner.nextLine());
+        }
+    }
+    
+    /**
+     * Yleiskäyttöinen metodi, joka hakee kutsuvalle metodille kirjan sen ISBN-numeron perusteella 
+     * ja palauttaa sen tai null, jos ei löydy.
+     * 
      * @return haettu teos.
      */
     public Teos haeKirja() {
@@ -344,7 +456,24 @@ public class TextUI {
         String isbn = scanner.nextLine();
         Teos teos = kortisto.getHakukone().haeTeosISBN(kortisto, isbn);
         if (teos == null) {
-            System.out.println("Teosta ei löytynyt, palataan.");
+            System.out.println("Teosta ei löytynyt, palataan.\n");
+            return teos;
+        }
+        return teos;
+    }
+    
+    /**
+     * Yleiskäyttöinen metodi, joka hakee kutsuvalle metodille lehden sen ISSN-numeron perusteella
+     * ja palautta sen tai null, jos ei löydy.
+     * 
+     * @return haettu lehti.
+     */
+    public Lehti haeLehti() {
+        System.out.print("\nAnna haettavan lehden ISSN: ");
+        String issn = scanner.nextLine();
+        Lehti lehti = kortisto.getHakukone().haeLehtiISSN(kortisto, issn);
+        if (lehti == null) {
+            System.out.println("Lehteä ei löytynyt, palataan.\n");
             return teos;
         }
         return teos;
@@ -352,6 +481,8 @@ public class TextUI {
     
     /**
      * Kirjoittaa kortisto-instanssin senhetkiseen tiedostoon.
+     *
+     * @see UI.TiedostonKasittelija#kirjoitaTiedosto()
      */
     public void kirjoitaKortisto() {
         try {
@@ -382,7 +513,7 @@ public class TextUI {
     
     /**
      * Toiminnon valinta päävalikossa oleville toiminnoille ohjaamalla alavalikkoon.
-     * Poikkeuksina valinta 2, joka suorittaa suoraan metodin haeLehtiaNimella()
+     * Poikkeuksina tähän valinta 2, joka suorittaa suoraan metodin haeLehtiaNimella()
      * sekä valinta 5, joka kirjoittaa kortiston sen hetkiseen tiedostoon.
      */
     public void aloitusValinta() {
@@ -391,7 +522,7 @@ public class TextUI {
         while (valinta != 0) {
             switch (valinta) {
                 case 1:
-                    kirjat();
+                    kirjaValinta();
                     break;
                 case 2:
                     haeLehtiaNimella();
@@ -400,7 +531,7 @@ public class TextUI {
                     muokkaaKirjoja();
                     break;
                 case 4:
-                    muokkaaLehtia();
+                    muokkaaLehtiaValinta();
                     break;
                 case 5:
                     kirjoitaKortisto();
@@ -420,7 +551,7 @@ public class TextUI {
     /**
      * Toiminnan valinta kirjojen hakuvalikolle, joka ohjaa haluttuun hakumetodiin.
      */
-    public void kirjat() {
+    public void kirjaValinta() {
         valikot.kirjaValikko();
         int valinta = Integer.parseInt(scanner.nextLine());
         while (valinta != 0) {
@@ -487,7 +618,7 @@ public class TextUI {
     /**
      * Toiminnan valinta lehtien muokkausvalikolle, joka ohjaa haluttuun muokkausmetodiin.
      */
-    public void muokkaaLehtia() {
+    public void muokkaaLehtiaValinta() {
         valikot.lehtiMuokkausValikko();
         int valinta = Integer.parseInt(scanner.nextLine());
         while (valinta != 0) {
@@ -501,7 +632,13 @@ public class TextUI {
                 case 3:
                     muokkaaLehtea();
                     break;
+                case 4:
+                    poistaLehti();
+                    break;
                 case 5:
+                    poistaNumero();
+                    break;
+                case 6:
                     kirjoitaKortisto();
                     break;
                 case 0:
