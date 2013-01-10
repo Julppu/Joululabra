@@ -10,7 +10,7 @@ package Kortisto;
 
 import java.io.Serializable;
 
-public class Nide {
+public class Nide implements Serializable {
     
     /** teoksen tunnus, johon nide kuuluu */
     private int ID;

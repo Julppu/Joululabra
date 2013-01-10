@@ -115,8 +115,8 @@ public class KortistoTest {
         assertEquals(kortisto.getLehdet().size(), pituus + 1);
     }
     
-    @Test  (expected=LehtiNotFoundException.class)
-    public void testLisaaOlemassaolevaLehti() throws LehtiNotFoundException {
+    @Test  (expected=LehtiFoundException.class)
+    public void testLisaaOlemassaolevaLehti() throws LehtiFoundException {
         kortisto.lisaaLehti("0003", "Helsingin sanomat", "Sanoma");
     }
 

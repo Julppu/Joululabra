@@ -21,9 +21,9 @@ public class TiedostonKasittelija {
     
     /** tiedosto, johon kortisto tallennetaan. oletuksena "kirjasto.dat".*/
     private File tiedosto;
-    /** kirjasto-olion lukemiseen käytetty syötevirran lukija */
+    /** kirjasto-olion lukemiseen käytetty syötevirran lukija. */
     private ObjectInputStream sisaan;
-    /** olioiden kirjoittamiseen käytetty syötevirta */
+    /** olioiden kirjoittamiseen käytetty syötevirta. */
     private ObjectOutputStream ulos;
     
     public TiedostonKasittelija(String tiedosto) 
@@ -51,8 +51,6 @@ public class TiedostonKasittelija {
             throws ClassNotFoundException, IOException {
         Kortisto kortisto = new Kortisto();
         try {
-            if (this.tiedosto.length() == 0)
-                return new Kortisto();
             kortisto = (Kortisto) sisaan.readObject();
         } catch (FileNotFoundException ex) {
             tiedosto.createNewFile();
@@ -80,7 +78,8 @@ public class TiedostonKasittelija {
     }
     
     /**
-     * Kirjoittaa kortiston tiedostoon oliomuodossa.
+     * Kirjoittaa kortiston tiedostoon oliomuodossa luokan instanssina olevaan
+     * tiedostoon.
      * 
      * @param kortisto tallennettava kortisto
      * @throws IOException 

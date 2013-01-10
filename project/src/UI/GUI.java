@@ -4,6 +4,7 @@
  * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
+ * @deprecated 10012013
  */
 
 package UI;

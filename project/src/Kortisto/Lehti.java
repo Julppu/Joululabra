@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Lehti {
+public class Lehti implements Serializable {
     
     /** lehden uniikki tunniste */
     private int ID;
@@ -33,8 +33,8 @@ public class Lehti {
         this.ISSN = ISSN;
         this.nimi = nimi;
         this.kustantaja = kustantaja;
-        this.numerot = new ArrayList();
-        this.hakusanat = new ArrayList();
+        this.numerot = new ArrayList<Numero>();
+        this.hakusanat = new ArrayList<String>();
     } 
     
     /**

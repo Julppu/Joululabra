@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Kortisto {
+public class Kortisto implements Serializable {
     
     /** laskuri kirjan tunnistenumeroille, jota teoksen lisäys kasvattaa.  */
     private static int kirjaID;
@@ -33,9 +33,9 @@ public class Kortisto {
     private ArrayList<String> kokoelmat;
     
     public Kortisto() {
-        teokset = new ArrayList();
-        lehdet = new ArrayList();
-        kokoelmat = new ArrayList();
+        teokset = new ArrayList<Teos>();
+        lehdet = new ArrayList<Lehti>();
+        kokoelmat = new ArrayList<String>();
         hakukone = new Hakukone();
         kirjaID = 1;
         lehtiID = 1;
@@ -139,13 +139,13 @@ public class Kortisto {
      * @see   Kortisto.Lehti
      */
     public void lisaaLehti(String ISSN, String nimi, String kustantaja)
-            throws LehtiNotFoundException {
+            throws LehtiFoundException {
         if (hakukone.haeLehtiISSN(this, ISSN) == null) {
             lehdet.add(new Lehti(lehtiID++, ISSN, nimi, kustantaja));
             Collections.sort(lehdet, new LehdetNimiJarjestykseenComparator());
         }
         else
-            throw new LehtiNotFoundException("Lehti on jo kortistossa, ei lisätty.");
+            throw new LehtiFoundException("Lehti on jo kortistossa, ei lisätty.");
     }
     
     /**

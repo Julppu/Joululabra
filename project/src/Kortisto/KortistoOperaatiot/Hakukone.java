@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Hakukone {
+public class Hakukone implements Serializable {
     
     /**
      * Hakee kortistosta yhden teoksen sen tunnuksen perusteella ja palauttaa
@@ -58,10 +58,11 @@ public class Hakukone {
      * @return         lista teoksista tai tyhjä lista.
      */
     public ArrayList<Teos> haeTeoksiaNimella(Kortisto kortisto, String nimi) {
-        ArrayList<Teos> teokset = new ArrayList();
+        ArrayList<Teos> teokset = new ArrayList<Teos>();
         for (Teos teos: kortisto.getTeokset())
             if (teos.getNimi().toLowerCase().contains(nimi.toLowerCase()))
                 teokset.add(teos);
+        Collections.sort(teokset, new TeoksetNimiJarjestykseenComparator());
         return teokset;
     }
     
@@ -74,10 +75,11 @@ public class Hakukone {
      * @return         lista teoksista
      */
     public ArrayList<Teos> haeTeoksiaTekijalla(Kortisto kortisto, String tekija) {
-        ArrayList<Teos> teokset = new ArrayList();
+        ArrayList<Teos> teokset = new ArrayList<Teos>();
         for (Teos teos: kortisto.getTeokset())
             if (teos.getTekija().toLowerCase().contains(tekija.toLowerCase()))
                 teokset.add(teos);
+        Collections.sort(teokset, new TeoksetNimiJarjestykseenComparator());
         return teokset;
     }
     
@@ -136,18 +138,18 @@ public class Hakukone {
      * @return         lista lehdistä
      */
     public ArrayList<Lehti> haeLehtiaNimella(Kortisto kortisto, String nimi) {
-        ArrayList<Lehti> lehdet = new ArrayList();
+        ArrayList<Lehti> lehdet = new ArrayList<Lehti>();
         for (Lehti lehti: kortisto.getLehdet())
             if (lehti.getNimi().toLowerCase().contains(nimi.toLowerCase()))
                 lehdet.add(lehti);
+        Collections.sort(lehdet, new LehdetNimiJarjestykseenComparator());
         return lehdet;
     }
     
     public Numero haeNumero(Kortisto kortisto, int ID, int vuosi, int numero) {
-        for (Numero lehdenNumero: haeLehtiTunnuksella(kortisto, ID).getNumerot()) {
+        for (Numero lehdenNumero: haeLehtiTunnuksella(kortisto, ID).getNumerot())
             if (lehdenNumero.getNumero() == numero && lehdenNumero.getVuosi() == vuosi)
                 return lehdenNumero;
-        }
         return null;
     }
     
@@ -160,7 +162,7 @@ public class Hakukone {
      * @return         lista niteistä
      */
     public ArrayList<Nide> haeKokoelmanNiteet(Kortisto kortisto, String kokoelma) {
-        ArrayList<Nide> niteet = new ArrayList();
+        ArrayList<Nide> niteet = new ArrayList<Nide>();
         for (Teos teos: kortisto.getTeokset())
             for (Nide nide: teos.getNiteet())
                 if (nide.getKokoelma().equalsIgnoreCase(kokoelma))
