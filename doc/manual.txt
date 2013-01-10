@@ -1,0 +1,5 @@
+
+ Käyttöohje
+ ==========
+ 
+ Kirjakortistoa käytetään navigoimalla tekstipohjaisessa käyttöliittymässä valikosta toiseen. Komennot annetaan numerosyötteinä, joista "0" on aina paluu edelliseen valikkoon. Kun käyttöliittymässä päästään valikosta joko muokkaamaan kortistoa tai tekemään hakua pyydetään käyttäjää syöttämään haluttu kenttä tekstinä tai lukuina tarpeen mukaan.
