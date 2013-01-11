@@ -9,9 +9,10 @@
 package Kortisto.KortistoOperaatiot;
 
 import Kortisto.Teos;
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class TeoksetNimiJarjestykseenComparator implements Comparator<Teos> {
+public class TeoksetNimiJarjestykseenComparator implements Comparator<Teos>, Serializable {
 
     @Override
     public int compare(Teos t1, Teos t2) {

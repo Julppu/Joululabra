@@ -59,4 +59,9 @@ public class Numero implements Serializable {
     public int getVuosi() {
         return vuosi;
     }
+    
+    @Override
+    public String toString() {
+        return vuosi + "/#" + numero;
+    }
 }

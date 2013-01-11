@@ -40,7 +40,7 @@ public class TiedostonKasittelija {
             sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
         } catch (FileNotFoundException ex) {
             this.tiedosto.createNewFile();
-        } 
+        }
     }
     
     /**
@@ -58,9 +58,7 @@ public class TiedostonKasittelija {
             kortisto = (Kortisto) sisaan.readObject();
         } catch (FileNotFoundException ex) {
             tiedosto.createNewFile();
-        } catch (EOFException eofex) {
-            sisaan.close();
-        }
+        } catch (EOFException eofex) {}
         return kortisto;
     }
     

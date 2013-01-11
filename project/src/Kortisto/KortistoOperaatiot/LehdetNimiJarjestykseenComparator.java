@@ -9,9 +9,10 @@
 package Kortisto.KortistoOperaatiot;
 
 import Kortisto.Lehti;
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class LehdetNimiJarjestykseenComparator implements Comparator<Lehti> {
+public class LehdetNimiJarjestykseenComparator implements Comparator<Lehti>, Serializable {
 
     @Override
     public int compare(Lehti l1, Lehti l2) {

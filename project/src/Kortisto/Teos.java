@@ -214,6 +214,7 @@ public class Teos implements Serializable {
      */
     @Override
     public String toString() {
-        return ISBN + ": " + nimi + ", " + tekija + ", " + vuosi + ". Tunnus " + ID + ", niteitä " + niteet.size();
+        return "ISBN " + ISBN + ": " + nimi + ", " + tekija + ", " + vuosi +
+                ". Tunnus " + ID + ", niteitä " + niteet.size();
     }
 }

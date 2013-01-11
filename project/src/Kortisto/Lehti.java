@@ -1,6 +1,7 @@
 
 /**
  * Luokka lehdille, joka sisältää kaikki kyseisen instanssin numerot.
+ * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
@@ -181,5 +182,11 @@ public class Lehti implements Serializable {
      */
     public void setKustantaja(String kustantaja) {
         this.kustantaja = kustantaja;
+    }
+    
+    @Override
+    public String toString() {
+        return "ISSN " + ISSN + ": " + nimi + ", " + kustantaja +
+                ". Tunnus " + ID + ", Numeroita luettelossa " + numerot.size();
     }
 }

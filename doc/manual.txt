@@ -3,3 +3,17 @@
  ==========
  
  Kirjakortistoa käytetään navigoimalla tekstipohjaisessa käyttöliittymässä valikosta toiseen. Komennot annetaan numerosyötteinä, joista "0" on aina paluu edelliseen valikkoon. Kun käyttöliittymässä päästään valikosta joko muokkaamaan kortistoa tai tekemään hakua pyydetään käyttäjää syöttämään haluttu kenttä tekstinä tai lukuina tarpeen mukaan.
+
+ Kirjojen ja lehtien haut:
+ Kirjojen ja lehtien haku kortistosta tehdään kirjoilla ISBN-numerolla (takakannessa) ja lehdillä ISSN-numerolla (taka- tai sisäkannessa). Yksittäistä nidettä voi hakea viivakoodilla. Lisäksi kirjoja voi hakea nimen, tekijän tai kustannusvuoden mukaan ja lehtiä nimen mukaan. Ohjelma listaa kaikki hakuun täsmäävät teokset.
+
+ Aineiston lisäys:
+ Ohjelmalle syötetään sen pyytämät kentät, jolloin se lisää teoksen kortistoon, ellei se ole jo siellä. Olemassaoleviin kirjoihin voi lisätä niteitä samalla tavalla, syöttämällä ohjelmalle tarvittavat kentät. Lehdille voi lisätä vastaavasti julkaistuja numeroita.
+
+ Aineiston muokkaus:
+ Kortistossa olevaa aineistoa voidaan muokata lisäyksen jälkeenkin muun toiminnallisuuden tapaan antamalla syötteenä muokattavan teoksen tiedot ja sen jälkeen uudet kentät. Viivakoodia ja aineistojen tunnistenumeroita ei pääse muuttamaan järjestelmän ylläpidollisista syistä.
+
+ Kortiston tallennus:
+ Kortisto tallennetaan ohjelmaa sulkiessa "kortisto.dat"-tiedostoon, josta se myös luetaan käynnistäessä. Käyttäjä voi vaihtaa suoritusajan käytössä olevaa tiedostoa suoraan lukemalla kortiston siitä tai kirjoittamalla kortiston siihen.
+
+ 

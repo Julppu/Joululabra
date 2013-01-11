@@ -4,6 +4,7 @@ import Kortisto.Kortisto;
 import Kortisto.Poikkeukset.LehtiFoundException;
 import Kortisto.Poikkeukset.LehtiNotFoundException;
 import Kortisto.Poikkeukset.TeosFoundException;
+import java.io.File;
 import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
@@ -44,10 +45,11 @@ public class TiedostonKasittelijaTest {
         } catch (LehtiNotFoundException lnex) {}
         try {
             tiedKas = new TiedostonKasittelija("testi.dat");
-        } catch (Exception ioex) { 
-            if (ioex.getClass().equals(IOException.class))
-                ioex.printStackTrace();
-        } //
+        } catch (IOException ioex) { 
+            ioex.printStackTrace();
+        } catch (ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+        }
     }
 
     @After
@@ -61,13 +63,10 @@ public class TiedostonKasittelijaTest {
      */
     @Test
     public void testLueTiedosto() throws Exception {
-        boolean test = false;
         tiedKas.kirjoitaTiedosto(kortisto);
         kortisto = null;
         Kortisto uusiKortisto = tiedKas.lueTiedosto();
-        if (uusiKortisto.getKokoelmat().contains("testikokoelma"))
-            test = true;
-        assertTrue(test);
+        assertTrue(uusiKortisto.getKokoelmat().contains("testikokoelma"));
     }
 
     @Test
@@ -79,5 +78,31 @@ public class TiedostonKasittelijaTest {
     @Test
     public void testKirjoitaUusiTiedosto() throws Exception {
         tiedKas.kirjoitaUusiTiedosto(kortisto, "kortisto.dat");
+        Kortisto uusiKortisto = tiedKas.lueTiedosto();
+        assertTrue(uusiKortisto.getKokoelmat().contains("testikokoelma"));
+    }
+    
+    @Test
+    public void testLueTiedostoMontaKertaa() throws Exception {
+        tiedKas.kirjoitaTiedosto(kortisto);
+        kortisto = tiedKas.lueTiedosto();
+        Kortisto uusiKortisto = tiedKas.lueTiedosto();
+        Kortisto uudempiKortisto = tiedKas.lueTiedosto();
+        assertEquals(uusiKortisto.getKokoelmat().contains("testikokoelma"),
+                uudempiKortisto.getKokoelmat().contains("lyhytlainat"));
+    }
+    
+    @Test
+    public void testKirjoitaUusiTiedostoMontaKertaa() throws Exception {
+        for (int i = 0; i < 10; i++)
+            tiedKas.kirjoitaUusiTiedosto(kortisto, "testi" + i + ".dat");
+    }
+        
+    @Test
+    public void testLueUusiTiedostoMontaKertaa() throws Exception {
+        for (int i = 0; i < 10; i++)
+            tiedKas.kirjoitaUusiTiedosto(kortisto, "testi" + i + ".dat");
+        for (int i = 0; i < 10; i++)
+            kortisto = tiedKas.lueUusiTiedosto("testi" + i + ".dat");
     }
 }

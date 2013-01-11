@@ -67,6 +67,8 @@ public class Kortisto implements Serializable {
      * Poistaa teoksen listasta haettuaan sen tunnuksen perusteella.
      * 
      * @param ID teoksen tunnusluku
+     * @throws TeosNotFoundException jos teosta ei löydy
+     * @see #getTeosTunnuksella(int)
      */
     public void poistaTeos(int ID) throws TeosNotFoundException {
         teokset.remove(getTeosTunnuksella(ID));

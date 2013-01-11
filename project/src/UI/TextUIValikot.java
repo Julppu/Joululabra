@@ -41,7 +41,7 @@ public class TextUIValikot {
         System.out.println("* 3. Hae ISBN-numerolla");
         System.out.println("* 4. Hae nide viivakoodilla");
         System.out.println("* 5. Listaa kokoelman niteet");
-        System.out.println("* 0. Lopeta");
+        System.out.println("* 0. Paluu");
     }
 
     /**

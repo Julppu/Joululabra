@@ -10,9 +10,10 @@
 package Kortisto.KortistoOperaatiot;
 
 import Kortisto.Numero;
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class NumerotJarjestykseenComparator implements Comparator<Numero> {
+public class NumerotJarjestykseenComparator implements Comparator<Numero>, Serializable {
 
     @Override
     public int compare(Numero n1, Numero n2) {
