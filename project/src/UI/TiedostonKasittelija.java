@@ -35,7 +35,7 @@ public class TiedostonKasittelija {
         sisaan = null;
         ulos = null;
         try {
-            ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto));
+            ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto, false));
             ulos.flush();
             sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
         } catch (FileNotFoundException ex) {

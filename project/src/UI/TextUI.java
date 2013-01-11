@@ -48,6 +48,9 @@ public class TextUI {
                 + " numero halutun operaation mukaan.\n");
         valikot.paaValikko();
         aloitusValinta();
+        try {
+            tiedKas.kirjoitaTiedosto(kortisto);
+        } catch (IOException ioe) { }
         System.out.println("\nKiitos kortiston käytöstä!");
     }
 
@@ -79,7 +82,7 @@ public class TextUI {
             try {
                 haeNiteita(Integer.parseInt(id));
             } catch (NumberFormatException nfe) {
-                System.out.println("Et antanut numeroa, palataan takaisin.");
+                System.out.println("\nEt antanut numeroa, palataan takaisin.");
             }
         }
     }
@@ -467,8 +470,9 @@ public class TextUI {
             System.out.println("Lehteä ei löytynyt, palataan.");
             return;
         }
-        System.out.println("\nAnna ensin lisättävän numeron julkaisuvuosi ja sen jälkeen -numero: ");
+        System.out.print("\nAnna vuosi: ");
         int vuosi = lukija.lueInt();
+        System.out.print("Anna numero: ");
         int numero = lukija.lueInt();
         try {
             kortisto.lisaaNumero(lehti.getID(), vuosi, numero);
@@ -489,8 +493,9 @@ public class TextUI {
         Lehti lehti = haeLehti();
         if (lehti == null)
             return;
-        System.out.println("\nAnna ensin poistettavan numeron julkaisuvuosi ja sitten -numero:");
+        System.out.print("\nAnna vuosi: ");
         int vuosi = lukija.lueInt();
+        System.out.println("Anna numero:");
         int numero = lukija.lueInt();
         try {
             kortisto.poistaNumero(lehti.getID(), vuosi, numero);

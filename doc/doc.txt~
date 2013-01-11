@@ -20,5 +20,5 @@
  * Tietueiden muuttaminen
  * Kortiston kirjoittaminen valinnaiseen tiedostoon
  * Kortiston lukeminen valinnaisesta tiedostosta
-   - toimii osittain (yksikkötestit)
+   - toimii osittain
  * Kortistosta haku
