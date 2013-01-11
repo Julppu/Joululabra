@@ -1,3 +1,13 @@
+package Kortisto.KortistoOperaatiot;
+
+import Kortisto.Kortisto;
+import Kortisto.Lehti;
+import Kortisto.Nide;
+import Kortisto.Numero;
+import Kortisto.Teos;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Luokka, jolla haetaan niteitä ja lehtiä metodien parametrinä saamasta kortistosta ja palautetaan haun mukainen tulos.
@@ -5,18 +15,6 @@
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
-
-package Kortisto.KortistoOperaatiot;
-
-import Kortisto.Kortisto;
-import Kortisto.Lehti;
-import Kortisto.Nide;
-import Kortisto.Numero;
-import Kortisto.Poikkeukset.NideNotFoundException;
-import Kortisto.Teos;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class Hakukone implements Serializable {
     

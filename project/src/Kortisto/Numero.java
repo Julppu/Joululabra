@@ -1,13 +1,12 @@
+package Kortisto;
+
+import java.io.Serializable;
 
 /**
  * Luokka yksittäiselle numerolle, joka sisältyy Lehden instanssina olevaan listaan.
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
-
-package Kortisto;
-
-import java.io.Serializable;
 
 public class Numero implements Serializable {
     
@@ -18,6 +17,13 @@ public class Numero implements Serializable {
     /** lehden julkaisuvuosi. */
     private int vuosi;
     
+    /**
+     * Alustaa lehden numeron parametreina saamillaan arvoilla.
+     * 
+     * @param ID emälehden tunnusluku
+     * @param vuosi numeron julkaisuvuosi
+     * @param numero numeron julkaisunumero
+     */
     public Numero(int ID, int vuosi, int numero) {
         this.ID = ID;
         this.numero = numero;

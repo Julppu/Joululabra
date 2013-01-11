@@ -1,12 +1,4 @@
 
-/**
- * Kortisto-ohjelmiston graafisen käyttöliittymän toteutusluokka. 
- * 
- * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
- * @since  06012013
- * @deprecated 10012013
- */
-
 package UI;
 
 import Kortisto.Kortisto;
@@ -17,6 +9,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+/**
+ * Kortisto-ohjelmiston graafisen käyttöliittymän toteutusluokka. 
+ * 
+ * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
+ * @since  06012013
+ * @deprecated 10012013
+ */
 
 public class GUI implements Runnable {
     

@@ -4,8 +4,6 @@ import Kortisto.Kortisto;
 import Kortisto.Poikkeukset.LehtiFoundException;
 import Kortisto.Poikkeukset.LehtiNotFoundException;
 import Kortisto.Poikkeukset.TeosFoundException;
-import java.io.EOFException;
-import java.io.File;
 import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
@@ -63,7 +61,7 @@ public class TiedostonKasittelijaTest {
 
     @Test
     public void testKirjoitaUusiTiedosto() throws Exception {
-        tiedKas.kirjoitaUusiTiedosto(kortisto, "kortisto.dat");
+        tiedKas.kirjoitaUusiTiedosto(kortisto, "testikortisto.dat");
         Kortisto uusiKortisto = tiedKas.lueTiedosto();
         assertTrue(uusiKortisto.getKokoelmat().contains("testikokoelma"));
     }

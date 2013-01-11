@@ -8,4 +8,4 @@
 
  Toinen bugi ilmeni tiedostonkäsittelystä vastaavan TiedostonKasittelija-luokan alustuksessa. Sen olioiden kirjoittamiseen käyttämien ObjectOutputStream- ja ObjectInputStream-luokkien konstruktoreiden välillä oli ongelma, joka johtui ObjectOutputStreamista. Ongelma saatiin ratkaistua  alustamalla ensin ObjectOutputStream, tyhjentämällä se (flush()-metodi) ja vasta sen jälkeen alustamalla ObjectInputStream.
 
- Ainoa toimimaton ominaisuus on tiedostonkäsittelyssä. Yksikkötesteissä lukeminen ja kirjoittaminen onnistuu, mutta ohjelman suorituksessa joko lukeminen tai kirjoittaminen epäonnistuu. Todennäköisesti lukeminen, sillä kirjoittaessa tiedostoon ei tule virheitä.
+ Ainoa toimimaton ominaisuus on tiedostonkäsittelyssä. Yksikkötesteissä lukeminen ja kirjoittaminen onnistuu, mutta ohjelman suorituksessa joko lukeminen tai kirjoittaminen epäonnistuu. Todennäköisesti lukeminen, sillä kirjoittaessa tiedostoon ei tule virheitä. (Myös tämä on nyt korjattu).

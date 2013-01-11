@@ -1,11 +1,3 @@
-
-/**
- * Luokka lehdille, joka sisältää kaikki kyseisen instanssin numerot.
- * 
- * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
- * @since  06012013
- */
-
 package Kortisto;
 
 import Kortisto.KortistoOperaatiot.NumerotJarjestykseenComparator;
@@ -13,6 +5,13 @@ import Kortisto.Poikkeukset.NumeroNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+
+/**
+ * Luokka lehdille, joka sisältää kaikki kyseisen instanssin numerot.
+ * 
+ * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
+ * @since  06012013
+ */
 
 public class Lehti implements Serializable {
     
@@ -29,6 +28,14 @@ public class Lehti implements Serializable {
     /** lista lehden numeroista. */
     private ArrayList<Numero> numerot;
     
+    /**
+     * Alustaa lehden tarvittavat kentät parametreina saamistaan arvoista sekä
+     * alustaa listat niteille ja hakusanoille.
+     * @param ID lehden tunnusluku
+     * @param ISSN lehden ISSN-numero
+     * @param nimi lehden nimi
+     * @param kustantaja kustantaja
+     */
     public Lehti(int ID, String ISSN, String nimi, String kustantaja) {
         this.ID = ID;
         this.ISSN = ISSN;

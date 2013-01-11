@@ -1,3 +1,8 @@
+package Kortisto.KortistoOperaatiot;
+
+import Kortisto.Numero;
+import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * Comparator-luokan toteuttava luokka lehden numeroiden järjestämiseen,
@@ -6,12 +11,6 @@
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
-
-package Kortisto.KortistoOperaatiot;
-
-import Kortisto.Numero;
-import java.io.Serializable;
-import java.util.Comparator;
 
 public class NumerotJarjestykseenComparator implements Comparator<Numero>, Serializable {
 

@@ -1,3 +1,4 @@
+package UI;
 
 /**
  * Kirjakortiston ohjelmiston main-metodin luokka, joka ajetaan ohjelmiston 
@@ -6,8 +7,6 @@
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
-
-package UI;
 
 public class Main {
 

@@ -1,3 +1,4 @@
+package Kortisto.Poikkeukset;
 
 /**
  * Exception-luokan toteuttava poikkeus, joka annetaan kun teos löytyy kortistosta
@@ -6,9 +7,6 @@
  * @author jumlindq
  * @since 07012013
  */
-
-package Kortisto.Poikkeukset;
-
 
 public class TeosFoundException extends Exception {
     

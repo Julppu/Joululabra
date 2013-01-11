@@ -1,3 +1,6 @@
+package Kortisto;
+
+import java.io.Serializable;
 
 /**
  * Luokka yksittäiselle niteelle, joka kuuluu yhden teoksen listaan.
@@ -5,10 +8,6 @@
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
-
-package Kortisto;
-
-import java.io.Serializable;
 
 public class Nide implements Serializable {
     
@@ -21,6 +20,13 @@ public class Nide implements Serializable {
     /** kokoelma, johon nide kuuluu. */
     private String kokoelma;
     
+    /**
+     * Alustaa niteen saamustaan parametreista.
+     * @param ID emäteoksen tunnusluku
+     * @param viivakoodi niteen viivakoodi
+     * @param lainaAika niteen laina-aika
+     * @param kokoelma kokoelma, jossa nide sijaitsee
+     */
     public Nide(int ID, String viivakoodi, int lainaAika, String kokoelma) {
         this.ID = ID;
         this.viivakoodi = viivakoodi;

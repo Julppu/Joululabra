@@ -32,7 +32,7 @@ public class TextUIValikot {
     /**
      * Tulostaa kirjojen hakuvalikon.
      * 
-     * @see UI.TextUI#kirjat()
+     * @see UI.TextUI#kirjaValinta()
      */
     public void kirjaValikko() {
         System.out.println("\n* Kirjojen haku:");
@@ -78,7 +78,7 @@ public class TextUIValikot {
     /**
      * Tulostaa lehtien muokkausvalikon.
      * 
-     * @see UI.TextUI#muokkaaLehtia()
+     * @see UI.TextUI#muokkaaLehtiaValinta() 
      */
     public void lehtiMuokkausValikko() {
         System.out.println("\n* Lehtien muokkaus:");

@@ -1,3 +1,4 @@
+package Kortisto.Poikkeukset;
 
 /**
  * Exception-luokan toteuttava poikkeusluokka, joka annetaan, jos lehteä ei
@@ -6,8 +7,6 @@
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since 07012013
  */
-
-package Kortisto.Poikkeukset;
 
 public class LehtiNotFoundException extends Exception {
     

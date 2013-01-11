@@ -1,5 +1,7 @@
 package UI;
 
+import java.util.Scanner;
+
 /**
  * Lukee käyttäjän syötteen ja palauttaa sen kutsujalle.
  * 
@@ -7,13 +9,14 @@ package UI;
  * @since 11012013
  */
 
-import java.util.Scanner;
-
 public class SyotteenLukija {
     
     /** syötteenlukija. */
     private Scanner scanner;
     
+    /**
+     * Alustaa Scanner-luokan olion syötteen lukijaksi.
+     */
     public SyotteenLukija() {
         scanner = new Scanner(System.in);
     }

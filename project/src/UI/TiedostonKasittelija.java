@@ -1,11 +1,3 @@
-
-/**
- * Luokka kortiston tallentamista ja lukemista varten.
- * 
- * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
- * @since  06012013
- */
-
 package UI;
 
 import Kortisto.Kortisto;
@@ -18,6 +10,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * Luokka kortiston tallentamista ja lukemista varten.
+ * 
+ * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
+ * @since  06012013
+ */
+
 public class TiedostonKasittelija {
     
     /** tiedosto, johon kortisto tallennetaan. oletuksena "kirjasto.dat".*/
@@ -26,11 +25,17 @@ public class TiedostonKasittelija {
     private ObjectInputStream sisaan;
     /** olioiden kirjoittamiseen käytetty syötevirta. */
     private ObjectOutputStream ulos;
-    /** ObjectInputStreamin käyttämä tiedostovirran luku. */
+    /** ObjectInputStreamin käyttämä tiedostovirran lukija. */
     private FileInputStream fin;
-    /** ObjectOuputStreamin käyttämä tiedostovirran kirjoitus. */
+    /** ObjectOuputStreamin käyttämä tiedostovirran kirjoittaja. */
     private FileOutputStream fout;
     
+    /**
+     * Alustaa käsittelijän tiedoston ja luo uuden tarvittaessa.
+     * @param tiedosto tiedoston polku ja nimi String-muotoisena
+     * @throws IOException tiedoston kirjoituksen virheestä
+     * @throws ClassNotFoundException Kortisto-luokan puuttuessa
+     */
     public TiedostonKasittelija(String tiedosto) 
             throws IOException, ClassNotFoundException {
         this.tiedosto = new File(tiedosto);
@@ -56,7 +61,7 @@ public class TiedostonKasittelija {
         } catch (FileNotFoundException fnfex) {
             tiedosto.createNewFile();
         } catch (EOFException eofex) {
-            eofex.printStackTrace();
+            return kortisto;
         }
         finally {
             sisaan.close();

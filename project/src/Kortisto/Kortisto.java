@@ -1,3 +1,10 @@
+package Kortisto;
+
+import Kortisto.KortistoOperaatiot.*;
+import Kortisto.Poikkeukset.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Kortistoluokka, joka pitää sisällään tiedot teoksista ja lehdistä sekä
@@ -6,14 +13,6 @@
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
-
-package Kortisto;
-
-import Kortisto.KortistoOperaatiot.*;
-import Kortisto.Poikkeukset.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class Kortisto implements Serializable {
     
@@ -32,6 +31,10 @@ public class Kortisto implements Serializable {
     /** lista kortiston kokoelmista. */
     private ArrayList<String> kokoelmat;
     
+    /**
+     * Konstruktori alustaa kiakki tarpeellisest listat, hakukoneen sekä teosten,
+     * lehtien ja viivakoodien laskurit.
+     */
     public Kortisto() {
         teokset = new ArrayList<Teos>();
         lehdet = new ArrayList<Lehti>();

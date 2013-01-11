@@ -1,18 +1,17 @@
 package UI;
 
+import Kortisto.*;
+import Kortisto.Poikkeukset.*;
+import java.io.EOFException;
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  * Kortisto-ohjelmiston tekstipohjaisen käyttöliittymän luokka.
  * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since 06012013
  */
-
-
-import Kortisto.*;
-import Kortisto.Poikkeukset.*;
-import java.io.EOFException;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class TextUI {
     
@@ -25,6 +24,12 @@ public class TextUI {
     /** lukee syötteen käyttäjältä ja palauttaa sen. */
     private SyotteenLukija lukija;
 
+    /**
+     * Alustaa käyttöliittymään syötteenlukijan, kortiston, valikkoluokan sekä
+     * lukee kortiston tiedostosta.
+     * 
+     * @see UI.TiedostonKasittelija#lueTiedosto() 
+     */
     public TextUI() {
         lukija = new SyotteenLukija();
         kortisto = new Kortisto();
@@ -74,7 +79,7 @@ public class TextUI {
         for (Teos teos : teokset)
             System.out.println("  " + teos);
         System.out.print("\n Jos haluat tarkastella jonkin teoksen niteitä, anna sen tunnus,\n"
-                + "muussa tapauksessa palataan alkuun: ");
+                + " muussa tapauksessa palataan alkuun: ");
         String id = lukija.lueString();
         if (id.isEmpty())
             return;
@@ -137,7 +142,7 @@ public class TextUI {
      * syötteen.
      */
     private void listaaKokoelmanNiteet() {
-        System.out.print("\nAnna listattava kokoelma (tyhjällä palaa): ");
+        System.out.print("\nAnna listattava kokoelma (tyhjällä palaa takaisin): ");
         String kokoelma = lukija.lueString();
         while (!kokoelma.isEmpty()) {
             ArrayList<Nide> niteet = kortisto.getHakukone().haeKokoelmanNiteet(kortisto, kokoelma);
@@ -176,7 +181,7 @@ public class TextUI {
                 for (Nide nide : teos.getNiteet())
                     System.out.println("  " + nide);
             }
-            System.out.println("\nAnna seuraava teoksen tunnus tai tyhjä lopettaaksesi:");
+            System.out.println("\nAnna seuraava teoksen tunnus tai tyhjä lopettaaksesi: ");
             String naruTunnus = lukija.lueString();
             if (naruTunnus.isEmpty())
                 return;
@@ -214,8 +219,6 @@ public class TextUI {
 
     /**
      * Hakee lehtiä nimen perusteella. Mahdollisuuten tulostaa lehtien numerot.
-     * 
-     * @return lehti muokattava lehti 
      */
     public void haeLehtiaNimella() {
         System.out.print("\nAnna lehden nimi: ");
@@ -251,8 +254,9 @@ public class TextUI {
      * @param tunnus haettavan lehden tunnus
      */
     public void haeNumeroita(int tunnus) {
-        System.out.println("\nAnna ensin vuosi ja sitten julkaisunumero:");
+        System.out.print("\nAnna vuosi: ");
         int vuosi = lukija.lueInt();
+        System.out.print("Anna julkaisun numero: ");
         int julkaisunNumero = lukija.lueInt();
         Numero haettuNumero;
         try {
@@ -434,6 +438,7 @@ public class TextUI {
             kortisto.lisaaLehti(issn, nimi, kustantaja);
         } catch (LehtiFoundException lfe) {
             System.out.println("\nLehti löytyi kortistosta, ei lisätty.");
+            return;
         }
         System.out.println("\nLehti lisätty.");
     }
@@ -487,7 +492,7 @@ public class TextUI {
      * Poistaa kortistosta numeron käyttäjän syötteestä luetusta lehdestä.
      * 
      * @see #haeLehti()
-     * @see Kortisto.Kortisto#poisatNumero(int, int, int)
+     * @see Kortisto.Kortisto#poistaNumero(int, int, int)
      */
     public void poistaNumero() {
         Lehti lehti = haeLehti();
@@ -495,7 +500,7 @@ public class TextUI {
             return;
         System.out.print("\nAnna vuosi: ");
         int vuosi = lukija.lueInt();
-        System.out.println("Anna numero:");
+        System.out.print("Anna numero: ");
         int numero = lukija.lueInt();
         try {
             kortisto.poistaNumero(lehti.getID(), vuosi, numero);
@@ -607,7 +612,7 @@ public class TextUI {
     /**
      * Kirjoittaa kortisto-instanssin senhetkiseen tiedostoon.
      *
-     * @see UI.TiedostonKasittelija#kirjoitaTiedosto()
+     * @see UI.TiedostonKasittelija#kirjoitaTiedosto(Kortisto.Kortisto) 
      */
     public void kirjoitaKortisto() {
         try {
@@ -624,6 +629,9 @@ public class TextUI {
      * siksi ja palauttaa uudesta tiedostosta luetun kortiston.
      * 
      * @param vaihtoehto true jos kirjoitetaan uusi tiedosto, false jos vain luetaan
+     * 
+     * @see UI.TiedostonKasittelija#kirjoitaUusiTiedosto(Kortisto.Kortisto, java.lang.String)
+     * @see UI.TiedostonKasittelija#lueUusiTiedosto(java.lang.String) 
      */
     public void vaihdaTiedosto(boolean vaihtoehto) {
         String uusiTiedosto;
@@ -709,7 +717,7 @@ public class TextUI {
                 case 0:
                     return;
                 default:
-                    System.out.println("Huono syöte, yritä uudestaan.");
+                    System.out.println("\nHuono syöte, yritä uudestaan.");
                     break;
             }
             valikot.kirjaValikko();
@@ -822,7 +830,7 @@ public class TextUI {
                     break;
                 case 4:
                     System.out.println("\nTällä hetkellä käytössä on tiedosto \"" + tiedKas.getFilename() + "\".");
-                    System.out.println("Paina rivinvaihtoa jatkaaksesi.");
+                    System.out.print("Paina rivinvaihtoa jatkaaksesi.");
                     lukija.lueString();
                 case 0:
                     return;

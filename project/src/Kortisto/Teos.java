@@ -1,3 +1,9 @@
+package Kortisto;
+
+import Kortisto.Poikkeukset.NideNotFoundException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Luokka teoksille, joka sisältää teoksen tiedot ja siihen kuuluvat niteet.
@@ -5,13 +11,6 @@
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013
  */
-
-package Kortisto;
-
-import Kortisto.Poikkeukset.NideNotFoundException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class Teos implements Serializable {
     
@@ -32,6 +31,17 @@ public class Teos implements Serializable {
     /** teoksen kustantaja. */
     private String kustantaja;
     
+    /**
+     * Konstruktori alustaa muuttujat parametreinä saamistaan arvoista sekä alustaa
+     * niteiden ja hakusanojen listat.
+     * 
+     * @param ID teoksen tunnusluku
+     * @param ISBN teoksen ISBN-numero
+     * @param nimi teoksen nimi
+     * @param tekija teokse tekija(t)
+     * @param vuosi julkaisuvuosi
+     * @param kustantaja kustantaja
+     */
     public Teos(int ID, String ISBN, String nimi, String tekija, int vuosi, String kustantaja) {
         this.ID = ID;
         this.ISBN = ISBN;

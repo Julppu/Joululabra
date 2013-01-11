@@ -1,3 +1,4 @@
+package Kortisto.Poikkeukset;
 
 /**
  * Exception-luokan toteuttava poikkeus, joka annetaan kun teosta ei löydy 
@@ -6,8 +7,6 @@
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since 07012013
  */
-
-package Kortisto.Poikkeukset;
 
 public class TeosNotFoundException extends Exception {
     
