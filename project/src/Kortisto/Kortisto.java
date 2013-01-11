@@ -21,15 +21,15 @@ public class Kortisto implements Serializable {
     private static int kirjaID;
     /** laskuri lehden tunnistenumeroille, jota lehden lisäys kasvattaa. */
     private static int lehtiID;
-    /** laskuri niteiden viivakoodeille. muunnetaan niteen lisäyksessä String-muotoon */
+    /** laskuri niteiden viivakoodeille. muunnetaan niteen lisäyksessä String-muotoon. */
     private static int viivakoodi;
-    /** aineiston hakemiseen käytettävän hakukoneen instanssi */
+    /** aineiston hakemiseen käytettävän hakukoneen instanssi. */
     private Hakukone hakukone;
-    /** lista kortiston teoksista */
+    /** lista kortiston teoksista. */
     private ArrayList<Teos> teokset;
-    /** lista kortiston lehdistä */
+    /** lista kortiston lehdistä. */
     private ArrayList<Lehti> lehdet;
-    /** lista kortiston kokoelmista */
+    /** lista kortiston kokoelmista. */
     private ArrayList<String> kokoelmat;
     
     public Kortisto() {
@@ -60,7 +60,7 @@ public class Kortisto implements Serializable {
             teokset.add(new Teos(kirjaID++, ISBN, nimi, tekija, vuosi, kustantaja));
             Collections.sort(teokset, new TeoksetNimiJarjestykseenComparator());
         } else
-            throw new TeosFoundException("Teos on jo kortistossa, ei lisätty.");
+            throw new TeosFoundException();
     }
     
     /**
@@ -68,8 +68,8 @@ public class Kortisto implements Serializable {
      * 
      * @param ID teoksen tunnusluku
      */
-    public void poistaTeos(int ID) {
-        teokset.remove(hakukone.haeTeosTunnuksella(this, ID));
+    public void poistaTeos(int ID) throws TeosNotFoundException {
+        teokset.remove(getTeosTunnuksella(ID));
         Collections.sort(teokset, new TeoksetNimiJarjestykseenComparator());
     }
     
@@ -101,18 +101,20 @@ public class Kortisto implements Serializable {
      * 
      * @param  ID teoksen tunnus
      * @param  viivakoodi niteen viivakoodi
-     * @throws Exception poikkeus niteen puuttuessa tiedoista
+     * @throws TeosNotFoundException jos teosta ei löydy kortistosta
+     * @throws NideNotFoundException jos nidettä ei löydy kortistosta
      * 
      * @see    Kortisto.Teos#poistaNide(java.lang.String)
      */
-    public void poistaNide(int ID, String viivakoodi) throws TeosNotFoundException, NideNotFoundException {
+    public void poistaNide(int ID, String viivakoodi) 
+            throws TeosNotFoundException, NideNotFoundException {
         for (Teos teos: teokset) {
             if (teos.getID() == ID) {
                 teos.poistaNide(viivakoodi);
                 return;
             }
         }
-        throw new TeosNotFoundException("Nidettä ei löytynyt, ei poistettu."); 
+        throw new TeosNotFoundException(); 
     }
     
     /**
@@ -120,23 +122,25 @@ public class Kortisto implements Serializable {
      * 
      * @param ID teoksen tunnus
      * @return teoksen niteet tai null jos teosta ei löydy.
+     * @throws TeosNotFoundException jos teosta ei löydy kortistosta
      */
-    public ArrayList<Nide> getTeoksenNiteet(int ID) {
+    public ArrayList<Nide> getTeoksenNiteet(int ID) throws TeosNotFoundException {
         for (Teos teos: teokset)
             if (teos.getID() == ID)
                 return teos.getNiteet();
-        return null;
+        throw new TeosNotFoundException();
     }
     
     /**
      * Lisää kortistoon uuden lehden jonka jälkeen lajittelee listan lehdistä.
+     * Tarkistaa ensimmäisenä löytyykö lehteä jo kortistosta.
      * 
      * @param  ISSN lehden ISSN-numero
      * @param  nimi lehden nimi
      * @param  kustantaja lehden kustantaja
-     * @throws Exception poikkeus, jos lehti on jo kortistossa
+     * @throws LehtiFoundException poikkeus, jos lehti on jo kortistossa
      * 
-     * @see   Kortisto.Lehti
+     * @see   Kortisto.KortistoOperaatiot.Hakukone#haeLehtiISSN(Kortisto.Kortisto, java.lang.String)
      */
     public void lisaaLehti(String ISSN, String nimi, String kustantaja)
             throws LehtiFoundException {
@@ -145,7 +149,7 @@ public class Kortisto implements Serializable {
             Collections.sort(lehdet, new LehdetNimiJarjestykseenComparator());
         }
         else
-            throw new LehtiFoundException("Lehti on jo kortistossa, ei lisätty.");
+            throw new LehtiFoundException();
     }
     
     /**
@@ -153,8 +157,8 @@ public class Kortisto implements Serializable {
      * 
      * @param ID lehden tunnus
      */
-    public void poistaLehti(int ID) {
-        lehdet.remove(hakukone.haeLehtiTunnuksella(this, ID));
+    public void poistaLehti(int ID) throws LehtiNotFoundException {
+        lehdet.remove(getLehtiTunnuksella(ID));
         Collections.sort(lehdet, new LehdetNimiJarjestykseenComparator());
     }
     
@@ -165,16 +169,18 @@ public class Kortisto implements Serializable {
      * @param ID lehden tunnus
      * @param vuosi numeron julkaisuvuosi
      * @param numero lehden numero
+     * @throws LehtiNotFoundException jos lehteä ei löydy kortistosta
      * 
      * @see   Kortisto.Lehti#lisaaNumero(int, int)
      */
-    public void lisaaNumero(int ID, int vuosi, int numero) {
+    public void lisaaNumero(int ID, int vuosi, int numero) throws LehtiNotFoundException {
         for (Lehti lehti: lehdet) {
             if (lehti.getID() == ID) {
                 lehti.lisaaNumero(vuosi, numero);
-                break;
+                return;
             }
         }
+        throw new LehtiNotFoundException();
     }
     
     /**
@@ -193,7 +199,7 @@ public class Kortisto implements Serializable {
             throws LehtiNotFoundException, NumeroNotFoundException {
         Lehti lehti = hakukone.haeLehtiTunnuksella(this, ID);
         if (lehti == null)
-            throw new LehtiNotFoundException("Lehteä ei löytynyt, ei poistettu");
+            throw new LehtiNotFoundException();
         else
             lehti.poistaNumero(vuosi, numero);
     }
@@ -203,12 +209,43 @@ public class Kortisto implements Serializable {
      * 
      * @param ID lehden tunnus
      * @return listan lehden kaikista numeroista
+     * @throws LehtiNotFoundException jos teosta ei löydy kortistosta
      */
-    public ArrayList<Numero> getLehdenNumerot(int ID) {
+    public ArrayList<Numero> getLehdenNumerot(int ID) throws LehtiNotFoundException {
         for (Lehti lehti: lehdet)
             if (lehti.getID() == ID)
                 return lehti.getNumerot();
-        return null;
+        throw new LehtiNotFoundException();
+    }
+    
+    /**
+     * Hakee teoksen kortistosta tunnuksella ja palauttaa sen muokkaamista varten.
+     * Muokkaamiseen ei siis käytetä hakukonetta.
+     * 
+     * @param ID haettavan teoksen tunnus
+     * @return haettu teos
+     * @throws TeosNotFoundException jos teosta ei löydy kortistosta
+     */
+    public Teos getTeosTunnuksella(int ID) throws TeosNotFoundException {
+        for (Teos teos: teokset)
+            if (teos.getID() == ID)
+                return teos;
+        throw new TeosNotFoundException();
+    }
+    
+    /**
+     * Hakee lehden kortistosta tunnuksella ja palauttaa sen muokkaamista varten.
+     * Muokkaamiseen ei siis käytetä hakukonetta.
+     * 
+     * @param ID haettavan lehden tunnus
+     * @return haettu lehti
+     * @throws LehtiNotFoundException jos lehteä ei löydy kortistosta
+     */
+    public Lehti getLehtiTunnuksella(int ID) throws LehtiNotFoundException {
+        for (Lehti lehti: lehdet)
+            if (lehti.getID() == ID)
+                return lehti;
+        throw new LehtiNotFoundException();
     }
     
     /**

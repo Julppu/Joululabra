@@ -11,11 +11,11 @@ import java.io.Serializable;
 
 public class Numero implements Serializable {
     
-    /** tunnus lehteen, johon numero kuuluu */
+    /** tunnus lehteen, johon numero kuuluu. */
     private int ID;
-    /** lehden julkaisunumero */
+    /** lehden julkaisunumero. */
     private int numero;
-    /** lehden julkaisuvuosi */
+    /** lehden julkaisuvuosi. */
     private int vuosi;
     
     public Numero(int ID, int vuosi, int numero) {

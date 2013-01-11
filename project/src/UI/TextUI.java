@@ -8,7 +8,6 @@ package UI;
 
 import Kortisto.*;
 import Kortisto.Poikkeukset.*;
-import UI.TextUIValikot;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,13 +15,13 @@ import java.util.Scanner;
 
 public class TextUI {
     
-    /** kirjojen ja lehtien tiedot sisältävä kortistoinstanssi */
+    /** kirjojen ja lehtien tiedot sisältävä kortistoinstanssi. */
     private Kortisto kortisto;
-    /** instanssi tiedostojen kirjoittamista ja lukemista varten */
+    /** instanssi tiedostojen kirjoittamista ja lukemista varten. */
     private TiedostonKasittelija tiedKas;
-    /** käyttäjän antaman syötteen lukija */
+    /** käyttäjän antaman syötteen lukija. */
     private Scanner scanner;
-    /** valikot sisältävä apuluokka */
+    /** valikot sisältävä apuluokka. */
     private TextUIValikot valikot;
 
     public TextUI() {
@@ -73,7 +72,7 @@ public class TextUI {
         System.out.print("\n Jos haluat tarkastella jonkin teoksen niteitä, anna sen tunnus\n,"
                 + "muussa tapauksessa palataan alkuun: ");
         String id = scanner.nextLine();
-        if (id == null)
+        if (id.isEmpty())
             return;
         else
             haeNiteita(Integer.parseInt(id));
@@ -102,8 +101,7 @@ public class TextUI {
         String id = scanner.nextLine();
         if (id.isEmpty())
             return;
-        else
-            haeNiteita(Integer.parseInt(id));
+        haeNiteita(Integer.parseInt(id));
     }
 
     /**
@@ -119,6 +117,29 @@ public class TextUI {
         for (Nide nide : teos.getNiteet())
             System.out.println("  " + nide);
     }
+    
+    /**
+     * Hakee hakukoneluokan avulla käyttäjän syöttämän kokoelman kaikki niteet ja
+     * listaa ne sekä teokset, joihin ne kuuluvat kunnes käyttäjä antaa tyhjän
+     * syötteen.
+     */
+    private void listaaKokoelmanNiteet() {
+        System.out.print("\nAnna listattava kokoelma (tyhjällä palaa): ");
+        String kokoelma = scanner.nextLine();
+        while (!kokoelma.isEmpty()) {
+            ArrayList<Nide> niteet = kortisto.getHakukone().haeKokoelmanNiteet(kortisto, kokoelma);
+            for (Nide nide: niteet) {
+                try {
+                    System.out.println(" " + kortisto.getTeosTunnuksella(nide.getID()));
+                    System.out.println("  " + nide);
+                } catch (TeosNotFoundException tnfe) {
+                    System.out.println("\nTeosta ei löydytynyt, kokeile uudestaan.");
+                }
+            }
+            System.out.print("\nAnna seuraava kokoelma (tyhjällä palaa): ");
+            kokoelma = scanner.nextLine();
+        }
+    }
 
     /**
      * Metodi niteiden hakemiseen teoksen perusteella. Hakee hakukoneen avulla
@@ -128,21 +149,25 @@ public class TextUI {
      */
     public void haeNiteita(int tunnus) {
         while (tunnus != 0) {
-            Teos teos = kortisto.getHakukone().haeTeosTunnuksella(kortisto, tunnus);
-            if (teos == null) {
+            Teos teos;
+            try {
+                teos = kortisto.getTeosTunnuksella(tunnus);
+            } catch (TeosNotFoundException tnfe) {
                 System.out.println("\nMitään ei löytynyt, palataan.");
                 return;
             }
             if (teos.getNiteet().isEmpty())
                 System.out.println("Ei niteitä, palataan.");
             else {
-                for (Nide nide : teos.getNiteet()) {
-                    System.out.println(" " + teos);
+                System.out.println(" " + teos);
+                for (Nide nide : teos.getNiteet())
                     System.out.println("  " + nide);
-                }
             }
             System.out.println("\nAnna seuraava teoksen tunnus tai tyhjä lopettaaksesi:");
-            tunnus = Integer.parseInt(scanner.nextLine());
+            String naruTunnus = scanner.nextLine();
+            if (naruTunnus.isEmpty())
+                return;
+            tunnus = Integer.parseInt(naruTunnus);
         }
     }
 
@@ -157,17 +182,21 @@ public class TextUI {
         if (nide == null)
             System.out.println("Haluttua nidettä ei löytynyt.");
         else {
-            System.out.println("Nide löytyi.");
-            Teos teos = kortisto.getHakukone().haeTeosTunnuksella(kortisto, nide.getID());
-            System.out.println("Teos:");
-            System.out.println(" " + teos);
-            System.out.println("Nide:");
-            System.out.println("  " + nide);
+            try {
+                System.out.println("\nNide löytyi.");
+                Teos teos = kortisto.getTeosTunnuksella(nide.getID());
+                System.out.println("Teos:");
+                System.out.println(" " + teos);
+                System.out.println("Nide:");
+                System.out.println("  " + nide);
+            } catch (TeosNotFoundException tnfe) {
+                System.out.println("\nTeosta ei löytynyt, palataan.");
+            }
         }
     }
 
     /**
-     * Hakee lehtiä nimen perusteella. Mahdollisuuten tulostaa lehtien numrot.
+     * Hakee lehtiä nimen perusteella. Mahdollisuuten tulostaa lehtien numerot.
      * 
      * @return lehti muokattava lehti 
      */
@@ -203,13 +232,18 @@ public class TextUI {
         while (!tiedot.isEmpty()) {
             Numero haettuNumero;
             String[] tietotaulu = tiedot.split(tiedot);
-            for (Numero numero : kortisto.getLehdenNumerot(tunnus)) {
-                if (Integer.parseInt(tietotaulu[0]) == numero.getVuosi() && Integer.parseInt(tietotaulu[1]) == numero.getNumero()) {
-                    haettuNumero = numero;
-                    break;
+            try {
+                for (Numero numero : kortisto.getLehdenNumerot(tunnus)) {
+                    if (Integer.parseInt(tietotaulu[0]) == numero.getVuosi() && 
+                            Integer.parseInt(tietotaulu[1]) == numero.getNumero()) {
+                        haettuNumero = numero;
+                        break;
+                    }
                 }
+                System.out.println("\nHaluttu numero löytyi.");
+            } catch (LehtiNotFoundException lnfe) {
+                System.out.println("\nLehteä ei löytynyt, yritä uudelleen.");
             }
-            System.out.println("Haluttu numero löytyi.");
             System.out.println("\nSyötä uuden numeron tiedot tai tyhjä, jos haluta lopettaa.");
             tiedot = scanner.nextLine();
             if (tiedot.isEmpty())
@@ -268,7 +302,12 @@ public class TextUI {
         Teos teos = haeKirja();
         if (teos == null)
             return;
-        kortisto.poistaTeos(teos.getID());
+        try {
+            kortisto.poistaTeos(teos.getID());
+        } catch (TeosNotFoundException tnfe) {
+            System.out.println("Kirjaa ei löytynyt, palataan.");
+            return;
+        }
         System.out.println("\nKirja poistettu.");
     }
 
@@ -281,11 +320,13 @@ public class TextUI {
      */
     public void poistaNide() {
         Teos teos = haeKirja();
-        if (teos == null)
+        if (teos == null) {
+            System.out.println("\nKirjaa ei löytynyt, palataan.");
             return;
-        System.out.println(teos);
+        }
+        System.out.println(" " + teos);
         for (Nide nide: teos.getNiteet())
-            System.out.println(" " + nide);
+            System.out.println("  " + nide);
         System.out.println("\nMikä nide poistetaan?");
         System.out.println("Anna niteen viivakoodi: ");
         String viivakoodi = scanner.nextLine();
@@ -302,52 +343,59 @@ public class TextUI {
     /**
      * Muokkaa teoksen muutettavia kenttiä switch-case rakenteella kunnes käyttäjä antaa
      * toistorakenteen katkaisevan syötteen.
+     * 
+     * @see TextUIValikot#yhdenKirjanMuokkausValikko()
+     * @see Kortisto.Kortisto#getTeosTunnuksella(int)
      */
     public void muokkaaKirjaa() {
         Teos teos = haeKirja();
         valikot.yhdenKirjanMuokkausValikko();
         String muutos;
-        System.out.print("Anna valintasi: ");
+        System.out.print("\nAnna valintasi: ");
         int valinta = Integer.parseInt(scanner.nextLine());
         while (valinta != 0) {
-            switch (valinta) {
-                case 1:
-                    System.out.print("\nAnna uusi nimi: ");
-                    muutos = scanner.nextLine();
-                    kortisto.getTeosTunnuksella(teos.getID()).setNimi(muutos);
-                    break;
-                case 2:
-                    System.out.print("\nAnna uusi tekijä: ");
-                    muutos = scanner.nextLine();
-                    kortisto.getTeosTunnuksella(teos.getID()).setTekija(muutos);
-                    break;
-                case 3:
-                    System.out.print("\nAnna uusi kustantaja: ");
-                    muutos = scanner.nextLine();
-                    kortisto.getTeosTunnuksella(teos.getID()).setKustantaja(muutos);
-                    break;
-                case 4:
-                    System.out.print("\nAnna uusi julkaisuvuosi: ");
-                    muutos = scanner.nextLine();
-                    kortisto.getTeosTunnuksella(teos.getID()).setVuosi(Integer.parseInt(muutos));
-                    break;
-                case 5:
-                    System.out.print("\nAnna uusi hakusana: ");
-                    muutos = scanner.nextLine();
-                    kortisto.getTeosTunnuksella(teos.getID()).lisaaHakusana(muutos);
-                    break;
-                case 6:
-                    System.out.print("\nAnna poistettava hakusana: ");
-                    muutos = scanner.nextLine();
-                    kortisto.getTeosTunnuksella(teos.getID()).poistaHakusana(muutos;
-                case 0:
-                    return;
-                default:
-                    System.out.println("\nVäärä valinta, kokeile uudestaan.");
-                    break;
+            try {
+                switch (valinta) {
+                    case 1:
+                        System.out.print("\nAnna uusi nimi: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getTeosTunnuksella(teos.getID()).setNimi(muutos);
+                        break;
+                    case 2:
+                        System.out.print("\nAnna uusi tekijä: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getTeosTunnuksella(teos.getID()).setTekija(muutos);
+                        break;
+                    case 3:
+                        System.out.print("\nAnna uusi kustantaja: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getTeosTunnuksella(teos.getID()).setKustantaja(muutos);
+                        break;
+                    case 4:
+                        System.out.print("\nAnna uusi julkaisuvuosi: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getTeosTunnuksella(teos.getID()).setVuosi(Integer.parseInt(muutos));
+                        break;
+                    case 5:
+                        System.out.print("\nAnna uusi hakusana: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getTeosTunnuksella(teos.getID()).lisaaHakusana(muutos);
+                        break;
+                    case 6:
+                        System.out.print("\nAnna poistettava hakusana: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getTeosTunnuksella(teos.getID()).poistaHakusana(muutos);
+                    case 0:
+                        return;
+                    default:
+                        System.out.println("\nVäärä valinta, kokeile uudestaan.");
+                        break;
+                }
+            } catch (TeosNotFoundException tnfe) {
+                System.out.println("Haettua teosta ei löytynyt, kokeile uudestaan.");
             }
             valikot.yhdenKirjanMuokkausValikko();
-            System.out.print("Anna seuraava valintasi: ");
+            System.out.print("\nAnna seuraava valintasi: ");
             valinta = Integer.parseInt(scanner.nextLine());
         }
         System.out.println("\nPalataan valikkoon.");
@@ -355,6 +403,8 @@ public class TextUI {
     
     /**
      * Luo uuden lehden käyttäjän antamista syötteistä ja lisää sen kortistoon.
+     * 
+     * @see Kortisto.Kortisto#lisaaLehti(java.lang.String, java.lang.String, java.lang.String) 
      */
     public void lisaaLehti() {
         System.out.print("\nLehden ISSN: ");
@@ -363,91 +413,146 @@ public class TextUI {
         String nimi = scanner.nextLine();
         System.out.print("Kustantaja: ");
         String kustantaja = scanner.nextLine();
-        kortisto.lisaaLehti(issn, nimi, kustantaja);
+        try {
+            kortisto.lisaaLehti(issn, nimi, kustantaja);
+        } catch (LehtiFoundException lfe) {
+            System.out.println("\nLehti löytyi kortistosta, ei lisätty.");
+        }
         System.out.println("\nLehti lisätty.");
     }
     
     /**
+     * Poistaa kortistosta lehden käyttäjän syötteen preusteella.
+     * 
+     * @see #haeLehti()
+     * @see Kortisto.Kortisto#poistaLehti(int) 
+     */
+    public void poistaLehti() {
+        Lehti lehti = haeLehti();
+        if (lehti == null) {
+            System.out.println("\nLehteä ei löytynyt, ei poisteta.");
+            return;
+        }
+        try {
+            kortisto.poistaLehti(lehti.getID());
+        } catch (LehtiNotFoundException lnfe) {
+            System.out.println("\nLehteä ei löytynyt, ei poisteta.");
+        } 
+        System.out.println("\nLehti poistettu.");
+    }
+    
+    /**
      * Lisää uuden numeron ISBN-numerolla haettavaan lehteen.
+     * 
+     * @see #haeLehti()
+     * @see Kortisto.Kortisto#lisaaNumero(int, int, int)
      */
     public void lisaaNumero() {
         Lehti lehti = haeLehti();
         if (lehti == null)
             return;
-        System.out.print("Anna lisättävän numeron julkaisuvuosi ja -numero välilyönnillä\nerotettuna: ");
+        System.out.print("\nAnna lisättävän numeron julkaisuvuosi ja -numero välilyönnillä\n"
+                +" erotettuna: ");
         String tiedot = scanner.nextLine();
         String[] tietotaulu = tiedot.split(tiedot);
-        kortisto.lisaaNumero(lehti.getID(), Integer.parseInt(tietotaulu[0]), Integer.parseInt(tietotaulu[1]));
+        try {
+            kortisto.lisaaNumero(lehti.getID(), Integer.parseInt(tietotaulu[0]),
+                Integer.parseInt(tietotaulu[1]));
+        } catch (LehtiNotFoundException lnfe) {
+            System.out.println("\nLehteä ei löytynyt, ei poisteta.");
+        }
         System.out.println("\nNumero lisätty.");
     }
 
+    /**
+     * Poistaa kortistosta numeron käyttäjän syötteestä luetusta lehdestä.
+     * 
+     * @see #haeLehti()
+     * @see Kortisto.Kortisto#poisatNumero(int, int, int)
+     */
     public void poistaNumero() {
         Lehti lehti = haeLehti();
         if (lehti == null)
             return;
-        System.out.print("\nAnna poistettavan numeron julkaisuvuosi ja -numero välilyönnillä\nerotettuna:");
+        System.out.print("\nAnna poistettavan numeron julkaisuvuosi ja -numero välilyönnillä\n"
+                + " erotettuna:");
         String tiedot = scanner.nextLine();
         String[] tietotaulu = tiedot.split(tiedot);
-        kortisto.poistaNumero(lehti.getID(), Integer.parseInt(tietotaulu[0]), Integer.parseInt(tietotaulu[1]));
+        try {
+            kortisto.poistaNumero(lehti.getID(), Integer.parseInt(tietotaulu[0]),
+                    Integer.parseInt(tietotaulu[1]));
+        } catch (LehtiNotFoundException lfne) {
+            System.out.println("Lehteä ei löytynyt, ei poistettu.");
+        } catch (NumeroNotFoundException nnfe) {
+            System.out.println("Numeroa ei löytynyt, ei poistettu.");
+        }
         System.out.println("\nNumero poistettu.");
     }
 
     /**
-     * Muokkaa kortistossa olevaa lehteä kunnes käyttäjä antaa toistorakenteen päättävän syötteen.
+     * Muokkaa kortistossa olevaa lehteä kunnes käyttäjä antaa toistorakenteen 
+     * päättävän syötteen.
+     * 
+     * @see TextUIValikot#lehtiMuokkausValikko() 
+     * @see Kortisto.Kortisto#getLehtiTunnuksella(int) 
      */
     public void muokkaaLehtea() {
         Lehti lehti = haeLehti();
         if (lehti == null)
             return;
-        valikot.lehdenMuokkausValikko();
+        valikot.lehtiMuokkausValikko();
         String muutos;
         System.out.println(lehti);
         System.out.print("\nValitse muokkauskohde: ");
         int valinta = Integer.parseInt(scanner.nextLine());
         while (valinta != 0) {
-            switch (valinta) {
-                case 1:
-                    System.out.print("Anna uusi ISSN: ");
-                    muutos = scanner.nextLine();
-                    kortisto.haeLehtiTunnuksella(lehti.getID()).setISSN();
-                    break;
-                case 2:
-                    System.out.print("Anna uusi nimi: ");
-                    muutos = scanner.nextLine();
-                    kortisto.haeLehtiTunnuksella(lehti.getID()).setNimi(muutos);
-                    break;
-                case 3:
-                    System.out.print("Anna uusi kustantaja: ");
-                    muutos = scanner.nextLine();
-                    kortisto.haeLehtiTunnuksella(lehti.getID()).setKustantaja(muutos);
-                    break;
-                case 4:
-                    System.out.print("Anna lisättävä hakusana: ");
-                    muutos = scanner.nextLine();
-                    kortisto.haeLehtiTunnuksella(lehti.getID()).lisaaHakusana(muutos);
-                    break;
-                case 5:
-                    System.out.print("Anna poistettava hakusana: ");
-                    muutos = scanner.nextLine();
-                    kortisto.haeLehtiTunnuksella(lehti.getID()).poistaHakusana(muutos);
-                    break;
-                case 6:
-                    tallennaKortisto();
-                    break;
-                case 0:
-                    return;
-                default:
-                    System.out.print("Huono syöte, anna uudestaan.");
+            try {
+                switch (valinta) {
+                    case 1:
+                        System.out.print("\nAnna uusi ISSN: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getLehtiTunnuksella(lehti.getID()).setISSN(muutos);
+                        break;
+                    case 2:
+                        System.out.print("\nAnna uusi nimi: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getLehtiTunnuksella(lehti.getID()).setNimi(muutos);
+                        break;
+                    case 3:
+                        System.out.print("\nAnna uusi kustantaja: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getLehtiTunnuksella(lehti.getID()).setKustantaja(muutos);
+                        break;
+                    case 4:
+                        System.out.print("\nAnna lisättävä hakusana: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getLehtiTunnuksella(lehti.getID()).lisaaHakusana(muutos);
+                        break;
+                    case 5:
+                        System.out.print("\nAnna poistettava hakusana: ");
+                        muutos = scanner.nextLine();
+                        kortisto.getLehtiTunnuksella(lehti.getID()).poistaHakusana(muutos);
+                        break;
+                    case 6:
+                        kirjoitaKortisto();
+                        break;
+                    case 0:
+                        return;
+                    default:
+                        System.out.print("\nHuono syöte, anna uudestaan.");
+                }
+            } catch (LehtiNotFoundException lnfe) {
+                System.out.println("\nHaettua lehteä ei löytynyt, yritä uudestaan.");
             }
-            valikot.lehdenMuokkausValikko();
-            System.out.print("Anna seuraava valinta: ");
+            valikot.lehtiMuokkausValikko();
+            System.out.print("\nAnna seuraava valinta: ");
             valinta = Integer.parseInt(scanner.nextLine());
         }
     }
     
     /**
-     * Yleiskäyttöinen metodi, joka hakee kutsuvalle metodille kirjan sen ISBN-numeron perusteella 
-     * ja palauttaa sen tai null, jos ei löydy.
+     * Yleiskäyttöinen metodi, joka hakee kutsuvalle metodille kirjan sen ISBN-
+     * numeron perusteella ja palauttaa sen tai null, jos ei löydy.
      * 
      * @return haettu teos.
      */
@@ -456,7 +561,7 @@ public class TextUI {
         String isbn = scanner.nextLine();
         Teos teos = kortisto.getHakukone().haeTeosISBN(kortisto, isbn);
         if (teos == null) {
-            System.out.println("Teosta ei löytynyt, palataan.\n");
+            System.out.println("\nTeosta ei löytynyt, palataan.");
             return teos;
         }
         return teos;
@@ -473,10 +578,10 @@ public class TextUI {
         String issn = scanner.nextLine();
         Lehti lehti = kortisto.getHakukone().haeLehtiISSN(kortisto, issn);
         if (lehti == null) {
-            System.out.println("Lehteä ei löytynyt, palataan.\n");
-            return teos;
+            System.out.println("\nLehteä ei löytynyt, palataan.");
+            return lehti;
         }
-        return teos;
+        return lehti;
     }
     
     /**
@@ -495,19 +600,29 @@ public class TextUI {
     }
     
     /**
-     * Kysyy käyttäjältä uuden tiedoston, muuttaa sen ja kirjoittaa kortiston
-     * ja kirjoittaa kortiston siihen.
+     * Kysyy käyttäjältä uuden tiedoston ja parametrista riippuen joko kirjoittaa
+     * kortiston uuteen tiedostoon tai lukee uudesta tiedostosta, asettaa sen instans-
+     * siksi ja palauttaa uudesta tiedostosta luetun kortiston.
+     * 
+     * @param vaihtoehto true jos kirjoitetaan uusi tiedosto, false jos vain luetaan
      */
-    public void vaihdaTiedosto() {
-        System.out.print("\nAnna luettavan tiedoston nimi:");
-        String uusiTiedosto = scanner.nextLine();
+    public void vaihdaTiedosto(boolean vaihtoehto) {
+        String uusiTiedosto;
         try {
-            kortisto = tiedKas.lueUusiTiedosto(uusiTiedosto);
+            if (vaihtoehto) {
+                System.out.print("\nAnna kirjoitettavan tiedoston nimi:");
+                uusiTiedosto = scanner.nextLine();
+                tiedKas.kirjoitaUusiTiedosto(kortisto, uusiTiedosto);
+            } else {
+                System.out.print("\nAnna luettavan tiedoston nimi:");
+                uusiTiedosto = scanner.nextLine();
+                kortisto = tiedKas.lueUusiTiedosto(uusiTiedosto);
+            }
         } catch (IOException ioe) {
             if (ioe.getClass() != EOFException.class)
-                System.out.println("Tiedoston kirjoittaminen epäonnistui.");
+                System.out.println("\nTiedoston kirjoittaminen epäonnistui.");
         } catch (ClassNotFoundException cex) {
-            System.out.println("Luokkaa \"Kortisto\" ei löytynyt.");
+                System.out.println("\nLuokkaa \"Kortisto\" ei löytynyt.");
         }
     }
     
@@ -515,6 +630,8 @@ public class TextUI {
      * Toiminnon valinta päävalikossa oleville toiminnoille ohjaamalla alavalikkoon.
      * Poikkeuksina tähän valinta 2, joka suorittaa suoraan metodin haeLehtiaNimella()
      * sekä valinta 5, joka kirjoittaa kortiston sen hetkiseen tiedostoon.
+     * 
+     * @see TextUIValikot#paaValikko()
      */
     public void aloitusValinta() {
         System.out.print("\nValinta: ");
@@ -534,12 +651,10 @@ public class TextUI {
                     muokkaaLehtiaValinta();
                     break;
                 case 5:
-                    kirjoitaKortisto();
-                    break;
-                case 6:
+                    tiedostoValikko();
                     break;
                 default:
-                    System.out.println("Yritä uudestaan.");
+                    System.out.println("\nYritä uudestaan.");
                     break;
             }
             valikot.paaValikko();
@@ -550,9 +665,12 @@ public class TextUI {
 
     /**
      * Toiminnan valinta kirjojen hakuvalikolle, joka ohjaa haluttuun hakumetodiin.
+     * 
+     * @see TextUIValikot#kirjaValikko()
      */
     public void kirjaValinta() {
         valikot.kirjaValikko();
+        System.out.print("\nAnna valintasi: ");
         int valinta = Integer.parseInt(scanner.nextLine());
         while (valinta != 0) {
             switch (valinta) {
@@ -568,6 +686,8 @@ public class TextUI {
                 case 4:
                     haeNideViivakoodilla();
                     break;
+                case 5:
+                    listaaKokoelmanNiteet();
                 case 0:
                     return;
                 default:
@@ -582,9 +702,12 @@ public class TextUI {
 
     /**
      * Toiminnan valinta kirjojen muokkausvalikolle, joka ohjaa haluttuun muokkausmetodiin.
+     * 
+     * @see TextUIValikot#kirjaMuokkausValikko() 
      */
     public void muokkaaKirjoja() {
         valikot.kirjaMuokkausValikko();
+        System.out.print("\nAnna valinta: ");
         int valinta = Integer.parseInt(scanner.nextLine());
         while (valinta != 0) {
             switch (valinta) {
@@ -598,15 +721,18 @@ public class TextUI {
                     muokkaaKirjaa();
                     break;
                 case 4:
-                    vaihdaNiteenViivakoodi();
+                    poistaKirja();
                     break;
                 case 5:
+                    poistaNide();
+                    break;
+                case 6:
                     kirjoitaKortisto();
                     break;
                 case 0:
                     return;
                 default:
-                    System.out.println("Huono syöte, yritä uudelleen.");
+                    System.out.println("\nHuono syöte, yritä uudelleen.");
                     break;
             }
             valikot.kirjaMuokkausValikko();
@@ -617,9 +743,12 @@ public class TextUI {
 
     /**
      * Toiminnan valinta lehtien muokkausvalikolle, joka ohjaa haluttuun muokkausmetodiin.
+     * 
+     * @see TextUIValikot#lehtiMuokkausValikko() 
      */
     public void muokkaaLehtiaValinta() {
         valikot.lehtiMuokkausValikko();
+        System.out.print("\nAnna valintasi: ");
         int valinta = Integer.parseInt(scanner.nextLine());
         while (valinta != 0) {
             switch (valinta) {
@@ -644,10 +773,45 @@ public class TextUI {
                 case 0:
                     return;
                 default:
-                    System.out.println("Huono syöte, yritä uudelleen.");
+                    System.out.println("\nHuono syöte, yritä uudelleen.");
                     break;
             }
             valikot.lehtiMuokkausValikko();
+            System.out.print("\nAnna seuraava valinta: ");
+            valinta = Integer.parseInt(scanner.nextLine());
+        }
+    }
+    
+    /**
+     * Valikko tiedostonkäsittelyn toimintoja varten.
+     * 
+     * @see TextUIValikot#tiedostoValikko() 
+     */
+    public void tiedostoValikko() {
+        valikot.tiedostoValikko();
+        System.out.print("\nAnna valinta: ");
+        int valinta = Integer.parseInt(scanner.nextLine());
+        while (valinta != 0) {
+            switch (valinta) {
+                case 1:
+                    kirjoitaKortisto();
+                    break;
+                case 2:
+                    vaihdaTiedosto(true);
+                    break;
+                case 3:
+                    vaihdaTiedosto(false);
+                    break;
+                case 4:
+                    System.out.println("\nTällä hetkellä käytössä on tiedosto \"" + tiedKas.getFilename() + "\".");
+                    System.out.println("Paina rivinvaihtoa jatkaaksesi.");
+                    scanner.nextLine();
+                case 0:
+                    return;
+                default:
+                    System.out.println("\nVäärä syöte, anna uudelleen.");
+            }
+            valikot.tiedostoValikko();
             System.out.print("\nAnna seuraava valinta: ");
             valinta = Integer.parseInt(scanner.nextLine());
         }

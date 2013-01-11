@@ -31,17 +31,17 @@ public class TiedostonKasittelijaTest {
             kortisto.lisaaTeos("0003", "Raamattu", "Jeesus", 0, "Jessen kirjuritoimisto");
             kortisto.lisaaLehti("0004", "Helsingin Sanomat", "Sanoma");
             kortisto.lisaaLehti("0005", "Iltasanomat", "Sanoma");
+            kortisto.lisaaNide(1, 14, "testikokoelma");
+            kortisto.lisaaNide(1, 14, "testikokoelma");
+            kortisto.lisaaNide(2, 2, "lyhytlainat");
+            kortisto.lisaaNide(2, 2, "lyhytlainat");
+            kortisto.lisaaNumero(1, 2012, 52);
+            kortisto.lisaaNumero(1, 2013, 1);
+            kortisto.lisaaNumero(2, 2010, 12);
+            kortisto.lisaaNumero(2, 2010, 11);
         } catch (TeosFoundException tex) {
         } catch (LehtiFoundException lex) {
-        }
-        kortisto.lisaaNide(1, 14, "testikokoelma");
-        kortisto.lisaaNide(1, 14, "testikokoelma");
-        kortisto.lisaaNide(2, 2, "lyhytlainat");
-        kortisto.lisaaNide(2, 2, "lyhytlainat");
-        kortisto.lisaaNumero(1, 2012, 52);
-        kortisto.lisaaNumero(1, 2013, 1);
-        kortisto.lisaaNumero(2, 2010, 12);
-        kortisto.lisaaNumero(2, 2010, 11);
+        } catch (LehtiNotFoundException lnex) {}
         try {
             tiedKas = new TiedostonKasittelija("testi.dat");
         } catch (Exception ioex) { 
@@ -54,6 +54,11 @@ public class TiedostonKasittelijaTest {
     public void tearDown() {
     }
 
+    /**
+     * Tarkistaa samalla sekä tiedostoon kirjoittamisen että siitä lukemisen.
+     * 
+     * @throws Exception tiedostonkirjoituksen poikkeukset
+     */
     @Test
     public void testLueTiedosto() throws Exception {
         boolean test = false;
@@ -67,13 +72,12 @@ public class TiedostonKasittelijaTest {
 
     @Test
     public void testLueUusiTiedosto() throws Exception {
-    }
-
-    @Test
-    public void testKirjoitaTiedosto() throws Exception {
+        kortisto = tiedKas.lueUusiTiedosto("tyhjatesti.dat");
+        assertTrue(kortisto.getLehdet().isEmpty() && kortisto.getTeokset().isEmpty());
     }
 
     @Test
     public void testKirjoitaUusiTiedosto() throws Exception {
+        tiedKas.kirjoitaUusiTiedosto(kortisto, "kortisto.dat");
     }
 }

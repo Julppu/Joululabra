@@ -60,7 +60,7 @@ public class KortistoTest {
     }
 
     @Test
-    public void testPoistaTeos() {
+    public void testPoistaTeos() throws TeosNotFoundException {
         test = false;
         kortisto.poistaTeos(2);
         for (Teos teos: kortisto.getTeokset())
@@ -86,11 +86,11 @@ public class KortistoTest {
     }
 
     @Test
-    public void testPoistaNide() {
+    public void testPoistaNide() throws TeosNotFoundException {
         ArrayList<Nide> niteet = null;
         try {
             kortisto.poistaNide(1, "100000");
-            niteet = hakukone.haeTeosTunnuksella(kortisto, 1).getNiteet();
+            niteet = kortisto.getTeosTunnuksella(1).getNiteet();
         } catch (Exception ex) {
             System.out.println(ex);
             fail("Poikkeus napattu.");
@@ -122,20 +122,26 @@ public class KortistoTest {
 
     @Test
     public void testPoistaLehti() {
-        kortisto.poistaLehti(1);
+        try {
+            kortisto.poistaLehti(1);
+        } catch (LehtiNotFoundException lnfe) {
+            fail("Lehteä ei löytynyt.");
+        }
         assertTrue(kortisto.getLehdet().isEmpty());
     }
     
-    @Test
-    public void testPoistaOlematonLehti() {
-        test = false;
+    @Test (expected=LehtiNotFoundException.class)
+    public void testPoistaOlematonLehti() throws LehtiNotFoundException {
         kortisto.poistaLehti(20);
-        assertEquals(1, kortisto.getLehdet().size());
     }
     
     @Test
     public void testLisaaNumero() {
-        kortisto.lisaaNumero(1, 2000, 21);
+        try {
+            kortisto.lisaaNumero(1, 2000, 21);
+        } catch (LehtiNotFoundException lnfe) {
+            fail("Lehteä ei löytynyt.");
+        }
         test = false;
         for (Lehti lehti: kortisto.getLehdet()) {
             if (lehti.getID() == 1) {
@@ -151,16 +157,16 @@ public class KortistoTest {
     }
 
     @Test
-    public void testLisaaOlemassaOlevaNumero() {
-        int numeroita = 0;
+    public void testLisaaOlemassaOlevaNumero() throws LehtiNotFoundException {
         kortisto.lisaaNumero(1, 2000, 21);
         kortisto.lisaaNumero(1, 2000, 22);
         kortisto.lisaaNumero(1, 2000, 21);
         assertEquals(3, kortisto.getLehdenNumerot(1).size());
+        
     }
 
     @Test
-    public void testPoistaNumero() {
+    public void testPoistaNumero() throws LehtiNotFoundException {
         try {
             kortisto.poistaNumero(1, 2002, 1);
         } catch (Exception ex) {
@@ -178,6 +184,52 @@ public class KortistoTest {
             System.out.println(ex);
             fail("Poikkeus napattu.");
         }
+    }
+    
+    @Test
+    public void testGetTeosTunnuksella() throws TeosNotFoundException {
+        assertEquals("Aapinen", kortisto.getTeosTunnuksella(1).getNimi());
+    }
+    
+    @Test (expected=TeosNotFoundException.class)
+    public void testGetTeosOlemattomallaTunnuksella() throws TeosNotFoundException {
+        kortisto.getTeosTunnuksella(666);
+    }
+    
+    @Test
+    public void testMuutaTeoksenNimea() throws TeosNotFoundException {
+        kortisto.getTeosTunnuksella(1).setNimi("Kekkonen");
+        assertEquals("Kekkonen", kortisto.getTeosTunnuksella(1).getNimi());
+    }
+    
+    @Test
+    public void testMuutaTeoksenTekijaa() throws TeosNotFoundException {
+        kortisto.getTeosTunnuksella(1).setTekija("Kekkonen");
+        assertEquals("Kekkonen", kortisto.getTeosTunnuksella(1).getTekija());
+    }
+    
+    @Test
+    public void testMuutaTeoksenKustantaja() throws TeosNotFoundException {
+        kortisto.getTeosTunnuksella(1).setKustantaja("Omakustanne");
+        assertEquals("Omakustanne", kortisto.getTeosTunnuksella(1).getKustantaja());
+    }
+    
+    @Test
+    public void testMuutaTeoksenVuosi() throws TeosNotFoundException {
+        kortisto.getTeosTunnuksella(1).setVuosi(2012);
+        assertEquals(2012, kortisto.getTeosTunnuksella(1).getVuosi());
+    }
+    
+        @Test
+    public void testMuutaLehdenNimea() throws LehtiNotFoundException {
+        kortisto.getLehtiTunnuksella(1).setNimi("Journal of Computing");
+        assertEquals("Journal of Computing", kortisto.getLehtiTunnuksella(1).getNimi());
+    }
+    
+    @Test
+    public void testMuutaLehdenKustantaja() throws LehtiNotFoundException {
+        kortisto.getLehtiTunnuksella(1).setKustantaja("Omakustanne");
+        assertEquals("Omakustanne", kortisto.getLehtiTunnuksella(1).getKustantaja());
     }
     
     @Test
@@ -211,7 +263,7 @@ public class KortistoTest {
 
     @Test
     public void testGetKokoelmat() {
-        ArrayList<String> testi = new ArrayList();
+        ArrayList<String> testi = new ArrayList<String>();
         testi.add("testikokoelma");
         assertEquals(testi, kortisto.getKokoelmat());
     }

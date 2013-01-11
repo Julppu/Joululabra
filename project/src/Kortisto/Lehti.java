@@ -15,17 +15,17 @@ import java.util.Collections;
 
 public class Lehti implements Serializable {
     
-    /** lehden uniikki tunniste */
+    /** lehden uniikki tunniste. */
     private int ID;
-    /** lehden ISSN-tunnistenumero */
+    /** lehden ISSN-tunnistenumero. */
     private String ISSN;
-    /** lehden nimi */
+    /** lehden nimi. */
     private String nimi;
-    /** lehden julkaisija */
+    /** lehden julkaisija. */
     private String kustantaja;
-    /** lista lehden hakusanoista */
+    /** lista lehden hakusanoista. */
     private ArrayList<String> hakusanat;
-    /** lista lehden numeroista */
+    /** lista lehden numeroista. */
     private ArrayList<Numero> numerot;
     
     public Lehti(int ID, String ISSN, String nimi, String kustantaja) {
@@ -40,7 +40,7 @@ public class Lehti implements Serializable {
     /**
      * Lisää uuden numeron lehden listaan sekä lajittelee sen.
      * 
-     * @param vuosi  julkaisuvuosi
+     * @param vuosi julkaisuvuosi
      * @param numero numero
      */
     public void lisaaNumero(int vuosi, int numero) {
@@ -54,7 +54,7 @@ public class Lehti implements Serializable {
     /**
      * Poistaa numeron lehden listasta, antaa poikkeuksen jos numeroa ei löydy.
      * 
-     * @param vuosi  julkaisuvuosi
+     * @param vuosi julkaisuvuosi
      * @param numero numero
      * @throws NumeroNotFoundException jos numeroa ei löydy
      */
@@ -65,7 +65,7 @@ public class Lehti implements Serializable {
             if (haettavaNumero.getNumero() == numero && haettavaNumero.getVuosi() == vuosi)
                 lehdenNumero = haettavaNumero;
         if (lehdenNumero == null)
-            throw new NumeroNotFoundException("Numeroa ei löytynyt, ei poistettu.");
+            throw new NumeroNotFoundException();
         else {
             numerot.remove(lehdenNumero);
             Collections.sort(numerot, new NumerotJarjestykseenComparator());

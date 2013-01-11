@@ -1,6 +1,7 @@
 package Kortisto;
 
 import Kortisto.KortistoOperaatiot.*;
+import Kortisto.Poikkeukset.LehtiNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -48,15 +49,21 @@ public class ComparatorTest {
     @Test
     public void testLehdetNimiJarjestykseen() {
         ArrayList<Lehti> lehdet = kortisto.getLehdet();
-        Comparator comparator = new LehdetNimiJarjestykseenComparator();
+        Comparator<Lehti> comparator = new LehdetNimiJarjestykseenComparator();
         Collections.sort(lehdet, comparator);
         assertTrue(lehdet.get(0).getNimi().compareTo(lehdet.get(1).getNimi()) < 1);
     }
     
     @Test
     public void testNumerotJarjestykseen() {
-        Comparator comparator = new NumerotJarjestykseenComparator();
-        ArrayList<Numero> numerot = kortisto.getLehdenNumerot(2);
+        Comparator<Numero> comparator = new NumerotJarjestykseenComparator();
+        ArrayList<Numero> numerot = null;;
+        try {
+            numerot = kortisto.getLehdenNumerot(2);
+        } catch (LehtiNotFoundException lnfe) {
+            System.out.println("Lehteä ei löytynyt.");
+            fail();
+        }
         Collections.sort(numerot, comparator);
         assertTrue(numerot.get(0).getNumero() < numerot.get(1).getNumero() 
                 && numerot.get(0).getVuosi() == numerot.get(1).getVuosi());
@@ -65,7 +72,7 @@ public class ComparatorTest {
     @Test
     public void testTeoksetNimiJarjestykseen() {
         ArrayList<Teos> teokset = kortisto.getTeokset();
-        Comparator comparator = new TeoksetNimiJarjestykseenComparator();
+        Comparator<Teos> comparator = new TeoksetNimiJarjestykseenComparator();
         Collections.sort(teokset, comparator);
         assertEquals(teokset.get(0).getNimi() + teokset.get(0).getTekija(),
                      teokset.get(1).getNimi() + teokset.get(1).getTekija());
@@ -74,7 +81,7 @@ public class ComparatorTest {
     @Test
     public void testTeoksetTekijaJarjestykseen() {
         ArrayList<Teos> teokset = kortisto.getTeokset();
-        Comparator comparator = new TeoksetTekijaJarjestykseenComparator();
+        Comparator<Teos> comparator = new TeoksetTekijaJarjestykseenComparator();
         Collections.sort(teokset, comparator);
         assertEquals("Jeesus", teokset.get(2).getTekija());
     }
@@ -82,7 +89,7 @@ public class ComparatorTest {
     @Test
     public void testTeoksetVuosiJarjestykseen() {
         ArrayList<Teos> teokset = kortisto.getTeokset();
-        Comparator comparator = new TeoksetVuosiJarjestykseenComparator();
+        Comparator<Teos> comparator = new TeoksetVuosiJarjestykseenComparator();
         Collections.sort(teokset, comparator);
         assertEquals(0, teokset.get(0).getVuosi());
     }

@@ -6,7 +6,11 @@
  
  Toteutettavan ohjelman tarkoitus on toimia kirjakortiston hallintaohjelmistona, jolla voidaan muokata kortiston sisältöä, mukaanlukien: kirjojen ja lehtien lisääminen, poistaminen ja muokkaus; kirjojen ja lehtien hakeminen kortistosta; sekä kortiston tallentaminen vapaavalintaiseen tiedostoon ja lukeminen vapaavalintaisesta tiedostosta. Kortisto tulee toimimaan tekstipohjaisella käyttöliittymällä, jossa navigoidaan numerokomennoilla ja syötetään tehtävät muutokset ja haut pyydettäessä.
 
- Kortisto teoksiin automaattisesti generoidun uniikin tunnuksen (alkaen numerosta 1) sekä automaattisesti generoidun viivakoodin (alkaen numerosta 100000).
+ Kortisto koostuu pääasiallisesta Kortisto-luokasta, joka sisältää listat teoksista, lehdistä ja kokoelmista. Teokset sisältävät listat niiden niteistä, niteiden kuuluessa johonkin kokoelmaan. Lehdet sisältävät listat niiden numeroista, jotka eivät kuulu mihinkään kokoelmaan. Molemmat niteet sekä numerot sidotaan emäluokkiinsa niiden uniikeilla tunnuksilla, jolloin niiden tiedot on mahdollista saada pelkän niteen tai numeron perusteella. Kortisto generoi teoksiin ja lehtiin automaattisesti tämän uniikin tunnuksen (alkaen molemmilla numerosta 1) sekä niteisiin viivakoodin (alkaen numerosta 100000).
+
+ Yksittäisten teosten käyttäjälähtšisen haun pääasiallisena tunnisteena käytetään sen ISBN-numeroa (String-muodossa) ja vastaavasti lehdissä ISSN-numeroa (myšs String). Järjestelmä käyttää noudossa tunnistelukua.
+
+ Haku toimii oman luokan Hakukone kautta, jonka metodit saavat parametrinä kortiston, josta hakea aineistoa. Tiedon tallennuksesta vastaa luokka TiedostonKasittelija, oletustiedostona "kortisto.dat", joka myös ladataan aina ohjelman käynnistyessä. Käyttäjä voi halutessaan ladata kortiston myös toisesta tiedostosta sekä kirjoittaa kortiston johonkin toiseen tiedostoon.
 
  Käyttäjät: Kirjaston henkilökunta
  

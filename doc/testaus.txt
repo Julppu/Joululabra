@@ -1,0 +1,9 @@
+ 
+ Testausdokumentaatio
+ ==================
+
+ Testaus suoritettiin pääosin JUnit-yksikkötesteillä sekä käyttöliittymän järjestelmällisenä läpikäymisenä valikko kerrallaan ja kokeilemalla kaikkia kortiston toimintoja. Yksikkötestit testasivat ohjelman logiikkaa ja käyttötestaus sen käyttöliittymää ja luokkien ja niiden metodien monipuolista yhdessä toimimista ja käyttöä.
+
+ Yksikkötesteissä ei ilmennyt merkittäviä ongelmia, mutta käyttötestauksen yhteydessä havaittiin kaksi merkittävämpää bugia. Ensimmäisenä havaittiin Kortisto-luokan alustusongelma käyttöliittymän luokassa. Luokan instanssi ei alustunut oikein, vaan jäi null-arvoon eikä kortiston käyttö täten onnistunut. Ongelman syyksi paljastui alaluokkien ArrayList-listojen alustus. Ne alustettiin new ArrayList()-konstruktorilla, eli niistä puuttui listattavan luokan parametri. Oikea alustus oli new ArrayList<Luokka>();.
+
+ Toinen bugi ilmeni tiedostonkäsittelystä vastaavan TiedostonKasittelija-luokan alustuksessa. Sen olioiden kirjoittamiseen käyttämien ObjectOutputStream- ja ObjectInputStream-luokkien konstruktoreiden välillä oli ongelma, joka johtui ObjectOutputStreamista. Ongelma saatiin ratkaistua  alustamalla ensin ObjectOutputStream, tyhjentämällä se (flush()-metodi) ja vasta sen jälkeen alustamalla ObjectInputStream.

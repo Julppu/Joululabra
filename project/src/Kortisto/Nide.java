@@ -12,13 +12,13 @@ import java.io.Serializable;
 
 public class Nide implements Serializable {
     
-    /** teoksen tunnus, johon nide kuuluu */
+    /** teoksen tunnus, johon nide kuuluu. */
     private int ID;
-    /** niteen uniikki viivakoodi */
+    /** niteen uniikki viivakoodi. */
     private String viivakoodi;
-    /** niteen laina-aika */
+    /** niteen laina-aika. */
     private int lainaAika;
-    /** kokoelma, johon nide kuuluu */
+    /** kokoelma, johon nide kuuluu. */
     private String kokoelma;
     
     public Nide(int ID, String viivakoodi, int lainaAika, String kokoelma) {
@@ -31,7 +31,7 @@ public class Nide implements Serializable {
     /**
      * Setteri niteen viivakoodille.
      * 
-     * @param viivakoodi  Uusi viivakoodi
+     * @param viivakoodi uusi viivakoodi
      */
     public void setViivakoodi(String viivakoodi) {
         this.viivakoodi = viivakoodi;
@@ -40,7 +40,7 @@ public class Nide implements Serializable {
     /**
      * Getteri niteen viivakoodille.
      * 
-     * @return Viivakoodi
+     * @return viivakoodi
      */
     public String getViivakoodi() {
         return viivakoodi;
@@ -49,7 +49,7 @@ public class Nide implements Serializable {
     /**
      * Getteri niteen uniikille tunnukselle.
      * 
-     * @return Tunnusluku
+     * @return tunnusluku
      */
     public int getID() {
         return this.ID;
@@ -67,7 +67,7 @@ public class Nide implements Serializable {
     /**
      * Setteri niteen uudelle laina-ajalle
      * 
-     * @param lainaAika Uusi laina-aika
+     * @param lainaAika uusi laina-aika
      */
     public void setLainaAika(int lainaAika) {
         this.lainaAika = lainaAika;
@@ -85,7 +85,7 @@ public class Nide implements Serializable {
     /**
      * Asettaa niteelle uuden kokoelman.
      * 
-     * @param uusiKokoelma Niteen uusi kokoelma
+     * @param uusiKokoelma niteen uusi kokoelma
      */
     public void setKokoelma(String uusiKokoelma) {
         this.kokoelma = uusiKokoelma;

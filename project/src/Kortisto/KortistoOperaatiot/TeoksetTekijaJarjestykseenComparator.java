@@ -1,6 +1,6 @@
 
 /**
- * Comparator-luokan toteuttava luokka teosten järjestämiseen niiden tekijän mukaan
+ * Comparator-luokan toteuttava luokka teosten järjestämiseen niiden tekijän mukaan.
  * 
  * @author Juha Lindqvist <juha.lindqvist@cs.helsinki.fi>
  * @since  06012013

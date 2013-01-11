@@ -9,6 +9,7 @@
 package UI;
 
 import Kortisto.Kortisto;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,15 +29,18 @@ public class TiedostonKasittelija {
     
     public TiedostonKasittelija(String tiedosto) 
             throws IOException, ClassNotFoundException {
+        this.tiedosto = new File(tiedosto);
+        if (!this.tiedosto.exists())
+            this.tiedosto.createNewFile();
+        sisaan = null;
+        ulos = null;
         try {
-            this.tiedosto = new File(tiedosto);
-            if (!this.tiedosto.exists())
-                this.tiedosto.createNewFile();
-            sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
             ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto));
+            ulos.flush();
+            sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
         } catch (FileNotFoundException ex) {
             this.tiedosto.createNewFile();
-        }
+        } 
     }
     
     /**
@@ -44,8 +48,8 @@ public class TiedostonKasittelija {
      * palauttaa sen.
      * 
      * @return uusi kortiston instanssi
-     * @throws ClassNotFoundException
-     * @throws IOException
+     * @throws ClassNotFoundException luokan Kortisto puuttuessa
+     * @throws IOException tiedoston kirjoittamisessa tapahtuvasta virheestä
      */
     public Kortisto lueTiedosto()
             throws ClassNotFoundException, IOException {
@@ -54,6 +58,8 @@ public class TiedostonKasittelija {
             kortisto = (Kortisto) sisaan.readObject();
         } catch (FileNotFoundException ex) {
             tiedosto.createNewFile();
+        } catch (EOFException eofex) {
+            sisaan.close();
         }
         return kortisto;
     }
@@ -64,16 +70,17 @@ public class TiedostonKasittelija {
      * 
      * @param tiedosto uusi luettava tiedosto
      * @return uusi kortistoinstanssi
-     * @throws IOException
-     * @throws ClassNotFoundException 
+     * @throws IOException tiedoston kirjoittamisessa tapahtuvasta virheestä
+     * @throws ClassNotFoundException luokan Kortisto puuttuessa
      */
     public Kortisto lueUusiTiedosto(String tiedosto)
             throws IOException, ClassNotFoundException {
         this.tiedosto = new File(tiedosto);
         if (!this.tiedosto.exists())
             this.tiedosto.createNewFile();
-        sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
         ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto, false));
+        ulos.flush();
+        sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
         return lueTiedosto();
     }
     
@@ -82,13 +89,13 @@ public class TiedostonKasittelija {
      * tiedostoon.
      * 
      * @param kortisto tallennettava kortisto
-     * @throws IOException 
+     * @throws IOException tiedoston kirjoittamisessa tapahtuvasta virheestä
      */
     public void kirjoitaTiedosto(Kortisto kortisto) 
             throws IOException {
-        if (!this.tiedosto.exists())
-            tiedosto.createNewFile();
         ulos.writeObject(kortisto);
+        ulos.flush();
+        ulos.close();
     }
     
     /**
@@ -97,12 +104,25 @@ public class TiedostonKasittelija {
      * 
      * @param kortisto tallennettava kortisto
      * @param tiedosto kohdetiedosto
-     * @throws IOException 
+     * @throws IOException tiedoston kirjoittamisessa tapahtuvasta virheestä
      */
     public void kirjoitaUusiTiedosto(Kortisto kortisto, String tiedosto) 
             throws IOException {
         this.tiedosto = new File(tiedosto);
+        if (!this.tiedosto.exists())
+            this.tiedosto.createNewFile();
         ulos = new ObjectOutputStream(new FileOutputStream(this.tiedosto));
+        ulos.flush();
+        sisaan = new ObjectInputStream(new FileInputStream(this.tiedosto));
         kirjoitaTiedosto(kortisto);
+    }
+    
+    /**
+     * Palauttaa senhetkisenä instanssina olevan tiedoston nimen.
+     * 
+     * @return tiedoston nimi
+     */
+    public String getFilename() {
+        return this.tiedosto.getName();
     }
 }

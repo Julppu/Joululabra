@@ -1,6 +1,7 @@
 
 /**
- * Exception-luokan toteuttava poikkeus, joka annetaan kun teos löytyy kortistosta esimerkiksi lehden lisäyksen yhteydessä.
+ * Exception-luokan toteuttava poikkeus, joka annetaan kun teos löytyy kortistosta
+ * esimerkiksi lehden lisäyksen yhteydessä.
  * 
  * @author jumlindq
  * @since 07012013

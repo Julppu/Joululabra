@@ -57,7 +57,7 @@ public class TeosTest {
     
     @Test
     public void testGetHakusanat() {
-        ArrayList<String> testi = new ArrayList();
+        ArrayList<String> testi = new ArrayList<String>();
         testi.add("aapinen");
         assertEquals(teos.getHakusanat(), testi);
     }

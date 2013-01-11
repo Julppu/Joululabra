@@ -54,18 +54,6 @@ public class HakukoneTest {
     }
 
     @Test
-    public void testHaeTeosTunnuksella() {
-        Teos teos = hakukone.haeTeosTunnuksella(kortisto, 1);
-        assertEquals("0001", teos.getISBN());
-    }
-
-    @Test
-    public void testHaeTeosOlemattomallaTunnuksella() {
-        Teos teos = hakukone.haeTeosTunnuksella(kortisto, 10);
-        assertEquals(null, teos);
-    }
-
-    @Test
     public void testHaeTeosISBN() {
         Teos teos = hakukone.haeTeosISBN(kortisto, "0001");
         assertEquals(1, teos.getID());

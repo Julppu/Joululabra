@@ -93,7 +93,7 @@ public class LehtiTest {
 
     @Test
     public void testGetHakusanat() {
-        ArrayList<String> testi = new ArrayList();
+        ArrayList<String> testi = new ArrayList<String>();
         testi.add("sarjakuva");
         assertEquals(testi, lehti.getHakusanat());
     }

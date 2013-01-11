@@ -15,21 +15,21 @@ import java.util.Collections;
 
 public class Teos implements Serializable {
     
-    /** lista teokseen kuuluvista niteistä */
+    /** lista teokseen kuuluvista niteistä. */
     private ArrayList<Nide> niteet;
-    /** lista teoksen hakusanoista */
+    /** lista teoksen hakusanoista. */
     private ArrayList<String> hakusanat;
-    /** teoksen uniikki tunnisteluku */
+    /** teoksen uniikki tunnisteluku. */
     private int ID;
-    /** teoksen ISBN-tunnistenumero */
+    /** teoksen ISBN-tunnistenumero. */
     private String ISBN;
-    /** teoksen nimi */
+    /** teoksen nimi. */
     private String nimi;
-    /** teoksen tekijä, jos toimitettu asetetaan "(toim)." */
+    /** teoksen tekijä, jos toimitettu asetetaan "(toim).". */
     private String tekija;
-    /** teoksen painovuosi */
+    /** teoksen painovuosi. */
     private int vuosi;
-    /** teoksen kustantaja */
+    /** teoksen kustantaja. */
     private String kustantaja;
     
     public Teos(int ID, String ISBN, String nimi, String tekija, int vuosi, String kustantaja) {
@@ -67,7 +67,7 @@ public class Teos implements Serializable {
                 return;
             }
         }
-        throw new NideNotFoundException("Nidettä ei löytynyt, ei poistettu.");
+        throw new NideNotFoundException();
     }
     
     /**
@@ -214,6 +214,6 @@ public class Teos implements Serializable {
      */
     @Override
     public String toString() {
-        return nimi + ", " + tekija + ", " + vuosi + ". Tunnus " + ID + ", niteitä " + niteet.size();
+        return ISBN + ": " + nimi + ", " + tekija + ", " + vuosi + ". Tunnus " + ID + ", niteitä " + niteet.size();
     }
 }

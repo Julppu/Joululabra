@@ -9,6 +9,7 @@ Pvm         Tunnit
 17.12.      2
 19.12.      3
 ------------------------
+Yht.        9
 
 Tammikuu 2013
 
@@ -17,16 +18,33 @@ Pvm         Tunnit
 03.01.      6
 04.01.      3
 05.01.      5
-06.01       5
-07.01       4
+06.01.      5
+07.01.      4
+08.01.      6
+09.01.      7
+10.01.      10
+11.01.      X
 ------------------------
+Yht.        
 
             Kokonaisaika
-            32
+            55
 
 
  Ajankäyttö
  ==========
+ 11.01.2013
+  Kaavioiden, dokumentaation ja ohjelman viimeistelyä, testausta, demonstraatio sekä palautus.
+
+ 10.01.2013
+  KŠyttöliittymän tekeminen valmistunut, refaktorointia, kaavioiden muokkausta ja dokumentaation päivitystä.
+
+ 09.01.2013
+  KŠyttöliittymän ohjelmointia jatkettu, dokumentaatiota päivitetty.
+
+ 08.01.2013
+  KŠyttöliittymän ohjelmointi aloitettu.
+
  07.01.2013
   Testien viimeistelyä sekä dokumentaation päivitystä. Sekvenssikaavioiden luonti. Poistettu määrittelydokumentista mahdollisuus käyttäjän vaihtamiseksi.
 
